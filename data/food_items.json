@@ -1,0 +1,21 @@
+[
+    {
+      "id": "1",
+      "name": "Masala Dosa",
+      "description": "A crispy rice and lentil crepe filled with spiced potato masala.",
+      "region": "South India",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Breakfast"
+    },
+    {
+      "id": "2",
+      "name": "Idli",
+      "description": "Soft steamed rice cakes, served with sambar and chutney.",
+      "region": "Tamil Nadu",
+      "mood": "Light",
+      "diet": "Vegetarian",
+      "time": "Breakfast"
+    }
+  ]
+  
