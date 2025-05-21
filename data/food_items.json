@@ -6,7 +6,18 @@
       "region": "South India",
       "mood": "Comforting",
       "diet": "Vegetarian",
-      "time": "Breakfast"
+      "time": "Breakfast",
+      "ingredients": [
+        "rice",
+        "urad dal",
+        "potatoes",
+        "onions",
+        "mustard seeds",
+        "curry leaves",
+        "turmeric",
+        "salt",
+        "oil"
+      ]
     },
     {
       "id": "2",
@@ -15,7 +26,521 @@
       "region": "Tamil Nadu",
       "mood": "Light",
       "diet": "Vegetarian",
-      "time": "Breakfast"
+      "time": "Breakfast",
+      "ingredients": [
+        "rice",
+        "urad dal",
+        "fenugreek seeds",
+        "salt",
+        "water"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Hyderabadi Biryani",
+      "description": "Aromatic rice dish cooked with meat and special spices.",
+      "region": "Telangana",
+      "mood": "Celebratory",
+      "diet": "Non-Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "basmati rice",
+        "mutton",
+        "yogurt",
+        "onions",
+        "ginger",
+        "garlic",
+        "biryani masala",
+        "saffron",
+        "mint leaves",
+        "ghee"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Haleem",
+      "description": "Slow-cooked meat and wheat porridge with rich spices.",
+      "region": "Telangana",
+      "mood": "Comforting",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "wheat",
+        "mutton",
+        "lentils",
+        "ghee",
+        "spices",
+        "dry fruits",
+        "ginger",
+        "garlic"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Mirchi Bajji",
+      "description": "Spicy green chilies dipped in gram flour batter and deep-fried.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Vegetarian",
+      "time": "Snack",
+      "ingredients": [
+        "green chilies",
+        "gram flour",
+        "rice flour",
+        "ajwain",
+        "salt",
+        "oil"
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Double Ka Meetha",
+      "description": "Bread pudding dessert with rich milk and dry fruits.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "bread",
+        "milk",
+        "sugar",
+        "ghee",
+        "cardamom",
+        "dry fruits",
+        "saffron"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Qubani Ka Meetha",
+      "description": "Apricot dessert with cream and nuts.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "apricots",
+        "sugar",
+        "cream",
+        "almonds",
+        "cardamom"
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Irani Chai",
+      "description": "Special tea brewed with milk and cardamom.",
+      "region": "Telangana",
+      "mood": "Relaxing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "tea leaves",
+        "milk",
+        "cardamom",
+        "sugar"
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Keema Samosa",
+      "description": "Crispy pastry filled with spiced minced meat.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Non-Vegetarian",
+      "time": "Snack",
+      "ingredients": [
+        "all-purpose flour",
+        "minced meat",
+        "onions",
+        "spices",
+        "oil"
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Malai Kulfi",
+      "description": "Traditional Indian ice cream with rich milk and nuts.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "milk",
+        "sugar",
+        "cardamom",
+        "pistachios",
+        "saffron"
+      ]
+    },
+    {
+      "id": "11",
+      "name": "Hyderabadi Dum Ka Murgh",
+      "description": "Slow-cooked chicken in rich gravy.",
+      "region": "Telangana",
+      "mood": "Rich",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "chicken",
+        "yogurt",
+        "onions",
+        "ginger",
+        "garlic",
+        "spices",
+        "ghee"
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Khatti Dal",
+      "description": "Tangy lentil preparation with tamarind.",
+      "region": "Telangana",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "toor dal",
+        "tamarind",
+        "onions",
+        "tomatoes",
+        "spices",
+        "curry leaves"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Lukhmi",
+      "description": "Crispy pastry filled with spiced minced meat.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Non-Vegetarian",
+      "time": "Snack",
+      "ingredients": [
+        "all-purpose flour",
+        "minced meat",
+        "onions",
+        "spices",
+        "oil"
+      ]
+    },
+    {
+      "id": "14",
+      "name": "Sheer Khurma",
+      "description": "Vermicelli pudding with milk and dry fruits.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "vermicelli",
+        "milk",
+        "sugar",
+        "dry fruits",
+        "cardamom",
+        "ghee"
+      ]
+    },
+    {
+      "id": "15",
+      "name": "Pathar Ka Gosht",
+      "description": "Meat cooked on hot stone with special spices.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "mutton",
+        "ginger",
+        "garlic",
+        "spices",
+        "oil",
+        "stone"
+      ]
+    },
+    {
+      "id": "16",
+      "name": "Hyderabadi Baingan",
+      "description": "Spiced eggplant preparation.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "eggplant",
+        "onions",
+        "tomatoes",
+        "spices",
+        "oil",
+        "curry leaves"
+      ]
+    },
+    {
+      "id": "17",
+      "name": "Khagina",
+      "description": "Spiced scrambled eggs with onions.",
+      "region": "Telangana",
+      "mood": "Comforting",
+      "diet": "Non-Vegetarian",
+      "time": "Breakfast",
+      "ingredients": [
+        "eggs",
+        "onions",
+        "ginger",
+        "garlic",
+        "spices",
+        "oil"
+      ]
+    },
+    {
+      "id": "18",
+      "name": "Malai Paya",
+      "description": "Rich trotter curry with milk and spices.",
+      "region": "Telangana",
+      "mood": "Rich",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "goat trotters",
+        "milk",
+        "spices",
+        "ginger",
+        "garlic",
+        "oil"
+      ]
+    },
+    {
+      "id": "19",
+      "name": "Hyderabadi Khichdi",
+      "description": "Rice and lentil preparation with spices.",
+      "region": "Telangana",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "rice",
+        "moong dal",
+        "spices",
+        "ghee",
+        "onions"
+      ]
+    },
+    {
+      "id": "20",
+      "name": "Shahi Tukda",
+      "description": "Bread pudding with rich milk and dry fruits.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "bread",
+        "milk",
+        "sugar",
+        "dry fruits",
+        "cardamom",
+        "ghee"
+      ]
+    },
+    {
+      "id": "21",
+      "name": "Hyderabadi Nihari",
+      "description": "Slow-cooked meat stew with spices.",
+      "region": "Telangana",
+      "mood": "Rich",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "mutton",
+        "wheat flour",
+        "spices",
+        "ginger",
+        "garlic",
+        "oil"
+      ]
+    },
+    {
+      "id": "22",
+      "name": "Badam Ki Jali",
+      "description": "Almond-based sweet preparation.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "almonds",
+        "sugar",
+        "ghee",
+        "cardamom",
+        "saffron"
+      ]
+    },
+    {
+      "id": "23",
+      "name": "Hyderabadi Kheema",
+      "description": "Spiced minced meat preparation.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Non-Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "minced meat",
+        "onions",
+        "tomatoes",
+        "spices",
+        "ginger",
+        "garlic"
+      ]
+    },
+    {
+      "id": "24",
+      "name": "Doodh Ka Sherbet",
+      "description": "Milk-based sweet drink with nuts.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "milk",
+        "sugar",
+        "almonds",
+        "pistachios",
+        "cardamom"
+      ]
+    },
+    {
+      "id": "25",
+      "name": "Hyderabadi Korma",
+      "description": "Rich meat curry with yogurt and nuts.",
+      "region": "Telangana",
+      "mood": "Rich",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "mutton",
+        "yogurt",
+        "cashews",
+        "spices",
+        "ginger",
+        "garlic"
+      ]
+    },
+    {
+      "id": "26",
+      "name": "Khubani Ka Sharbat",
+      "description": "Apricot drink with mint and lemon.",
+      "region": "Telangana",
+      "mood": "Refreshing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "apricots",
+        "sugar",
+        "mint",
+        "lemon",
+        "water"
+      ]
+    },
+    {
+      "id": "27",
+      "name": "Hyderabadi Baingan Ka Salan",
+      "description": "Eggplant in peanut and sesame gravy.",
+      "region": "Telangana",
+      "mood": "Spicy",
+      "diet": "Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "eggplant",
+        "peanuts",
+        "sesame seeds",
+        "spices",
+        "tamarind",
+        "oil"
+      ]
+    },
+    {
+      "id": "28",
+      "name": "Badam Ki Kheer",
+      "description": "Almond milk pudding with saffron.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "almonds",
+        "milk",
+        "sugar",
+        "saffron",
+        "cardamom"
+      ]
+    },
+    {
+      "id": "29",
+      "name": "Hyderabadi Gosht Ki Biryani",
+      "description": "Mutton biryani with special spices.",
+      "region": "Telangana",
+      "mood": "Celebratory",
+      "diet": "Non-Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "mutton",
+        "basmati rice",
+        "spices",
+        "mint",
+        "saffron",
+        "ghee"
+      ]
+    },
+    {
+      "id": "30",
+      "name": "Falooda",
+      "description": "Sweet vermicelli dessert drink with ice cream.",
+      "region": "Telangana",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "vermicelli",
+        "milk",
+        "ice cream",
+        "rose syrup",
+        "basil seeds",
+        "dry fruits"
+      ]
+    },
+    {
+      "id": "31",
+      "name": "Hyderabadi Dum Ka Murgh",
+      "description": "Slow-cooked chicken in rich gravy.",
+      "region": "Telangana",
+      "mood": "Rich",
+      "diet": "Non-Vegetarian",
+      "time": "Dinner",
+      "ingredients": [
+        "chicken",
+        "yogurt",
+        "onions",
+        "ginger",
+        "garlic",
+        "spices",
+        "ghee"
+      ]
+    },
+    {
+      "id": "32",
+      "name": "Hyderabadi Chai",
+      "description": "Special tea with cardamom and ginger.",
+      "region": "Telangana",
+      "mood": "Relaxing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "tea leaves",
+        "milk",
+        "cardamom",
+        "ginger",
+        "sugar"
+      ]
     }
   ]
   
