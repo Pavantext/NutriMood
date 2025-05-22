@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
-from utils.pinecone_helper import create_index
+from utils.pinecone_helper import get_index
 from vertexai.preview.generative_models import GenerativeModel
 
 load_dotenv()
@@ -12,7 +12,7 @@ user_input = input("What are you in the mood for? ")
 query_embedding = get_embedding(user_input)
 
 # Query Pinecone
-index = create_index()
+index = get_index()
 results = index.query(vector=query_embedding, top_k=5, include_metadata=True)
 matches = results['matches']
 retrieved_foods = [match['metadata'] for match in matches]

@@ -1,13 +1,16 @@
+# utils/embeddings.py
+import google.generativeai as genai
 import os
-import openai
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_embedding(text):
-    response = openai.Embedding.create(
-        input=[text],
-        model="text-embedding-3-small"
+    result = genai.embed_content(
+        model="models/embedding-001",
+        content=text,
+        task_type="retrieval_document",
+        title="Food item embedding"
     )
-    return response['data'][0]['embedding']
+    return result['embedding']

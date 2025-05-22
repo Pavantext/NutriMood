@@ -1,4 +1,4 @@
-openai
-pinecone-client
+pinecone
 python-dotenv
-google-cloud-aiplatform
+google-generativeai
+vertexai

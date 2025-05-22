@@ -1,15 +1,17 @@
+# utils/pinecone_helper.py
 import os
-import pinecone
+from pinecone import Pinecone
 from dotenv import load_dotenv
 
 load_dotenv()
-pinecone.init(api_key=os.getenv("PINECONE_API_KEY"), environment=os.getenv("PINECONE_ENVIRONMENT"))
+
+# Initialize Pinecone client
+pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+
 INDEX_NAME = "food-items"
 
-def create_index():
-    if INDEX_NAME not in pinecone.list_indexes():
-        pinecone.create_index(name=INDEX_NAME, dimension=1536, metric="cosine")
-    return pinecone.Index(INDEX_NAME)
+def get_index():
+    return pc.Index(INDEX_NAME)
 
 def upsert_data(index, food_data, get_embedding):
     vectors = []
