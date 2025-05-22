@@ -318,6 +318,18 @@ def get_recommendations(user_input):
     response = model.generate_content(prompt)
     return clean_response(response.text), retrieved_foods
 
+# Helper function to extract food names from AI response
+def extract_food_names(ai_response, foods):
+    # Build a regex pattern from all food names in the Pinecone results
+    food_names = [re.escape(food['name']) for food in foods]
+    pattern = r'(' + '|'.join(food_names) + r')'
+    # Find all food names mentioned in the AI response (case-insensitive)
+    found = re.findall(pattern, ai_response, flags=re.IGNORECASE)
+    # Normalize to match original names
+    found_set = set(f.lower() for f in found)
+    filtered = [food for food in foods if food['name'].lower() in found_set]
+    return filtered
+
 # Sidebar
 with st.sidebar:
     st.image("https://img.icons8.com/color/96/000000/restaurant.png", width=50)
@@ -374,7 +386,9 @@ for message in st.session_state.messages:
         """, unsafe_allow_html=True)
         # Show food images and order buttons if available
         foods = message.get("foods", [])
-        for food in foods:
+        ai_response = message["content"]
+        filtered_foods = extract_food_names(ai_response, foods)
+        for food in filtered_foods:
             st.markdown(
                 f"""
                 <div class="food-card">
