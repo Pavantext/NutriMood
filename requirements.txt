@@ -1,4 +1,3 @@
 pinecone
 python-dotenv
 google-generativeai
-vertexai

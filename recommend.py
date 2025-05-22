@@ -2,9 +2,12 @@ import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
 from utils.pinecone_helper import get_index
-from vertexai.preview.generative_models import GenerativeModel
+import google.generativeai as genai
 
 load_dotenv()
+
+# Configure Google Generative AI
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 user_input = input("What are you in the mood for? ")
 
@@ -23,7 +26,7 @@ retrieved_text = "\n".join([
     for item in retrieved_foods
 ])
 
-# Generate with Gemini 2.0 Flash
+# Generate with Gemini
 prompt = f"""
 User query: {user_input}
 
@@ -33,7 +36,7 @@ Here are relevant food items from the database:
 Suggest the best option(s) in a friendly and intelligent way:
 """
 
-model = GenerativeModel("gemini-1.5-flash")  # use "gemini-2.0-flash" when available
+model = genai.GenerativeModel('gemini-1.5-flash')
 response = model.generate_content(prompt)
 
 print("\n🍽️ Recommended Food:")
