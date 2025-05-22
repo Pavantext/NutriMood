@@ -28,6 +28,31 @@ st.markdown("""
         margin: 0 auto;
         padding-bottom: 100px; /* Extra space for sticky input */
     }
+    .st-emotion-cache-13k62yr {
+        color: black;
+    }
+
+    .st-emotion-cache-ltfnpr {
+        color: black;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .st-emotion-cache-cnbvxy p {
+        color: black;
+    }
+
+    p {
+        color: black;
+    }
+
+    .st-emotion-cache-cnbvxy li {
+        color: white;
+    }
+
+    .strong {
+        color: black;
+    }
 
     .stApp {
         overflow: hidden;
@@ -193,6 +218,48 @@ st.markdown("""
 
     /* Hide Streamlit native UI */
     #MainMenu, footer {visibility: hidden;}
+
+    .sidebar-desc-white {
+        color: #fff !important;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .food-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 2px 12px rgba(44,62,80,0.08);
+        padding: 1rem;
+        margin: 1rem 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.2rem;
+        max-width: 420px;
+    }
+    .food-card img {
+        border-radius: 12px;
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+    }
+    .food-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .food-card-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #FF6B6B;
+        margin-bottom: 0.3rem;
+    }
+    .food-card-desc {
+        font-size: 0.97rem;
+        color: #444;
+        margin-bottom: 0.7rem;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -217,7 +284,7 @@ def clean_response(text):
     text = ' '.join(text.split())
     return text
 
-# Function to get recommendations
+# Function to get recommendations and return both response and retrieved foods
 def get_recommendations(user_input):
     # Embed the user input
     query_embedding = get_embedding(user_input)
@@ -249,16 +316,18 @@ def get_recommendations(user_input):
 
     model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(prompt)
-    return clean_response(response.text)
+    return clean_response(response.text), retrieved_foods
 
 # Sidebar
 with st.sidebar:
     st.image("https://img.icons8.com/color/96/000000/restaurant.png", width=50)
     st.markdown("### Food AI Chat")
     st.markdown("""
-    Your personal food recommendation assistant. 
-    Chat naturally about what you're craving!
-    """)
+<div class="sidebar-desc-white">
+Your personal food recommendation assistant.<br>
+Chat naturally about what you're craving!
+</div>
+""", unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("### 💡 Tips")
@@ -303,9 +372,27 @@ for message in st.session_state.messages:
                 </div>
             </div>
         """, unsafe_allow_html=True)
+        # Show food images and order buttons if available
+        foods = message.get("foods", [])
+        for food in foods:
+            st.markdown(
+                f"""
+                <div class="food-card">
+                    <img src="{food.get('image_url', '')}" alt="{food['name']}">
+                    <div class="food-card-content">
+                        <div>
+                            <div class="food-card-title">{food['name']}</div>
+                            <div class="food-card-desc">{food['description']}</div>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            order_btn = st.button(f"Order {food['name']}", key=f"order_{food['id']}_{message['content'][:10]}")
+            if order_btn:
+                st.success(f"Your Order placed for {food['name']} successfully!")
 
-# Input area
-# Sticky input bar with input and button side by side
 # Input area
 # Sticky input bar with input and button side by side
 # Input form inside sticky bar
@@ -332,8 +419,8 @@ if send_clicked and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner(""):
-        response = get_recommendations(user_input)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        response, retrieved_foods = get_recommendations(user_input)
+        st.session_state.messages.append({"role": "assistant", "content": response, "foods": retrieved_foods})
 
     st.experimental_rerun()
 
@@ -342,8 +429,8 @@ if send_clicked and user_input:
     
     # Get AI response
     with st.spinner(""):
-        response = get_recommendations(user_input)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        response, retrieved_foods = get_recommendations(user_input)
+        st.session_state.messages.append({"role": "assistant", "content": response, "foods": retrieved_foods})
     
     # Rerun to update the chat
     st.experimental_rerun() 
