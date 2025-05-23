@@ -573,6 +573,151 @@
         "sugar"
       ],
       "image_url": "https://www.shutterstock.com/shutterstock/photos/1477476845/display_1500/stock-photo-top-view-of-brewed-hot-herbal-or-spiced-aromatic-milk-tea-with-spices-and-dry-fruits-in-kerala-1477476845.jpg"
+    },
+    {
+      "id": "33",
+      "name": "Uttapam",
+      "description": "A thick, fluffy South Indian pancake made from fermented rice and lentil batter, topped with onions, tomatoes, and green chilies. Often called the 'Indian pizza', it's served with coconut chutney and sambar.",
+      "region": "South India",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Breakfast",
+      "ingredients": [
+        "rice",
+        "urad dal",
+        "onions",
+        "tomatoes",
+        "green chilies",
+        "curry leaves",
+        "oil"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1897025444/display_1500/stock-photo-uttapam-is-a-type-of-dosa-from-south-indian-cuisine-made-by-cooking-ingredients-in-a-batter-1897025444.jpg"
+    },
+    {
+      "id": "34",
+      "name": "Pongal",
+      "description": "A comforting South Indian dish made with rice and moong dal, seasoned with black pepper, cumin, and curry leaves. This savory breakfast dish is traditionally served with coconut chutney and sambar.",
+      "region": "Tamil Nadu",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Breakfast",
+      "ingredients": [
+        "rice",
+        "moong dal",
+        "black pepper",
+        "cumin",
+        "curry leaves",
+        "ghee",
+        "cashews"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1560415431/display_1500/stock-photo-ven-pongal-or-khara-pongal-is-south-indian-breakfast-dish-made-using-rice-and-moong-dal-served-1560415431.jpg"
+    },
+    {
+      "id": "35",
+      "name": "Filter Coffee",
+      "description": "Traditional South Indian coffee made by brewing fresh ground coffee using a metal filter, mixed with hot milk and sugar. Known for its strong aroma and rich taste, it's served in a distinctive brass tumbler and bowl.",
+      "region": "South India",
+      "mood": "Energizing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "coffee powder",
+        "milk",
+        "sugar",
+        "water"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1733227674/display_1500/stock-photo-filter-coffee-served-in-traditional-brass-cup-called-dabara-set-or-davara-set-south-indian-filter-1733227674.jpg"
+    },
+    {
+      "id": "36",
+      "name": "Nannari Sherbet",
+      "description": "A cooling summer drink made from the roots of Indian Sarsaparilla, known for its distinctive dark color and medicinal properties. This refreshing beverage is sweetened with palm sugar and often served with basil seeds.",
+      "region": "South India",
+      "mood": "Refreshing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "nannari root extract",
+        "palm sugar",
+        "basil seeds",
+        "water",
+        "lemon"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/2279012755/display_1500/stock-photo-refreshing-summer-drink-nannari-sarbath-made-using-indian-sarsaparilla-root-extract-served-in-glass-2279012755.jpg"
+    },
+    {
+      "id": "37",
+      "name": "Vada",
+      "description": "Crispy, donut-shaped fritters made from fermented black gram batter, flavored with onions, green chilies, and curry leaves. These savory snacks are a popular breakfast item and tea-time treat across South India.",
+      "region": "South India",
+      "mood": "Crunchy",
+      "diet": "Vegetarian",
+      "time": "Breakfast",
+      "ingredients": [
+        "urad dal",
+        "onions",
+        "green chilies",
+        "curry leaves",
+        "black pepper",
+        "salt",
+        "oil"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1009025236/display_1500/stock-photo-medu-vada-is-a-savoury-snack-from-south-india-selective-focus-1009025236.jpg"
+    },
+    {
+      "id": "38",
+      "name": "Panagam",
+      "description": "A traditional South Indian summer drink made with jaggery, dry ginger powder, and cardamom. This sweet and spicy beverage is known for its cooling properties and is often served during Ram Navami festival.",
+      "region": "Tamil Nadu",
+      "mood": "Refreshing",
+      "diet": "Vegetarian",
+      "time": "Beverage",
+      "ingredients": [
+        "jaggery",
+        "dry ginger powder",
+        "cardamom",
+        "lemon juice",
+        "water"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1982233561/display_1500/stock-photo-panagam-panakam-is-a-classical-summer-drink-from-south-india-made-using-jaggery-dry-ginger-1982233561.jpg"
+    },
+    {
+      "id": "39",
+      "name": "Rasam",
+      "description": "A tangy, spicy South Indian soup made with tamarind, tomatoes, and a special blend of spices. Known for its digestive properties, it can be enjoyed as a soup or paired with rice.",
+      "region": "South India",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Lunch",
+      "ingredients": [
+        "tamarind",
+        "tomatoes",
+        "rasam powder",
+        "garlic",
+        "curry leaves",
+        "black pepper",
+        "cumin"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1631935877/display_1500/stock-photo-rasam-is-a-south-indian-soup-preparation-served-as-an-accompaniment-with-rice-or-can-be-taken-1631935877.jpg"
+    },
+    {
+      "id": "40",
+      "name": "Paruppu Payasam",
+      "description": "A rich South Indian dessert made with moong dal, jaggery, and coconut milk, flavored with cardamom. This creamy pudding is often prepared during festivals and special occasions.",
+      "region": "Kerala",
+      "mood": "Sweet",
+      "diet": "Vegetarian",
+      "time": "Dessert",
+      "ingredients": [
+        "moong dal",
+        "jaggery",
+        "coconut milk",
+        "cardamom",
+        "ghee",
+        "cashews",
+        "raisins"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/1909496233/display_1500/stock-photo-paruppu-payasam-is-made-from-moong-dal-jaggery-coconut-milk-cardamom-powder-and-dry-fruits-1909496233.jpg"
     }
   ]
   

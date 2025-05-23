@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
 from utils.pinecone_helper import get_index
+from utils.conversation_manager import ConversationManager
 import google.generativeai as genai
 import time
 import re
@@ -274,6 +275,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 if 'messages' not in st.session_state:
     st.session_state.messages = []
     st.session_state.first_visit = True
+    st.session_state.conversation_manager = ConversationManager()
 
 def clean_response(text):
     # Remove any HTML tags
@@ -295,28 +297,29 @@ def get_recommendations(user_input):
     matches = results['matches']
     retrieved_foods = [match['metadata'] for match in matches]
 
-    # Format context for Gemini
-    retrieved_text = "\n".join([
-        f"{item['name']}: {item['description']} (Region: {item['region']}, Mood: {item['mood']}, Time: {item['time']}, Diet: {item['diet']})"
-        for item in retrieved_foods
-    ])
+    # Analyze user intent
+    intent_analysis = st.session_state.conversation_manager.analyze_user_intent(user_input)
+
+    # If it's a follow-up question, adjust the search results
+    if intent_analysis['is_followup']:
+        # Include previously discussed foods in the context
+        recent_foods = intent_analysis['recent_foods']
+        # Combine recent and new foods, removing duplicates
+        all_foods = {food['id']: food for food in retrieved_foods + recent_foods}
+        retrieved_foods = list(all_foods.values())
+
+    # Generate contextual prompt
+    prompt = st.session_state.conversation_manager.generate_contextual_prompt(user_input, retrieved_foods)
 
     # Generate with Gemini
-    prompt = f"""
-    User query: {user_input}
-
-    Here are relevant food items from the database:
-    {retrieved_text}
-
-    Respond in a friendly, conversational way as if you're a food expert having a chat. 
-    Make your response personal and engaging, like you're talking to a friend.
-    Keep it concise but informative. Do not use any HTML tags, div elements, or special formatting in your response.
-    Just provide a clean, plain text response:
-    """
-
     model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(prompt)
-    return clean_response(response.text), retrieved_foods
+    cleaned_response = clean_response(response.text)
+
+    # Add the exchange to conversation history
+    st.session_state.conversation_manager.add_exchange(user_input, cleaned_response, retrieved_foods)
+
+    return cleaned_response, retrieved_foods
 
 # Helper function to extract food names from AI response
 def extract_food_names(ai_response, foods):
