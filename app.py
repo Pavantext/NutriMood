@@ -137,23 +137,46 @@ st.markdown("""
         outline: none;
     }
 
+    /* Button styles */
     .stButton > button {
-        border-radius: 25px;
-        padding: 0 24px;
-        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-        color: white;
-        font-weight: 600;
-        border: none;
-        height: 44px;
-        min-width: 80px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.13);
+        border-radius: 25px !important;
+        padding: 0 24px !important;
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        border: none !important;
+        height: 44px !important;
+        min-width: 80px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.13) !important;
     }
 
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.18);
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.18) !important;
+        background: linear-gradient(135deg, #FF8E8E 0%, #FF6B6B 100%) !important;
+    }
+
+    .stButton > button:active {
+        transform: translateY(0) !important;
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+    }
+
+    /* Override any Streamlit default button styles */
+    button[kind="primary"] {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        color: white !important;
+    }
+
+    .stButton > button:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25) !important;
+        outline: none !important;
+    }
+
+    .stButton > button[data-testid="baseButton-secondary"] {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        color: white !important;
     }
 
     /* Welcome message */
