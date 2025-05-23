@@ -467,21 +467,13 @@ with st.form(key="input_form", clear_on_submit=True):
 
 # Handle user input
 if send_clicked and user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
-    with st.spinner(""):
-        response, retrieved_foods = get_recommendations(user_input)
-        st.session_state.messages.append({"role": "assistant", "content": response, "foods": retrieved_foods})
-
-    st.experimental_rerun()
-
     # Add user message to chat
     st.session_state.messages.append({"role": "user", "content": user_input})
-    
+
     # Get AI response
     with st.spinner(""):
         response, retrieved_foods = get_recommendations(user_input)
         st.session_state.messages.append({"role": "assistant", "content": response, "foods": retrieved_foods})
     
     # Rerun to update the chat
-    st.experimental_rerun() 
+    st.rerun() 
