@@ -7,6 +7,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Breakfast",
+      "price": "120rs",
       "ingredients": [
         "rice",
         "urad dal",
@@ -28,6 +29,7 @@
       "mood": "Light",
       "diet": "Vegetarian",
       "time": "Breakfast",
+      "price": "80rs",
       "ingredients": [
         "rice",
         "urad dal",
@@ -45,6 +47,7 @@
       "mood": "Celebratory",
       "diet": "Non-Vegetarian",
       "time": "Lunch",
+      "price": "280rs",
       "ingredients": [
         "basmati rice",
         "mutton",
@@ -67,6 +70,7 @@
       "mood": "Comforting",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price": "220rs",
       "ingredients": [
         "wheat",
         "mutton",
@@ -87,6 +91,7 @@
       "mood": "Spicy",
       "diet": "Vegetarian",
       "time": "Snack",
+      "price": "40rs",
       "ingredients": [
         "green chilies",
         "gram flour",
@@ -105,6 +110,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price": "100rs",
       "ingredients": [
         "bread",
         "milk",
@@ -124,6 +130,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price": "120rs",
       "ingredients": [
         "apricots",
         "sugar",
@@ -141,6 +148,7 @@
       "mood": "Relaxing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price": "30rs",
       "ingredients": [
         "tea leaves",
         "milk",
@@ -157,6 +165,7 @@
       "mood": "Spicy",
       "diet": "Non-Vegetarian",
       "time": "Snack",
+      "price": "50rs",
       "ingredients": [
         "all-purpose flour",
         "minced meat",
@@ -174,6 +183,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price": "60rs",
       "ingredients": [
         "milk",
         "sugar",
@@ -191,6 +201,7 @@
       "mood": "Rich",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"120rs",
       "ingredients": [
         "chicken",
         "yogurt",
@@ -210,6 +221,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Lunch",
+      "price":"120rs",
       "ingredients": [
         "toor dal",
         "tamarind",
@@ -228,6 +240,7 @@
       "mood": "Spicy",
       "diet": "Non-Vegetarian",
       "time": "Snack",
+      "price":"50rs",
       "ingredients": [
         "all-purpose flour",
         "minced meat",
@@ -245,6 +258,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price":"120rs",
       "ingredients": [
         "vermicelli",
         "milk",
@@ -263,6 +277,7 @@
       "mood": "Spicy",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"220rs",
       "ingredients": [
         "mutton",
         "ginger",
@@ -281,6 +296,7 @@
       "mood": "Spicy",
       "diet": "Vegetarian",
       "time": "Lunch",
+      "price":"120rs",
       "ingredients": [
         "eggplant",
         "onions",
@@ -299,6 +315,7 @@
       "mood": "Comforting",
       "diet": "Non-Vegetarian",
       "time": "Breakfast",
+      "price":"100rs",
       "ingredients": [
         "eggs",
         "onions",
@@ -317,6 +334,7 @@
       "mood": "Rich",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"100rs",
       "ingredients": [
         "goat trotters",
         "milk",
@@ -335,6 +353,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Lunch",
+      "price":"220rs",
       "ingredients": [
         "rice",
         "moong dal",
@@ -352,6 +371,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price":"90rs",
       "ingredients": [
         "bread",
         "milk",
@@ -370,6 +390,7 @@
       "mood": "Rich",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"100rs",
       "ingredients": [
         "mutton",
         "wheat flour",
@@ -388,6 +409,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price":"80rs",
       "ingredients": [
         "almonds",
         "sugar",
@@ -405,6 +427,7 @@
       "mood": "Spicy",
       "diet": "Non-Vegetarian",
       "time": "Lunch",
+      "price":"220rs",
       "ingredients": [
         "minced meat",
         "onions",
@@ -423,6 +446,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"70rs",
       "ingredients": [
         "milk",
         "sugar",
@@ -440,6 +464,7 @@
       "mood": "Rich",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"120rs",
       "ingredients": [
         "mutton",
         "yogurt",
@@ -458,6 +483,7 @@
       "mood": "Refreshing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"60rs",
       "ingredients": [
         "apricots",
         "sugar",
@@ -475,6 +501,7 @@
       "mood": "Spicy",
       "diet": "Vegetarian",
       "time": "Lunch",
+      "price":"100rs",
       "ingredients": [
         "eggplant",
         "peanuts",
@@ -493,6 +520,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price":"90rs",
       "ingredients": [
         "almonds",
         "milk",
@@ -510,6 +538,7 @@
       "mood": "Celebratory",
       "diet": "Non-Vegetarian",
       "time": "Lunch",
+      "price":"280rs",
       "ingredients": [
         "mutton",
         "basmati rice",
@@ -528,6 +557,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"60rs",
       "ingredients": [
         "vermicelli",
         "milk",
@@ -546,6 +576,7 @@
       "mood": "Rich",
       "diet": "Non-Vegetarian",
       "time": "Dinner",
+      "price":"220rs",
       "ingredients": [
         "chicken",
         "yogurt",
@@ -565,6 +596,7 @@
       "mood": "Relaxing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"30rs",
       "ingredients": [
         "tea leaves",
         "milk",
@@ -582,6 +614,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Breakfast",
+      "price":"100rs",
       "ingredients": [
         "rice",
         "urad dal",
@@ -601,6 +634,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Breakfast",
+      "price":"90rs",
       "ingredients": [
         "rice",
         "moong dal",
@@ -620,6 +654,7 @@
       "mood": "Energizing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"40rs",
       "ingredients": [
         "coffee powder",
         "milk",
@@ -636,6 +671,7 @@
       "mood": "Refreshing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"50rs",
       "ingredients": [
         "nannari root extract",
         "palm sugar",
@@ -653,6 +689,7 @@
       "mood": "Crunchy",
       "diet": "Vegetarian",
       "time": "Breakfast",
+      "price":"60rs",
       "ingredients": [
         "urad dal",
         "onions",
@@ -672,6 +709,7 @@
       "mood": "Refreshing",
       "diet": "Vegetarian",
       "time": "Beverage",
+      "price":"40rs",
       "ingredients": [
         "jaggery",
         "dry ginger powder",
@@ -689,6 +727,7 @@
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Lunch",
+      "price":"70rs",
       "ingredients": [
         "tamarind",
         "tomatoes",
@@ -708,6 +747,7 @@
       "mood": "Sweet",
       "diet": "Vegetarian",
       "time": "Dessert",
+      "price":"100rs",
       "ingredients": [
         "moong dal",
         "jaggery",

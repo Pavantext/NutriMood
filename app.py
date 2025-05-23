@@ -267,33 +267,77 @@ st.markdown("""
         padding: 1rem;
         margin: 1rem 0;
         display: flex;
-        align-items: flex-start;
-        gap: 1.2rem;
+        flex-direction: column;
+        gap: 1rem;
         max-width: 420px;
     }
-    .food-card img {
-        border-radius: 12px;
-        width: 110px;
-        height: 110px;
-        object-fit: cover;
-        box-shadow: 0 2px 8px rgba(44,62,80,0.07);
-    }
-    .food-card-content {
-        flex: 1;
+
+    .food-card-main {
         display: flex;
-        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+    }
+
+    .food-card-footer {
+        display: flex;
+        align-items: center;
         justify-content: space-between;
+        padding-top: 0.5rem;
+        border-top: 1px solid #f0f0f0;
     }
-    .food-card-title {
-        color: #FF6B6B !important;
-        font-size: 1.1rem;
-        font-weight: bold;
-        margin-bottom: 0.3rem;
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-    .food-card-desc {
-        color: #444 !important;
-        font-size: 0.97rem;
-        margin-bottom: 0.7rem;
+
+    .quantity-selector input {
+        width: 60px !important;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.2rem;
+    }
+
+    .order-button {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .order-button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2) !important;
+    }
+
+    .success-popup {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
 
     /* Ensure all text elements are visible */
@@ -340,6 +384,49 @@ st.markdown("""
     [data-testid="stSidebar"] ul li {
         color: white !important;
         margin-bottom: 8px;
+    }
+
+    .food-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.3rem;
+    }
+
+    .food-card-title {
+        color: #FF6B6B !important;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .food-card-price {
+        color: #28a745 !important;
+        font-weight: bold;
+        font-size: 1rem;
+        padding: 0.2rem 0.5rem;
+        background: rgba(40, 167, 69, 0.1);
+        border-radius: 12px;
+    }
+
+    .food-card-desc {
+        color: #444 !important;
+        font-size: 0.97rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .food-card img {
+        border-radius: 12px;
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+    }
+
+    .food-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -497,23 +584,38 @@ for message in st.session_state.messages:
         ai_response = message["content"]
         filtered_foods = extract_food_names(ai_response, foods)
         for food in filtered_foods:
-            st.markdown(
-                f"""
-                <div class="food-card">
-                    <img src="{food.get('image_url', '')}" alt="{food['name']}">
-                    <div class="food-card-content">
-                        <div>
-                            <div class="food-card-title">{food['name']}</div>
-                            <div class="food-card-desc">{food['description']}</div>
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                st.markdown(
+                    f"""
+                    <div class="food-card">
+                        <div class="food-card-main">
+                            <img src="{food.get('image_url', '')}" alt="{food['name']}">
+                            <div class="food-card-content">
+                                <div class="food-card-header">
+                                    <div class="food-card-title">{food['name']}</div>
+                                    <div class="food-card-price">{food.get('price', 'Price N/A')}</div>
+                                </div>
+                                <div class="food-card-desc">{food['description']}</div>
+                            </div>
+                        </div>
+                        <div class="food-card-footer">
+                            <div class="quantity-selector">
+                                <label>Quantity:</label>
+                                <input type="number" min="1" value="1" id="quantity_{food['id']}" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            order_btn = st.button(f"Order {food['name']}", key=f"order_{food['id']}_{message['content'][:10]}")
-            if order_btn:
-                st.success(f"Your Order placed for {food['name']} successfully!")
+                    """,
+                    unsafe_allow_html=True
+                )
+            
+            # Order button and success message handling
+            with col2:
+                quantity = st.number_input(f"Quantity for {food['name']}", min_value=1, value=1, key=f"quantity_{food['id']}")
+                if st.button(f"Order", key=f"order_{food['id']}"):
+                    st.success(f"🎉 Successfully ordered {quantity} {food['name']}(s)!")
+                    time.sleep(2)  # Show success message for 2 seconds
 
 # Input area
 # Sticky input bar with input and button side by side
