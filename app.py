@@ -403,15 +403,40 @@ def get_recommendations(user_input):
 
 # Helper function to extract food names from AI response
 def extract_food_names(ai_response, foods):
-    # Build a regex pattern from all food names in the Pinecone results
-    food_names = [re.escape(food['name']) for food in foods]
-    pattern = r'(' + '|'.join(food_names) + r')'
-    # Find all food names mentioned in the AI response (case-insensitive)
-    found = re.findall(pattern, ai_response, flags=re.IGNORECASE)
-    # Normalize to match original names
-    found_set = set(f.lower() for f in found)
-    filtered = [food for food in foods if food['name'].lower() in found_set]
-    return filtered
+    # Build a list of food names and their variations
+    food_names = {food['name'].lower(): food for food in foods}
+    
+    # Common recommendation phrases
+    recommendation_patterns = [
+        r'how about (a |an |some )?(?P<food>[^?!.,]*)',
+        r'recommend (?P<food>[^?!.,]*)',
+        r'try (?P<food>[^?!.,]*)',
+        r'suggest (?P<food>[^?!.,]*)',
+        r'would hit the spot\?.*?(?P<food>[^?!.,]*)',
+        r'maybe (?P<food>[^?!.,]*) would',
+        r'consider (?P<food>[^?!.,]*)',
+    ]
+    
+    recommended_foods = set()
+    
+    # First look for actively recommended foods
+    for pattern in recommendation_patterns:
+        matches = re.finditer(pattern, ai_response, re.IGNORECASE)
+        for match in matches:
+            food_name = match.group('food').strip().lower()
+            # Check if this food name or part of it matches our food list
+            for known_food in food_names:
+                if known_food in food_name:
+                    recommended_foods.add(known_food)
+    
+    # If no recommended foods found through patterns, fall back to direct mentions
+    if not recommended_foods:
+        for food_name in food_names:
+            if food_name in ai_response.lower():
+                recommended_foods.add(food_name)
+    
+    # Convert back to food objects
+    return [food for food in foods if food['name'].lower() in recommended_foods]
 
 # Sidebar
 with st.sidebar:
