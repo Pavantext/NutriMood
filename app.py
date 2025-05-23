@@ -21,7 +21,11 @@ st.markdown("""
     <style>
     /* General layout */
     .main {
-        background-color: #fafafa;
+        background-color: #fafafa !important;
+    }
+
+    .stApp {
+        background-color: #fafafa !important;
     }
 
     .block-container {
@@ -29,40 +33,24 @@ st.markdown("""
         margin: 0 auto;
         padding-bottom: 100px; /* Extra space for sticky input */
     }
-    .st-emotion-cache-13k62yr {
-        color: black;
-    }
 
-    .st-emotion-cache-ltfnpr {
-        color: black;
-        font-size: 15px;
-        font-weight: 700;
-    }
-
-    .st-emotion-cache-cnbvxy p {
-        color: black;
-    }
-
-    p {
-        color: black;
-    }
-
+    /* Fix text colors */
+    .st-emotion-cache-13k62yr, 
+    .st-emotion-cache-ltfnpr,
+    .st-emotion-cache-cnbvxy p,
+    p,
+    .strong,
+    div,
+    span,
+    label,
     .st-emotion-cache-cnbvxy li {
-        color: white;
-    }
-
-    .strong {
-        color: black;
-    }
-
-    .stApp {
-        overflow: hidden;
+        color: #2b313e !important;
     }
 
     /* Chat message bubbles */
     .user-message {
         background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-        color: white;
+        color: white !important;
         padding: 0.8rem;
         border-radius: 20px 20px 0 20px;
         margin: 0.3rem 0;
@@ -75,7 +63,7 @@ st.markdown("""
 
     .assistant-message {
         background: white;
-        color: #2b313e;
+        color: #2b313e !important;
         padding: 0.8rem;
         border-radius: 20px 20px 20px 0;
         margin: 0.3rem 0;
@@ -130,12 +118,12 @@ st.markdown("""
     }
 
     .stTextInput > div > div > input {
+        color: #2b313e !important;
+        background-color: white !important;
         border-radius: 25px;
         padding: 0 20px;
         font-size: 15px;
-        color: #2b313e;
         border: 2px solid #f0f0f0;
-        background-color: white;
         height: 44px;
         flex: 1;
         margin: 0;
@@ -168,23 +156,23 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(255, 107, 107, 0.18);
     }
 
-    /* Welcome box */
+    /* Welcome message */
     .welcome-message {
         text-align: center;
         padding: 1rem;
-        background: white;
+        background: white !important;
         border-radius: 20px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         margin-bottom: 0.5rem;
     }
 
     .welcome-message h1 {
-        color: #FF6B6B;
+        color: #FF6B6B !important;
         font-size: 1.3rem;
     }
 
     .welcome-message p {
-        color: #666;
+        color: #666 !important;
         font-size: 0.9rem;
     }
 
@@ -216,18 +204,18 @@ st.markdown("""
         caret-color: auto !important;
     }
 
-
     /* Hide Streamlit native UI */
     #MainMenu, footer {visibility: hidden;}
 
+    /* Sidebar */
     .sidebar-desc-white {
-        color: #fff !important;
+        color: white !important;
         font-size: 1rem;
         margin-bottom: 0.5rem;
     }
 
     .food-card {
-        background: #fff;
+        background: white !important;
         border-radius: 18px;
         box-shadow: 0 2px 12px rgba(44,62,80,0.08);
         padding: 1rem;
@@ -251,15 +239,61 @@ st.markdown("""
         justify-content: space-between;
     }
     .food-card-title {
+        color: #FF6B6B !important;
         font-size: 1.1rem;
         font-weight: bold;
-        color: #FF6B6B;
         margin-bottom: 0.3rem;
     }
     .food-card-desc {
+        color: #444 !important;
         font-size: 0.97rem;
-        color: #444;
         margin-bottom: 0.7rem;
+    }
+
+    /* Ensure all text elements are visible */
+    [data-testid="stText"],
+    [data-testid="stMarkdown"] {
+        color: #2b313e !important;
+    }
+
+    /* Sidebar specific styles */
+    [data-testid="stSidebar"] {
+        background-color: #1E1E1E !important;
+    }
+
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] h4,
+    [data-testid="stSidebar"] h5,
+    [data-testid="stSidebar"] li {
+        color: white !important;
+    }
+
+    [data-testid="stSidebar"] .sidebar-desc-white {
+        color: white !important;
+    }
+
+    /* Sidebar markdown text */
+    [data-testid="stSidebar"] [data-testid="stMarkdown"] {
+        color: white !important;
+    }
+
+    /* Sidebar emoji */
+    [data-testid="stSidebar"] .emoji {
+        color: white !important;
+    }
+
+    /* Sidebar horizontal rule */
+    [data-testid="stSidebar"] hr {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Tips section */
+    [data-testid="stSidebar"] ul li {
+        color: white !important;
+        margin-bottom: 8px;
     }
     </style>
 """, unsafe_allow_html=True)
