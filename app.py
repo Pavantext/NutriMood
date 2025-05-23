@@ -137,45 +137,68 @@ st.markdown("""
         outline: none;
     }
 
-    /* Button styles */
-    .stButton > button {
+    /* Button styles with stronger overrides */
+    .stButton,
+    .stButton > button,
+    .stButton > button:hover,
+    .stButton > button:active,
+    .stButton > button:focus,
+    button[kind="primary"],
+    button[data-testid="baseButton-secondary"],
+    .element-container .stButton > button,
+    div[data-testid="stFormSubmitButton"] button {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        background-color: #FF6B6B !important;
+        border-color: #FF6B6B !important;
+        color: white !important;
         border-radius: 25px !important;
         padding: 0 24px !important;
-        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
-        color: white !important;
         font-weight: 600 !important;
         border: none !important;
         height: 44px !important;
         min-width: 80px !important;
-        cursor: pointer !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.13) !important;
     }
 
-    .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.18) !important;
-        background: linear-gradient(135deg, #FF8E8E 0%, #FF6B6B 100%) !important;
-    }
-
-    .stButton > button:active {
-        transform: translateY(0) !important;
+    /* Style overrides for the form submit button specifically */
+    div[data-testid="stFormSubmitButton"] {
         background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        background-color: #FF6B6B !important;
+        border: none !important;
     }
 
-    /* Override any Streamlit default button styles */
-    button[kind="primary"] {
+    /* Additional override for the button container */
+    .stButton > div[data-testid="stFormSubmitButton"] {
         background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+        background-color: #FF6B6B !important;
+    }
+
+    /* Override for any nested elements */
+    .stButton > button > div,
+    .stButton > button > p,
+    .stButton > button > span {
         color: white !important;
     }
 
+    /* Hover state */
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #FF8E8E 0%, #FF6B6B 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.18) !important;
+    }
+
+    /* Active state */
+    .stButton > button:active {
+        transform: translateY(0) !important;
+    }
+
+    /* Focus state */
     .stButton > button:focus {
         box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25) !important;
         outline: none !important;
     }
 
-    .stButton > button[data-testid="baseButton-secondary"] {
-        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%) !important;
+    /* Ensure text color stays white */
+    .stButton > button * {
         color: white !important;
     }
 
