@@ -39,10 +39,13 @@ class ConversationManager:
     def generate_contextual_prompt(self, user_input: str, retrieved_foods: List[Dict[str, Any]]) -> str:
         """Generate a prompt that includes conversation history and context"""
         # Format the retrieved foods
-        retrieved_text = "\n".join([
-            f"{item['name']}: {item['description']} (Region: {item['region']}, Mood: {item['mood']}, Time: {item['time']}, Diet: {item['diet']})"
-            for item in retrieved_foods
-        ])
+        if not retrieved_foods:
+            retrieved_text = "No relevant food items found in the database that match your current query context."
+        else:
+            retrieved_text = "\n".join([
+                f"{item['name']}: {item['description']} (Region: {item['region']}, Mood: {item['mood']}, Time: {item['time']}, Diet: {item['diet']})"
+                for item in retrieved_foods
+            ])
 
         # Get conversation history
         conversation_context = self.get_conversation_context()
@@ -77,7 +80,7 @@ Just provide a clean, plain text response that maintains continuity with the pre
         is_followup = any(phrase in user_input.lower() for phrase in [
             "what about", "how about", "and", "what else", "tell me more",
             "why", "which", "where", "when", "who", "how"
-        ]) and self.conversation_history
+        ]) and bool(self.conversation_history)
 
         return {
             "is_followup": is_followup,

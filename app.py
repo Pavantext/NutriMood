@@ -518,9 +518,13 @@ def extract_food_names(ai_response, foods):
     
     # If no recommended foods found through patterns, fall back to direct mentions
     if not recommended_foods:
-        for food_name in food_names:
-            if food_name in ai_response.lower():
-                recommended_foods.add(food_name)
+        # ai_response_lower = ai_response.lower() # Ensuring this for context, original uses it implicitly
+        for food_name_key in food_names: # food_name_key is a lowercase name string from the `foods` list
+            # Use word boundaries to match whole words and avoid partial matches
+            # The original ai_response (not lowercased yet) should be used with re.IGNORECASE
+            pattern = r'\b{}\b'.format(re.escape(food_name_key))
+            if re.search(pattern, ai_response, re.IGNORECASE): # Use original ai_response and IGNORECASE
+                recommended_foods.add(food_name_key)
     
     # Convert back to food objects
     return [food for food in foods if food['name'].lower() in recommended_foods]
@@ -600,10 +604,12 @@ for message in st.session_state.messages:
                             </div>
                         </div>
                         <div class="food-card-footer">
+                            <!-- Removed HTML quantity selector
                             <div class="quantity-selector">
                                 <label>Quantity:</label>
                                 <input type="number" min="1" value="1" id="quantity_{food['id']}" />
                             </div>
+                            -->
                         </div>
                     </div>
                     """,
