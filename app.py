@@ -438,11 +438,16 @@ load_dotenv()
 # Configure Google Generative AI
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Initialize session state
-if 'messages' not in st.session_state:
+def init_chat():
+    """Initialize or reset chat state"""
     st.session_state.messages = []
     st.session_state.first_visit = True
     st.session_state.conversation_manager = ConversationManager()
+
+# Initialize session state if not already done
+if 'initialized' not in st.session_state:
+    init_chat()
+    st.session_state.initialized = True
 
 def clean_response(text):
     # Remove any HTML tags
@@ -583,7 +588,7 @@ for message in st.session_state.messages:
         foods = message.get("foods", [])
         ai_response = message["content"]
         filtered_foods = extract_food_names(ai_response, foods)
-        for food in filtered_foods:
+        for idx, food in enumerate(filtered_foods):
             col1, col2 = st.columns([3, 1])
             with col1:
                 st.markdown(
@@ -602,7 +607,7 @@ for message in st.session_state.messages:
                         <div class="food-card-footer">
                             <div class="quantity-selector">
                                 <label>Quantity:</label>
-                                <input type="number" min="1" value="1" id="quantity_{food['id']}" />
+                                <input type="number" min="1" value="1" id="quantity_{food['id']}_{idx}" />
                             </div>
                         </div>
                     </div>
@@ -612,8 +617,9 @@ for message in st.session_state.messages:
             
             # Order button and success message handling
             with col2:
-                quantity = st.number_input(f"Quantity for {food['name']}", min_value=1, value=1, key=f"quantity_{food['id']}")
-                if st.button(f"Order", key=f"order_{food['id']}"):
+                unique_key = f"quantity_{food['id']}_{len(st.session_state.messages)}_{idx}"
+                quantity = st.number_input(f"Quantity for {food['name']}", min_value=1, value=1, key=unique_key)
+                if st.button(f"Order", key=f"order_{food['id']}_{len(st.session_state.messages)}_{idx}"):
                     st.success(f"🎉 Successfully ordered {quantity} {food['name']}(s)!")
                     time.sleep(2)  # Show success message for 2 seconds
 
