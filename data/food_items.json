@@ -758,6 +758,25 @@
         "raisins"
       ],
       "image_url": "https://www.shutterstock.com/shutterstock/photos/1909496233/display_1500/stock-photo-paruppu-payasam-is-made-from-moong-dal-jaggery-coconut-milk-cardamom-powder-and-dry-fruits-1909496233.jpg"
+    },
+    {
+      "id": "41",
+      "name": "Plain Dosa",
+      "description": "A crispy, golden rice and lentil crepe filled with a savory spiced potato masala. Served hot with coconut chutney and tangy sambar, it's a breakfast favorite across India.",
+      "region": "South India",
+      "mood": "Comforting",
+      "diet": "Vegetarian",
+      "time": "Breakfast",
+      "price": "60rs",
+      "ingredients": [
+        "rice",
+        "urad dal",
+        "mustard seeds",
+        "curry leaves",
+        "salt",
+        "oil"
+      ],
+      "image_url": "https://www.shutterstock.com/shutterstock/photos/2497874061/display_1500/stock-photo-south-indian-food-set-dosa-with-tomato-chutney-also-called-nice-set-dosa-homemade-dosa-dhosa-2497874061.jpg"
     }
   ]
   
