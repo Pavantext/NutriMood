@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food AI Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="new-chat-button">
+                <i class="fas fa-plus"></i>
+                New chat
+            </button>
+
+            <div class="tips-section">
+                <h2>EXAMPLES</h2>
+                <ul class="tips-list">
+                    <li>
+                        <i class="fas fa-utensils"></i>
+                        "I'm in the mood for something spicy"
+                    </li>
+                    <li>
+                        <i class="fas fa-leaf"></i>
+                        "Show me vegetarian options"
+                    </li>
+                    <li>
+                        <i class="fas fa-globe-asia"></i>
+                        "What's good in Asian cuisine?"
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        "Quick breakfast ideas"
+                    </li>
+                </ul>
+
+                <h2 style="margin-top: 2rem;">CAPABILITIES</h2>
+                <ul class="tips-list">
+                    <li>
+                        <i class="fas fa-brain"></i>
+                        Remembers your food preferences
+                    </li>
+                    <li>
+                        <i class="fas fa-search"></i>
+                        Finds dishes based on mood
+                    </li>
+                    <li>
+                        <i class="fas fa-heart"></i>
+                        Personalizes recommendations
+                    </li>
+                </ul>
+
+                <h2 style="margin-top: 2rem;">LIMITATIONS</h2>
+                <ul class="tips-list">
+                    <li>
+                        <i class="fas fa-exclamation-circle"></i>
+                        May not know very local dishes
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        Limited to available restaurants
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <!-- Welcome message -->
+                <div class="message bot">
+                    <div class="message-content">
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat</h2>
+                        <p style="color: var(--text-color); opacity: 0.8;">I'm your personal food recommendation assistant. I can help you discover dishes based on your preferences, mood, or dietary requirements. How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input">
+                <form id="chat-form" class="input-container">
+                    <textarea id="user-input" class="input-field" 
+                        placeholder="Message Food AI..." 
+                        rows="1" 
+                        required></textarea>
+                    <button type="submit" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates for dynamic content -->
+    <template id="food-card-template">
+        <div class="food-card">
+            <div class="food-card-header">
+                <div class="food-card-title"></div>
+                <div class="food-card-price"></div>
+            </div>
+            <div class="food-card-body">
+                <img class="food-card-image" alt="Food Image">
+                <div class="food-card-content">
+                    <p class="food-card-description"></p>
+                </div>
+            </div>
+            <div class="food-card-footer">
+                <div class="quantity-controls">
+                    <label>Quantity:</label>
+                    <input type="number" class="quantity-input" min="1" value="1">
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
