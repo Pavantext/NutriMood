@@ -15,18 +15,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle new chat button
-    newChatButton.addEventListener('click', function() {
-        chatHistory = [];
-        chatMessages.innerHTML = `
-            <div class="message bot">
-                <div class="message-content">
-                    <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat</h2>
-                    <p style="color: var(--text-color); opacity: 0.8;">I'm your personal food recommendation assistant. I can help you discover dishes based on your preferences, mood, or dietary requirements. How can I assist you today?</p>
-                </div>
-            </div>
-        `;
-        userInput.value = '';
-        userInput.style.height = 'auto';
+    newChatButton.addEventListener('click', async function() {
+        try {
+            // Reset conversation on the server
+            const response = await fetch('/reset_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                // Clear chat history
+                chatHistory = [];
+                
+                // Reset chat interface
+                chatMessages.innerHTML = `
+                    <div class="message bot">
+                        <div class="message-content">
+                            <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat</h2>
+                            <p style="color: var(--text-color); opacity: 0.8;">I'm your personal food recommendation assistant. I can help you discover dishes based on your preferences, mood, or dietary requirements. How can I assist you today?</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Clear input
+                userInput.value = '';
+                userInput.style.height = 'auto';
+            } else {
+                console.error('Failed to reset chat');
+            }
+        } catch (error) {
+            console.error('Error resetting chat:', error);
+        }
     });
 
     // Handle example clicks
