@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const container = document.querySelector('.container');
     const userNameDisplay = document.getElementById('user-name');
+    const menuButton = document.querySelector('.menu-button');
+    const sidebar = document.querySelector('.sidebar');
 
     let chatHistory = [];
 
@@ -285,6 +287,28 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show login modal by default
         container.style.display = 'none';
         loginModal.style.display = 'block';
+    });
+
+    // Handle mobile menu
+    menuButton.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            !menuButton.contains(e.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('active');
+        }
     });
 });
 
