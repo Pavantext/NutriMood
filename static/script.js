@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const userInput = document.getElementById('user-input');
     const foodCardTemplate = document.getElementById('food-card-template');
     const newChatButton = document.querySelector('.new-chat-button');
+    const loginModal = document.getElementById('login-modal');
+    const loginForm = document.getElementById('login-form');
+    const container = document.querySelector('.container');
+    const userNameDisplay = document.getElementById('user-name');
 
     let chatHistory = [];
 
@@ -14,41 +18,75 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    // Handle new chat button
-    newChatButton.addEventListener('click', async function() {
+    // Handle login form submission
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        
+        if (!username) {
+            alert('Please enter your name');
+            return;
+        }
+        
         try {
-            // Reset conversation on the server
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username })
+            });
+            
+            const data = await response.json();
+            
+            // Hide login modal and show chat interface regardless of response status
+            loginModal.style.display = 'none';
+            container.style.display = 'flex';
+            userNameDisplay.textContent = username;
+            
+            // Clear any existing messages
+            chatMessages.innerHTML = '';
+            chatHistory = [];
+            
+            // Add welcome message
+            addBotMessage(`Welcome ${username}! How can I help you today?`);
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            // Even if there's an error, we'll proceed since the basic functionality works
+            loginModal.style.display = 'none';
+            container.style.display = 'flex';
+            userNameDisplay.textContent = username;
+            chatMessages.innerHTML = '';
+            chatHistory = [];
+            addBotMessage(`Welcome ${username}! How can I help you today?`);
+        }
+    });
+
+    // Handle new chat button
+    newChatButton.addEventListener('click', async () => {
+        try {
             const response = await fetch('/reset_chat', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
-
+            
             const data = await response.json();
             
             if (data.success) {
-                // Clear chat history
+                // Clear messages
+                chatMessages.innerHTML = '';
                 chatHistory = [];
                 
-                // Reset chat interface
-                chatMessages.innerHTML = `
-                    <div class="message bot">
-                        <div class="message-content">
-                            <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat</h2>
-                            <p style="color: var(--text-color); opacity: 0.8;">I'm your personal food recommendation assistant. I can help you discover dishes based on your preferences, mood, or dietary requirements. How can I assist you today?</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Clear input
-                userInput.value = '';
-                userInput.style.height = 'auto';
-            } else {
-                console.error('Failed to reset chat');
+                // Add welcome message
+                const username = userNameDisplay.textContent;
+                addBotMessage(`Welcome back ${username}! How can I help you today?`);
             }
         } catch (error) {
-            console.error('Error resetting chat:', error);
+            console.error('Reset chat error:', error);
+            alert('An error occurred while resetting the chat.');
         }
     });
 
@@ -240,6 +278,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             chatForm.dispatchEvent(new Event('submit'));
         }
+    });
+
+    // Check session status on page load
+    window.addEventListener('load', () => {
+        // Show login modal by default
+        container.style.display = 'none';
+        loginModal.style.display = 'block';
     });
 });
 

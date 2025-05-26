@@ -9,9 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to Food AI Chat!</h2>
+            <p>Please enter your name to start chatting</p>
+            <form id="login-form" class="login-form">
+                <input type="text" id="username" placeholder="Enter your name" required>
+                <button type="submit" class="login-button">Start Chatting</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" style="display: none;">
         <!-- Sidebar -->
         <div class="sidebar">
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span id="user-name"></span>
+            </div>
             <button class="new-chat-button">
                 <i class="fas fa-plus"></i>
                 New chat
