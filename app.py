@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
@@ -7,7 +7,8 @@ from utils.conversation_manager import ConversationManager
 import google.generativeai as genai
 import time
 import re
-from datetime import timedelta
+from datetime import timedelta, datetime
+import json
 
 # Load environment variables
 load_dotenv()
@@ -24,6 +25,9 @@ app.permanent_session_lifetime = timedelta(days=1)  # Session expires after 1 da
 
 # Dictionary to store conversation managers for each user
 user_conversations = {}
+
+# Dictionary to store user data
+user_data = {}
 
 @app.route('/')
 def home():
@@ -48,18 +52,24 @@ def login():
         # Initialize a new conversation manager for this user
         if username not in user_conversations:
             user_conversations[username] = ConversationManager()
+            
+        # Initialize user data if not exists
+        if username not in user_data:
+            user_data[username] = {
+                'login_time': datetime.now().isoformat(),
+                'conversations': []
+            }
         
         return jsonify({
             'success': True,
             'username': username
         })
     except Exception as e:
-        # Log the error but return success anyway since the UI can handle it
         print(f"Login error: {str(e)}")
         return jsonify({
             'success': True,
             'username': data.get('username', '')
-        }), 200  # Return 200 OK status
+        }), 200
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -116,7 +126,6 @@ def chat():
         # Build conversation context from history
         conversation_context = ""
         if chat_history:
-            # Get the last exchange (up to 2 messages)
             recent_messages = chat_history[-2:] if len(chat_history) > 1 else chat_history
             conversation_context = "\n".join([
                 f"{'User' if msg['role'] == 'user' else 'Assistant'}: {msg['content']}"
@@ -186,6 +195,16 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
         # Add the exchange to conversation history
         conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
 
+        # Store the interaction in user data
+        interaction = {
+            'timestamp': datetime.now().isoformat(),
+            'user_input': user_input,
+            'ai_response': cleaned_response,
+            'recommended_foods': filtered_foods,
+            'is_followup': is_followup
+        }
+        user_data[username]['conversations'].append(interaction)
+
         return jsonify({
             'response': cleaned_response,
             'foods': filtered_foods
@@ -196,6 +215,56 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
         return jsonify({
             'error': 'An error occurred while processing your request.',
             'details': str(e)
+        }), 500
+
+@app.route('/user_data', methods=['GET'])
+def get_user_data():
+    try:
+        username = session.get('username')
+        if not username:
+            return jsonify({
+                'success': False,
+                'error': 'User not logged in'
+            }), 401
+
+        if username not in user_data:
+            return jsonify({
+                'success': False,
+                'error': 'No data found for user'
+            }), 404
+
+        return jsonify({
+            'success': True,
+            'data': user_data[username]
+        })
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/all_users', methods=['GET'])
+def get_all_users():
+    try:
+        # Only return basic user info without sensitive data
+        users_info = {
+            username: {
+                'login_time': data['login_time'],
+                'conversation_count': len(data['conversations'])
+            }
+            for username, data in user_data.items()
+        }
+        
+        return jsonify({
+            'success': True,
+            'users': users_info
+        })
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
         }), 500
 
 def format_foods_for_prompt(foods):
@@ -261,6 +330,12 @@ def clean_response(text):
     # Remove extra whitespace
     text = ' '.join(text.split())
     return text
+
+@app.route('/user_data_page')
+def user_data_page():
+    if not session.get('username'):
+        return redirect(url_for('home'))
+    return render_template('user_data.html')
 
 if __name__ == '__main__':
     app.run(debug=True) 

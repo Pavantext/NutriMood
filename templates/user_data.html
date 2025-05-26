@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data - Food AI Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            overflow-y: auto;
+            background: var(--chat-bg);
+        }
+
+        .data-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            min-height: calc(100vh - 4rem);
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .conversation-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: visible;
+            margin-bottom: 2rem;
+        }
+
+        .conversation-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .conversation-item:last-child {
+            border-bottom: none;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .conversation-content {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--chat-bg);
+        }
+
+        .message.user {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .food-recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .food-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .food-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .food-card p {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .data-container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .user-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .conversation-item {
+                padding: 1rem;
+            }
+
+            .food-recommendations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="data-container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Chat
+        </a>
+
+        <div class="user-stats">
+            <div class="stat-card">
+                <h3>Total Conversations</h3>
+                <div class="stat-value" id="total-conversations">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>First Login</h3>
+                <div class="stat-value" id="first-login">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Food Recommendations</h3>
+                <div class="stat-value" id="total-recommendations">0</div>
+            </div>
+        </div>
+
+        <div class="conversation-list" id="conversation-list">
+            <!-- Conversations will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+
+        // Function to load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch('/user_data');
+                const data = await response.json();
+
+                if (data.success) {
+                    const userData = data.data;
+                    
+                    // Update stats
+                    document.getElementById('total-conversations').textContent = userData.conversations.length;
+                    document.getElementById('first-login').textContent = formatDate(userData.login_time);
+                    
+                    let totalRecommendations = 0;
+                    userData.conversations.forEach(conv => {
+                        totalRecommendations += conv.recommended_foods.length;
+                    });
+                    document.getElementById('total-recommendations').textContent = totalRecommendations;
+
+                    // Load conversations
+                    const conversationList = document.getElementById('conversation-list');
+                    conversationList.innerHTML = '';
+
+                    userData.conversations.forEach(conv => {
+                        const conversationItem = document.createElement('div');
+                        conversationItem.className = 'conversation-item';
+                        
+                        conversationItem.innerHTML = `
+                            <div class="conversation-header">
+                                <span>${formatDate(conv.timestamp)}</span>
+                                <span>${conv.is_followup ? 'Follow-up Question' : 'New Question'}</span>
+                            </div>
+                            <div class="conversation-content">
+                                <div class="message user">
+                                    ${conv.user_input}
+                                </div>
+                                <div class="message">
+                                    ${conv.ai_response}
+                                </div>
+                                ${conv.recommended_foods.length > 0 ? `
+                                    <div class="food-recommendations">
+                                        ${conv.recommended_foods.map(food => `
+                                            <div class="food-card">
+                                                <img src="${food.image_url || '/static/default-food.jpg'}" alt="${food.name}">
+                                                <h4>${food.name}</h4>
+                                                <p>${food.description}</p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                        
+                        conversationList.appendChild(conversationItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+</body>
+</html> 
