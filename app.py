@@ -201,7 +201,31 @@ def chat():
         )
 
         # Generate contextual prompt
-        prompt = f"""You are a helpful food recommendation assistant. \n\nPrevious conversation:\n{conversation_context}\n\nCurrent user query: \"{user_input}\"\n\nAvailable food items:\n{format_foods_for_prompt(retrieved_foods)}\n\nImportant instructions:\n1. If this is a follow-up question about a specific food (detected: {is_followup}):\n   - Focus ONLY on the food item discussed in the previous exchange\n   - Do not introduce new, unrelated food items\n   - If asking about ingredients/details of a specific food, only discuss that food\n\n2. If this is a new question:\n   - Only mention and recommend foods that match the user's query\n   - Do not mention unsuitable foods\n   - Focus on directly answering the user's query\n\n3. End your response with a list of recommended food IDs in this format: [RECOMMENDED_FOODS:id1,id2,id3]\n   - No spaces after commas\n   - Only include IDs of foods you actually discuss\n   - For follow-up questions about a specific food, only include that food's ID\n\nExample formats:\nNew question: \"Here are some great options... [RECOMMENDED_FOODS:41,1,16]\"\nFollow-up about specific food: \"The ingredients in this dish are... [RECOMMENDED_FOODS:41]\"\n"""
+        prompt = f"""You are a friendly and helpful food recommendation assistant. \n\nPrevious conversation:\n{conversation_context}\n\nCurrent user query: \"{user_input}\"\n\nAvailable food items:\n{format_foods_for_prompt(retrieved_foods)}\n\nImportant instructions:\n1. For casual greetings (like 'hi', 'hello', 'how are you'):
+   - Respond in a friendly, conversational way
+   - Don't mention food recommendations
+   - Don't include [RECOMMENDED_FOODS:] tag
+   - Ask what they're looking for in a natural way
+
+2. If this is a follow-up question about a specific food (detected: {is_followup}):
+   - Focus ONLY on the food item discussed in the previous exchange
+   - Do not introduce new, unrelated food items
+   - If asking about ingredients/details of a specific food, only discuss that food
+
+3. If this is a new food-related question:
+   - Only mention and recommend foods that match the user's query
+   - Do not mention unsuitable foods
+   - Focus on directly answering the user's query
+   - End your response with a list of recommended food IDs in this format: [RECOMMENDED_FOODS:id1,id2,id3]
+   - No spaces after commas
+   - Only include IDs of foods you actually discuss
+   - For follow-up questions about a specific food, only include that food's ID
+
+Example formats:
+Greeting: "Hi there! I'm your food recommendation assistant. What kind of food are you interested in today?"
+New question: "Here are some great options... [RECOMMENDED_FOODS:41,1,16]"
+Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED_FOODS:41]"
+"""
 
         # Generate with Gemini
         model = genai.GenerativeModel('gemini-1.5-flash')
@@ -209,6 +233,11 @@ def chat():
         
         # Clean response and extract recommended food IDs
         cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
+
+        # For casual greetings, don't include food recommendations
+        if any(greeting in user_input.lower() for greeting in ['hi', 'hello', 'hey', 'how are you', 'how\'s it going']):
+            recommended_food_ids = []
+            filtered_foods = []
 
         # Filter retrieved foods based on recommendations
         filtered_foods = [

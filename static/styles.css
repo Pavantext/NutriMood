@@ -414,7 +414,7 @@ body {
 
     .chat-container {
         width: 100%;
-        margin-top: 4rem;
+        /* margin-top: 4rem; */
         display: flex;
         flex-direction: column;
         height: 100vh;
