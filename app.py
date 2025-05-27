@@ -9,6 +9,7 @@ import time
 import re
 from datetime import timedelta, datetime
 import json
+from functools import wraps
 
 # Load environment variables
 load_dotenv()
@@ -23,11 +24,67 @@ app = Flask(__name__)
 app.secret_key = 'bf0f16b52bbb59fce3350b0dbff06ebe4ef15ce0eeae221d1b3a7d44f83dd1fe'  # Replace this with a secure key in production
 app.permanent_session_lifetime = timedelta(days=1)  # Session expires after 1 day
 
+# Admin credentials - In production, use environment variables
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "admin123"  # In production, use a secure password
+
 # Dictionary to store conversation managers for each user
 user_conversations = {}
 
 # Dictionary to store user data
 user_data = {}
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('is_admin'):
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['is_admin'] = True
+            return redirect(url_for('admin_dashboard'))
+        
+        return render_template('admin_login.html', error="Invalid credentials")
+    
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('is_admin', None)
+    return redirect(url_for('admin_login'))
+
+@app.route('/admin/dashboard')
+@admin_required
+def admin_dashboard():
+    # Get basic user info
+    users_info = {
+        username: {
+            'login_time': data['login_time'],
+            'conversation_count': len(data['conversations']),
+            'total_recommendations': sum(len(conv['recommended_foods']) for conv in data['conversations'])
+        }
+        for username, data in user_data.items()
+    }
+    
+    return render_template('admin_dashboard.html', users=users_info)
+
+@app.route('/admin/user/<username>')
+@admin_required
+def admin_user_details(username):
+    if username not in user_data:
+        return redirect(url_for('admin_dashboard'))
+    
+    return render_template('admin_user_details.html', 
+                         username=username, 
+                         user_data=user_data[username])
 
 @app.route('/')
 def home():

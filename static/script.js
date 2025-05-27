@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginModal = document.getElementById('login-modal');
     const loginForm = document.getElementById('login-form');
     const container = document.querySelector('.container');
-    const userNameDisplay = document.getElementById('user-name');
+    const usernameDisplay = document.getElementById('username-display');
     const menuButton = document.querySelector('.menu-button');
     const sidebar = document.querySelector('.sidebar');
 
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Hide login modal and show chat interface regardless of response status
             loginModal.style.display = 'none';
-            container.style.display = 'flex';
-            userNameDisplay.textContent = username;
+            container.style.display = 'grid';
+            usernameDisplay.textContent = username;
             
             // Clear any existing messages
             chatMessages.innerHTML = '';
@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Login error:', error);
             // Even if there's an error, we'll proceed since the basic functionality works
             loginModal.style.display = 'none';
-            container.style.display = 'flex';
-            userNameDisplay.textContent = username;
+            container.style.display = 'grid';
+            usernameDisplay.textContent = username;
             chatMessages.innerHTML = '';
             chatHistory = [];
             addBotMessage(`Welcome ${username}! How can I help you today?`);
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 chatHistory = [];
                 
                 // Add welcome message
-                const username = userNameDisplay.textContent;
+                const username = usernameDisplay.textContent;
                 addBotMessage(`Welcome back ${username}! How can I help you today?`);
             }
         } catch (error) {
