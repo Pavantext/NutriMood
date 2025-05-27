@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const container = document.querySelector('.container');
     const usernameDisplay = document.getElementById('username-display');
-    const menuButton = document.querySelector('.menu-button');
+    const menuButton = document.getElementById('menu-button');
     const sidebar = document.querySelector('.sidebar');
 
     let chatHistory = [];
@@ -41,17 +41,35 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const data = await response.json();
             
-            // Hide login modal and show chat interface regardless of response status
+            // Hide login modal and show chat interface
             loginModal.style.display = 'none';
             container.style.display = 'grid';
             usernameDisplay.textContent = username;
+            // Show menu button after login
+            menuButton.classList.remove('hidden');
             
             // Clear any existing messages
             chatMessages.innerHTML = '';
             chatHistory = [];
             
-            // Add welcome message
-            addBotMessage(`Welcome ${username}! How can I help you today?`);
+            // Add welcome message with a clean design
+            const welcomeMessage = `
+                <div class="message bot">
+                    <div class="message-content">
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat, ${username}! 👋</h2>
+                        <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
+                        <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
+                        <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Recommend me some spicy dishes</li>
+                            <li>What are good vegetarian options?</li>
+                            <li>Show me quick breakfast ideas</li>
+                            <li>What's good in Asian cuisine?</li>
+                        </ul>
+                        <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.innerHTML = welcomeMessage;
             
         } catch (error) {
             console.error('Login error:', error);
@@ -59,9 +77,29 @@ document.addEventListener('DOMContentLoaded', function() {
             loginModal.style.display = 'none';
             container.style.display = 'grid';
             usernameDisplay.textContent = username;
+            // Show menu button after login
+            menuButton.classList.remove('hidden');
             chatMessages.innerHTML = '';
             chatHistory = [];
-            addBotMessage(`Welcome ${username}! How can I help you today?`);
+            
+            // Add welcome message with a clean design
+            const welcomeMessage = `
+                <div class="message bot">
+                    <div class="message-content">
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat, ${username}! 👋</h2>
+                        <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
+                        <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
+                        <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Recommend me some spicy dishes</li>
+                            <li>What are good vegetarian options?</li>
+                            <li>Show me quick breakfast ideas</li>
+                            <li>What's good in Asian cuisine?</li>
+                        </ul>
+                        <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.innerHTML = welcomeMessage;
         }
     });
 
@@ -292,6 +330,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle mobile menu
     menuButton.addEventListener('click', () => {
         sidebar.classList.toggle('active');
+        menuButton.classList.toggle('sidebar-open');
+        // Toggle menu icon
+        const icon = menuButton.querySelector('i');
+        if (sidebar.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
     });
 
     // Close sidebar when clicking outside on mobile
@@ -301,6 +349,10 @@ document.addEventListener('DOMContentLoaded', function() {
             !sidebar.contains(e.target) && 
             !menuButton.contains(e.target)) {
             sidebar.classList.remove('active');
+            menuButton.classList.remove('sidebar-open');
+            const icon = menuButton.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
     });
 
@@ -308,6 +360,10 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             sidebar.classList.remove('active');
+            menuButton.classList.remove('sidebar-open');
+            const icon = menuButton.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
     });
 });
