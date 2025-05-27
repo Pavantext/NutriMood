@@ -296,13 +296,18 @@ def format_foods_for_prompt(foods):
             dietary_info.append('vegan')
         
         dietary_str = f" ({', '.join(dietary_info)})" if dietary_info else ""
+        # Store ID in a hidden format that the AI can still parse
         formatted_foods.append(
-            f"ID {food.get('id', 'N/A')}: {food.get('name', '')}{dietary_str} - {food.get('description', '')}"
+            f"[ID:{food.get('id', 'N/A')}] {food.get('name', '')}{dietary_str} - {food.get('description', '')}"
         )
     return "\n".join(formatted_foods)
 
 def parse_response_and_recommendations(text):
     """Extract the response and recommended food IDs"""
+    # First, remove any visible food IDs from the response
+    text = re.sub(r'\[ID:\d+\]', '', text)
+    
+    # Then extract the recommended food IDs
     match = re.search(r'\[RECOMMENDED_FOODS:([^\]]+)\]', text)
     if match:
         food_ids_str = match.group(1).strip()
@@ -314,8 +319,12 @@ def parse_response_and_recommendations(text):
     return clean_response(cleaned_response), recommended_food_ids
 
 def clean_response(text):
+    """Clean the response text by removing HTML tags and extra whitespace"""
+    # Remove HTML tags
     text = re.sub(r'<[^>]+>', '', text)
-    text = re.sub(r'div', '', text)
+    # Remove any remaining ID references
+    text = re.sub(r'\[ID:\d+\]', '', text)
+    # Remove extra whitespace
     text = ' '.join(text.split())
     return text
 
