@@ -213,16 +213,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}`;
         
+        // Add emoji avatar
+        const avatar = document.createElement('span');
+        avatar.className = 'avatar';
+        avatar.textContent = role === 'user' ? '🧑' : '🤖';
+        messageDiv.appendChild(avatar);
+
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
-        // Convert markdown-like syntax to HTML
-        const formattedContent = content
+        // Add fun emoji to bot responses
+        let formattedContent = content
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
             .replace(/`(.*?)`/g, '<code>$1</code>')
             .replace(/\n/g, '<br>');
-        
+        if (role === 'bot') {
+            // Add a random fun emoji at the end of the bot message
+            const funEmojis = ['😋', '🍽️', '🥗', '🍜', '🍕', '🍔', '🌮', '🍣', '🍲', '🥑', '🍟', '🍱', '🍛', '🍦', '🍩', '🍉', '🍇', '🍒', '🍰', '🥞', '🍤', '🍿', '🥨', '🍪', '🧁', '🍔', '🍟', '🥪', '🥙', '🍧', '🍵', '🍹', '🍴'];
+            const emoji = funEmojis[Math.floor(Math.random() * funEmojis.length)];
+            formattedContent += ` <span style="font-size:1.2em;">${emoji}</span>`;
+        }
         messageContent.innerHTML = formattedContent;
         
         messageDiv.appendChild(messageContent);

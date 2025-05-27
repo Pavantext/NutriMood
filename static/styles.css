@@ -118,7 +118,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: var(--chat-bg);
+    background: linear-gradient(135deg, #f7f7f8 60%, #e0ffe7 100%);
     overflow: hidden;
 }
 
@@ -131,14 +131,33 @@ body {
 
 .message {
     border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem;
+    padding: 1.5rem 1rem 1.5rem 3.5rem;
     animation: fadeIn 0.3s ease;
     background: var(--bg-color);
     width: 100%;
+    position: relative;
+    border-radius: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(25, 195, 125, 0.04);
 }
 
 .message.user {
-    background: var(--chat-bg);
+    background: linear-gradient(90deg, #e0ffe7 0%, #f7f7f8 100%);
+    border-bottom: 1px solid #b2f2d7;
+}
+
+.message.bot {
+    background: linear-gradient(90deg, #e6f0ff 0%, #f7f7f8 100%);
+    border-bottom: 1px solid #b2d0f7;
+}
+
+/* Emoji avatars */
+.message .avatar {
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    font-size: 1.7rem;
+    user-select: none;
 }
 
 .message-content {
@@ -210,36 +229,31 @@ body {
 .chat-input {
     border-top: 1px solid var(--border-color);
     padding: 1.5rem 1rem;
-    background: var(--bg-color);
+    background: linear-gradient(90deg, #e0ffe7 0%, #f7f7f8 100%);
     position: sticky;
     bottom: 0;
     width: 100%;
 }
 
 .input-container {
-    max-width: 768px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
     position: relative;
 }
 
 .input-field {
     width: 100%;
-    padding: 0.75rem 3rem 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
+    background: #fff;
+    border: 2px solid #b2f2d7;
+    border-radius: 1.2rem;
     font-size: 1rem;
-    background: var(--bg-color);
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    resize: none;
-    min-height: 52px;
-    max-height: 200px;
-    line-height: 1.5;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    transition: border-color 0.2s;
 }
 
 .input-field:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(25, 195, 125, 0.1);
+    border-color: #19C37D;
 }
 
 .send-button {
@@ -617,4 +631,13 @@ body {
 
 .hidden {
     display: none !important;
+}
+
+/* Add a little bounce to emoji avatars */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+.message .avatar {
+    animation: bounce 1.2s infinite;
 } 
