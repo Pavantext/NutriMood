@@ -7,21 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+        }
+
         body {
             min-height: 100vh;
             background: var(--chat-bg);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            position: relative;
         }
 
         .admin-container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
-            height: calc(100vh - 4rem);
+            min-height: calc(100vh - 4rem);
             overflow-y: auto;
-            position: relative;
         }
 
         .admin-header {
@@ -41,6 +45,7 @@
             font-size: 1.75rem;
             font-weight: 600;
             margin: 0;
+            word-break: break-word;
         }
 
         .admin-actions {
@@ -58,6 +63,7 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .back-button {
@@ -81,11 +87,12 @@
         .user-info h2 {
             color: var(--text-color);
             margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
         }
 
@@ -105,6 +112,7 @@
         .info-value {
             color: var(--text-color);
             font-weight: 500;
+            word-break: break-word;
         }
 
         .conversations {
@@ -131,6 +139,8 @@
             color: var(--text-color);
             opacity: 0.8;
             font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .conversation-content {
@@ -142,6 +152,7 @@
             padding: 1rem;
             border-radius: 8px;
             background: var(--chat-bg);
+            word-break: break-word;
         }
 
         .message.user {
@@ -151,7 +162,7 @@
 
         .food-recommendations {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -174,12 +185,14 @@
         .food-card h4 {
             margin-bottom: 0.5rem;
             color: var(--text-color);
+            word-break: break-word;
         }
 
         .food-card p {
             color: var(--text-color);
             opacity: 0.8;
             font-size: 0.9rem;
+            word-break: break-word;
         }
 
         /* Custom scrollbar styles */
@@ -205,6 +218,11 @@
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+                padding: 1rem;
+            }
+
+            .admin-title {
+                font-size: 1.5rem;
             }
 
             .info-grid {
@@ -215,8 +233,22 @@
                 grid-template-columns: 1fr;
             }
 
+            .conversation-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .admin-container {
-                height: calc(100vh - 6rem);
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .user-info, .conversations {
+                padding: 1rem;
+            }
+
+            .conversation-item {
+                padding: 1rem;
             }
         }
     </style>

@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+        }
+
         body {
             min-height: 100vh;
             background: var(--chat-bg);
+            position: relative;
         }
 
         .admin-container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
+            min-height: calc(100vh - 4rem);
+            overflow-y: auto;
         }
 
         .admin-header {
@@ -156,6 +166,11 @@
 
             .users-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .admin-container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
             }
         }
     </style>
