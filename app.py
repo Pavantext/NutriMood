@@ -10,6 +10,8 @@ import re
 from datetime import timedelta, datetime
 import json
 from functools import wraps
+from models import db, User, Conversation, Message
+from flask_migrate import Migrate
 
 # Load environment variables
 load_dotenv()
@@ -21,18 +23,18 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 app = Flask(__name__)
 
 # Set a stable secret key - in production, use an environment variable
-app.secret_key = 'bf0f16b52bbb59fce3350b0dbff06ebe4ef15ce0eeae221d1b3a7d44f83dd1fe'  # Replace this with a secure key in production
+app.secret_key = os.getenv("SECRET_KEY")  # Replace this with a secure key in production
 app.permanent_session_lifetime = timedelta(days=1)  # Session expires after 1 day
 
 # Admin credentials - In production, use environment variables
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "admin123"  # In production, use a secure password
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-# Dictionary to store conversation managers for each user
-user_conversations = {}
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")  # Paste your Supabase connection string here
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Dictionary to store user data
-user_data = {}
+db.init_app(app)
+migrate = Migrate(app, db)
 
 def admin_required(f):
     @wraps(f)
@@ -64,27 +66,47 @@ def admin_logout():
 @app.route('/admin/dashboard')
 @admin_required
 def admin_dashboard():
-    # Get basic user info
-    users_info = {
-        username: {
-            'login_time': data['login_time'],
-            'conversation_count': len(data['conversations']),
-            'total_recommendations': sum(len(conv['recommended_foods']) for conv in data['conversations'])
+    users = User.query.all()
+    users_info = {}
+    for user in users:
+        conversations = Conversation.query.filter_by(user_id=user.id).all()
+        total_recommendations = 0
+        for conv in conversations:
+            messages = Message.query.filter_by(conversation_id=conv.id, sender='bot').all()
+            for msg in messages:
+                if msg.recommended_foods:
+                    total_recommendations += len(msg.recommended_foods)
+        users_info[user.username] = {
+            'login_time': user.login_time.isoformat(),
+            'conversation_count': len(conversations),
+            'total_recommendations': total_recommendations
         }
-        for username, data in user_data.items()
-    }
-    
     return render_template('admin_dashboard.html', users=users_info)
 
 @app.route('/admin/user/<username>')
 @admin_required
 def admin_user_details(username):
-    if username not in user_data:
+    user = User.query.filter_by(username=username).first()
+    if not user:
         return redirect(url_for('admin_dashboard'))
-    
-    return render_template('admin_user_details.html', 
-                         username=username, 
-                         user_data=user_data[username])
+    conversations = Conversation.query.filter_by(user_id=user.id).all()
+    user_data = {
+        'login_time': user.login_time.isoformat(),
+        'conversations': []
+    }
+    for conv in conversations:
+        messages = Message.query.filter_by(conversation_id=conv.id).all()
+        for i in range(0, len(messages), 2):
+            user_msg = messages[i]
+            bot_msg = messages[i+1] if i+1 < len(messages) else None
+            user_data['conversations'].append({
+                'timestamp': user_msg.timestamp.isoformat(),
+                'user_input': user_msg.content,
+                'ai_response': bot_msg.content if bot_msg else '',
+                'recommended_foods': bot_msg.recommended_foods if bot_msg else [],
+                'is_followup': False
+            })
+    return render_template('admin_user_details.html', username=username, user_data=user_data)
 
 @app.route('/')
 def home():
@@ -95,90 +117,61 @@ def login():
     try:
         data = request.json
         username = data.get('username', '').strip()
-        
         if not username:
-            return jsonify({
-                'success': False,
-                'error': 'Username is required'
-            }), 400
-            
-        # Create a new session for the user
+            return jsonify({'success': False, 'error': 'Username is required'}), 400
+
         session.permanent = True
         session['username'] = username
-        
-        # Initialize a new conversation manager for this user
-        if username not in user_conversations:
-            user_conversations[username] = ConversationManager()
-            
-        # Initialize user data if not exists
-        if username not in user_data:
-            user_data[username] = {
-                'login_time': datetime.now().isoformat(),
-                'conversations': []
-            }
-        
-        return jsonify({
-            'success': True,
-            'username': username
-        })
+
+        # Check if user exists, else create
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            user = User(username=username)
+            db.session.add(user)
+            db.session.commit()
+
+        return jsonify({'success': True, 'username': username})
     except Exception as e:
         print(f"Login error: {str(e)}")
-        return jsonify({
-            'success': True,
-            'username': data.get('username', '')
-        }), 200
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/logout', methods=['POST'])
 def logout():
     try:
-        username = session.get('username')
-        if username and username in user_conversations:
-            del user_conversations[username]
         session.clear()
         return jsonify({'success': True})
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/reset_chat', methods=['POST'])
-def reset_chat():
-    try:
-        username = session.get('username')
-        if not username:
-            return jsonify({
-                'success': False,
-                'error': 'User not logged in'
-            }), 401
-            
-        user_conversations[username] = ConversationManager()
-        return jsonify({'success': True})
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
         username = session.get('username')
         if not username:
-            return jsonify({
-                'success': False,
-                'error': 'User not logged in'
-            }), 401
-            
+            return jsonify({'success': False, 'error': 'User not logged in'}), 401
+
         data = request.json
         user_input = data['message']
         chat_history = data.get('history', [])
 
-        # Get the user's conversation manager
-        conversation_manager = user_conversations.get(username)
-        if not conversation_manager:
-            conversation_manager = ConversationManager()
-            user_conversations[username] = conversation_manager
+        # Get user
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+
+        # Create a new conversation for each chat (or group by session if you want)
+        conversation = Conversation(user_id=user.id)
+        db.session.add(conversation)
+        db.session.commit()
+
+        # Store user message
+        user_message = Message(
+            conversation_id=conversation.id,
+            sender='user',
+            content=user_input
+        )
+        db.session.add(user_message)
+        db.session.commit()
 
         # Build conversation context from history
         conversation_context = ""
@@ -205,36 +198,7 @@ def chat():
         )
 
         # Generate contextual prompt
-        prompt = f"""You are a helpful food recommendation assistant. 
-
-Previous conversation:
-{conversation_context}
-
-Current user query: "{user_input}"
-
-Available food items:
-{format_foods_for_prompt(retrieved_foods)}
-
-Important instructions:
-1. If this is a follow-up question about a specific food (detected: {is_followup}):
-   - Focus ONLY on the food item discussed in the previous exchange
-   - Do not introduce new, unrelated food items
-   - If asking about ingredients/details of a specific food, only discuss that food
-
-2. If this is a new question:
-   - Only mention and recommend foods that match the user's query
-   - Do not mention unsuitable foods
-   - Focus on directly answering the user's query
-
-3. End your response with a list of recommended food IDs in this format: [RECOMMENDED_FOODS:id1,id2,id3]
-   - No spaces after commas
-   - Only include IDs of foods you actually discuss
-   - For follow-up questions about a specific food, only include that food's ID
-
-Example formats:
-New question: "Here are some great options... [RECOMMENDED_FOODS:41,1,16]"
-Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED_FOODS:41]"
-"""
+        prompt = f"""You are a helpful food recommendation assistant. \n\nPrevious conversation:\n{conversation_context}\n\nCurrent user query: \"{user_input}\"\n\nAvailable food items:\n{format_foods_for_prompt(retrieved_foods)}\n\nImportant instructions:\n1. If this is a follow-up question about a specific food (detected: {is_followup}):\n   - Focus ONLY on the food item discussed in the previous exchange\n   - Do not introduce new, unrelated food items\n   - If asking about ingredients/details of a specific food, only discuss that food\n\n2. If this is a new question:\n   - Only mention and recommend foods that match the user's query\n   - Do not mention unsuitable foods\n   - Focus on directly answering the user's query\n\n3. End your response with a list of recommended food IDs in this format: [RECOMMENDED_FOODS:id1,id2,id3]\n   - No spaces after commas\n   - Only include IDs of foods you actually discuss\n   - For follow-up questions about a specific food, only include that food's ID\n\nExample formats:\nNew question: \"Here are some great options... [RECOMMENDED_FOODS:41,1,16]\"\nFollow-up about specific food: \"The ingredients in this dish are... [RECOMMENDED_FOODS:41]\"\n"""
 
         # Generate with Gemini
         model = genai.GenerativeModel('gemini-1.5-flash')
@@ -249,18 +213,15 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
             if str(food.get('id', '')) in recommended_food_ids
         ] if recommended_food_ids else []
 
-        # Add the exchange to conversation history
-        conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
-
-        # Store the interaction in user data
-        interaction = {
-            'timestamp': datetime.now().isoformat(),
-            'user_input': user_input,
-            'ai_response': cleaned_response,
-            'recommended_foods': filtered_foods,
-            'is_followup': is_followup
-        }
-        user_data[username]['conversations'].append(interaction)
+        # Store bot message
+        bot_message = Message(
+            conversation_id=conversation.id,
+            sender='bot',
+            content=cleaned_response,
+            recommended_foods=filtered_foods
+        )
+        db.session.add(bot_message)
+        db.session.commit()
 
         return jsonify({
             'response': cleaned_response,
@@ -269,60 +230,60 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
 
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
-        return jsonify({
-            'error': 'An error occurred while processing your request.',
-            'details': str(e)
-        }), 500
+        return jsonify({'error': 'An error occurred while processing your request.', 'details': str(e)}), 500
 
 @app.route('/user_data', methods=['GET'])
 def get_user_data():
     try:
         username = session.get('username')
         if not username:
-            return jsonify({
-                'success': False,
-                'error': 'User not logged in'
-            }), 401
+            return jsonify({'success': False, 'error': 'User not logged in'}), 401
 
-        if username not in user_data:
-            return jsonify({
-                'success': False,
-                'error': 'No data found for user'
-            }), 404
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            return jsonify({'success': False, 'error': 'No data found for user'}), 404
 
+        conversations = Conversation.query.filter_by(user_id=user.id).all()
+        data = []
+        for conv in conversations:
+            messages = Message.query.filter_by(conversation_id=conv.id).all()
+            for i in range(0, len(messages), 2):
+                user_msg = messages[i]
+                bot_msg = messages[i+1] if i+1 < len(messages) else None
+                data.append({
+                    'timestamp': user_msg.timestamp.isoformat(),
+                    'user_input': user_msg.content,
+                    'ai_response': bot_msg.content if bot_msg else '',
+                    'recommended_foods': bot_msg.recommended_foods if bot_msg else [],
+                    'is_followup': False
+                })
         return jsonify({
             'success': True,
-            'data': user_data[username]
+            'data': {
+                'login_time': user.login_time.isoformat(),
+                'conversations': data
+            }
         })
-
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/all_users', methods=['GET'])
 def get_all_users():
     try:
-        # Only return basic user info without sensitive data
-        users_info = {
-            username: {
-                'login_time': data['login_time'],
-                'conversation_count': len(data['conversations'])
+        users = User.query.all()
+        users_info = {}
+        for user in users:
+            conversations = Conversation.query.filter_by(user_id=user.id).all()
+            users_info[user.username] = {
+                'login_time': user.login_time.isoformat(),
+                'conversation_count': len(conversations)
             }
-            for username, data in user_data.items()
-        }
-        
         return jsonify({
             'success': True,
             'users': users_info
         })
-
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 def format_foods_for_prompt(foods):
     """Format food items for the prompt with dietary information"""
@@ -342,49 +303,19 @@ def format_foods_for_prompt(foods):
 
 def parse_response_and_recommendations(text):
     """Extract the response and recommended food IDs"""
-    # Look for the recommendations list at the end of the response
     match = re.search(r'\[RECOMMENDED_FOODS:([^\]]+)\]', text)
-    
     if match:
-        # Get the recommended food IDs and clean them
         food_ids_str = match.group(1).strip()
         recommended_food_ids = [id.strip() for id in food_ids_str.split(',')]
-        
-        # Remove the recommendations list from the response
         cleaned_response = text[:match.start()].strip()
     else:
         cleaned_response = text.strip()
         recommended_food_ids = []
-    
     return clean_response(cleaned_response), recommended_food_ids
 
-@app.route('/order', methods=['POST'])
-def order():
-    try:
-        data = request.json
-        food_id = data['food_id']
-        quantity = data['quantity']
-
-        # Here you would typically implement order processing logic
-        # For now, we'll just return success
-        return jsonify({
-            'success': True,
-            'message': f'Successfully ordered {quantity} item(s)'
-        })
-
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
 def clean_response(text):
-    """Clean the response text from any unwanted elements"""
-    # Remove any HTML tags
     text = re.sub(r'<[^>]+>', '', text)
-    # Remove any div elements
     text = re.sub(r'div', '', text)
-    # Remove extra whitespace
     text = ' '.join(text.split())
     return text
 
