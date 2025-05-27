@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <li>Recommend me some spicy dishes</li>
                             <li>What are good vegetarian options?</li>
                             <li>Show me quick breakfast ideas</li>
-                            <li>What's good in Asian cuisine?</li>
+                            <li>What's good in Hyderabadi cuisine?</li>
                         </ul>
                         <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
                     </div>
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <li>Recommend me some spicy dishes</li>
                             <li>What are good vegetarian options?</li>
                             <li>Show me quick breakfast ideas</li>
-                            <li>What's good in Asian cuisine?</li>
+                            <li>What's good in Hyderabadi cuisine?</li>
                         </ul>
                         <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
                     </div>
