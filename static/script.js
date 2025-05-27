@@ -139,6 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 userInput.dispatchEvent(new Event('input'));
                 chatForm.dispatchEvent(new Event('submit'));
             }
+            // Close sidebar on mobile after clicking a prompt
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                menuButton.classList.remove('sidebar-open');
+                const icon = menuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
     });
 
