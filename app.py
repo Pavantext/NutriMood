@@ -99,11 +99,14 @@ def admin_user_details(username):
         for i in range(0, len(messages), 2):
             user_msg = messages[i]
             bot_msg = messages[i+1] if i+1 < len(messages) else None
+            recommended_foods = []
+            if bot_msg and bot_msg.recommended_foods is not None:
+                recommended_foods = bot_msg.recommended_foods
             user_data['conversations'].append({
                 'timestamp': user_msg.timestamp.isoformat(),
                 'user_input': user_msg.content,
                 'ai_response': bot_msg.content if bot_msg else '',
-                'recommended_foods': bot_msg.recommended_foods if bot_msg else [],
+                'recommended_foods': recommended_foods,
                 'is_followup': False
             })
     return render_template('admin_user_details.html', username=username, user_data=user_data)

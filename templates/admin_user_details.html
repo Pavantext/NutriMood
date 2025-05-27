@@ -281,7 +281,9 @@
                     <div class="info-value">
                         {% set total_recommendations = 0 %}
                         {% for conversation in user_data.conversations %}
-                            {% set total_recommendations = total_recommendations + conversation.recommended_foods|length %}
+                            {% if conversation.recommended_foods is not none %}
+                                {% set total_recommendations = total_recommendations + conversation.recommended_foods|length %}
+                            {% endif %}
                         {% endfor %}
                         {{ total_recommendations }}
                     </div>
