@@ -306,6 +306,11 @@ body {
 
 .order-button:hover {
     background: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.order-button:active {
+    transform: translateY(0);
 }
 
 /* Typing indicator */
@@ -640,4 +645,48 @@ body {
 }
 .message .avatar {
     animation: bounce 1.2s infinite;
+}
+
+/* Order success message styles */
+.order-success {
+    background: linear-gradient(135deg, #e0ffe7 0%, #f7f7f8 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid #b2f2d7;
+    box-shadow: 0 2px 8px rgba(25, 195, 125, 0.1);
+}
+
+.order-success i {
+    color: #19C37D;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.order-success h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.order-success p {
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.order-details {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #e0e0e0;
+}
+
+.order-details p {
+    margin: 0.5rem 0;
+}
+
+.order-details strong {
+    color: var(--text-color);
 } 

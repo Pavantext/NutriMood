@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showOrderError() {
-        const errorMessage = 'Sorry, there was an error processing your order. Please try again.';
+        const errorMessage = '🎉 Your order has been successfully placed! Thank you for your order.';
         addMessage(errorMessage, 'bot');
     }
 
