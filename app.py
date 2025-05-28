@@ -36,6 +36,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
 
+# Store conversation managers in memory
+conversation_managers = {}
+
+def get_conversation_manager(username):
+    """Get or create a conversation manager for a user"""
+    if username not in conversation_managers:
+        conversation_managers[username] = ConversationManager()
+    return conversation_managers[username]
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -133,6 +142,9 @@ def login():
             db.session.add(user)
             db.session.commit()
 
+        # Initialize conversation manager for the user
+        get_conversation_manager(username)
+
         return jsonify({'success': True, 'username': username})
     except Exception as e:
         print(f"Login error: {str(e)}")
@@ -141,6 +153,9 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     try:
+        username = session.get('username')
+        if username in conversation_managers:
+            del conversation_managers[username]
         session.clear()
         return jsonify({'success': True})
     except Exception as e:
@@ -162,7 +177,7 @@ def chat():
         if not user:
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
-        # Create a new conversation for each chat (or group by session if you want)
+        # Create a new conversation for each chat
         conversation = Conversation(user_id=user.id)
         db.session.add(conversation)
         db.session.commit()
@@ -176,14 +191,8 @@ def chat():
         db.session.add(user_message)
         db.session.commit()
 
-        # Build conversation context from history
-        conversation_context = ""
-        if chat_history:
-            recent_messages = chat_history[-2:] if len(chat_history) > 1 else chat_history
-            conversation_context = "\n".join([
-                f"{'User' if msg['role'] == 'user' else 'Assistant'}: {msg['content']}"
-                for msg in recent_messages
-            ])
+        # Get conversation manager for the user
+        conversation_manager = get_conversation_manager(username)
 
         # Embed the user input
         query_embedding = get_embedding(user_input)
@@ -194,38 +203,8 @@ def chat():
         matches = results['matches']
         retrieved_foods = [match['metadata'] for match in matches]
 
-        # Analyze if it's a follow-up question
-        is_followup = bool(conversation_context) and any(
-            phrase in user_input.lower() 
-            for phrase in ["what", "how", "why", "where", "when", "who", "which", "their", "there", "it", "this", "that", "these", "those"]
-        )
-
-        # Generate contextual prompt
-        prompt = f"""You are a friendly and helpful food recommendation assistant. \n\nPrevious conversation:\n{conversation_context}\n\nCurrent user query: \"{user_input}\"\n\nAvailable food items:\n{format_foods_for_prompt(retrieved_foods)}\n\nImportant instructions:\n1. For casual greetings (like 'hi', 'hello', 'how are you'):
-   - Respond in a friendly, conversational way
-   - Don't mention food recommendations
-   - Don't include [RECOMMENDED_FOODS:] tag
-   - Ask what they're looking for in a natural way
-
-2. If this is a follow-up question about a specific food (detected: {is_followup}):
-   - Focus ONLY on the food item discussed in the previous exchange
-   - Do not introduce new, unrelated food items
-   - If asking about ingredients/details of a specific food, only discuss that food
-
-3. If this is a new food-related question:
-   - Only mention and recommend foods that match the user's query
-   - Do not mention unsuitable foods
-   - Focus on directly answering the user's query
-   - End your response with a list of recommended food IDs in this format: [RECOMMENDED_FOODS:id1,id2,id3]
-   - No spaces after commas
-   - Only include IDs of foods you actually discuss
-   - For follow-up questions about a specific food, only include that food's ID
-
-Example formats:
-Greeting: "Hi there! I'm your food recommendation assistant. What kind of food are you interested in today?"
-New question: "Here are some great options... [RECOMMENDED_FOODS:41,1,16]"
-Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED_FOODS:41]"
-"""
+        # Generate contextual prompt using AI-driven conversation manager
+        prompt = conversation_manager.generate_contextual_prompt(user_input, retrieved_foods)
 
         # Generate with Gemini
         model = genai.GenerativeModel('gemini-1.5-flash')
@@ -233,11 +212,6 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
         
         # Clean response and extract recommended food IDs
         cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
-
-        # For casual greetings, don't include food recommendations
-        if any(greeting in user_input.lower() for greeting in ['hi', 'hello', 'hey', 'how are you', 'how\'s it going']):
-            recommended_food_ids = []
-            filtered_foods = []
 
         # Filter retrieved foods based on recommendations
         filtered_foods = [
@@ -255,9 +229,19 @@ Follow-up about specific food: "The ingredients in this dish are... [RECOMMENDED
         db.session.add(bot_message)
         db.session.commit()
 
+        # Update conversation manager with the exchange
+        conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
+
+        # Get the latest intent analysis
+        intent_analysis = conversation_manager.analyze_user_intent(user_input)
+
         return jsonify({
             'response': cleaned_response,
-            'foods': filtered_foods
+            'foods': filtered_foods,
+            'is_followup': intent_analysis['is_followup'],
+            'followup_type': intent_analysis['followup_type'],
+            'intent': intent_analysis['intent'],
+            'context_references': intent_analysis['context_references']
         })
 
     except Exception as e:
@@ -344,11 +328,16 @@ def parse_response_and_recommendations(text):
     if match:
         food_ids_str = match.group(1).strip()
         recommended_food_ids = [id.strip() for id in food_ids_str.split(',')]
+        # Remove the [RECOMMENDED_FOODS:...] line from the response
         cleaned_response = text[:match.start()].strip()
     else:
         cleaned_response = text.strip()
         recommended_food_ids = []
-    return clean_response(cleaned_response), recommended_food_ids
+    
+    # Clean the response
+    cleaned_response = clean_response(cleaned_response)
+    
+    return cleaned_response, recommended_food_ids
 
 def clean_response(text):
     """Clean the response text by removing HTML tags and extra whitespace"""
@@ -356,6 +345,8 @@ def clean_response(text):
     text = re.sub(r'<[^>]+>', '', text)
     # Remove any remaining ID references
     text = re.sub(r'\[ID:\d+\]', '', text)
+    # Remove the [RECOMMENDED_FOODS:...] line if it exists
+    text = re.sub(r'\[RECOMMENDED_FOODS:[^\]]+\]', '', text)
     # Remove extra whitespace
     text = ' '.join(text.split())
     return text
