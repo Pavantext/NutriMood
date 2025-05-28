@@ -8,7 +8,7 @@
     "diet": "Vegetarian",
     "time": "Breakfast",
     "spice_level": "Mild",
-    "health_benefits": "Rich in protein, fiber, and iron",
+    "health_benefits": "Rich in protein, fiber, and iron. The fermented batter aids digestion and provides probiotics. The combination of rice and lentils offers complete protein. Low in fat and helps maintain blood sugar levels.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Breakfast",
@@ -47,7 +47,7 @@
     "diet": "Vegetarian",
     "time": "Breakfast",
     "spice_level": "Mild",
-    "health_benefits": "Low in calories, rich in protein and carbohydrates",
+    "health_benefits": "Excellent source of protein and carbohydrates. The fermentation process increases bioavailability of nutrients. Low in calories and fat, making it ideal for weight management. Contains essential amino acids and minerals.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Breakfast",
@@ -81,7 +81,7 @@
     "diet": "Non-Vegetarian",
     "time": "Lunch",
     "spice_level": "Spicy",
-    "health_benefits": "Rich in protein and complex carbohydrates",
+    "health_benefits": "Rich in protein from meat and complex carbohydrates from rice. Contains essential vitamins and minerals. The spices used have anti-inflammatory properties. Provides sustained energy and helps in muscle building.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Lunch",
@@ -118,6 +118,8 @@
     "region": "Telangana",
     "mood": "Comforting",
     "diet": "Non-Vegetarian",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in protein from meat and complex carbohydrates from wheat and lentils. Contains essential vitamins and minerals. The spices used have anti-inflammatory properties. Provides sustained energy and helps in muscle building.",
     "time": "Dinner",
     "calories": "220",
     "price": "220rs",
@@ -138,6 +140,8 @@
     "name": "Mirchi Bajji",
     "description": "A spicy street snack: large green chilies stuffed, dipped in gram flour batter, and deep-fried until golden. Crispy outside, soft and fiery inside—perfect with a cup of chai.",
     "region": "Telangana",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in antioxidants from chilies. Contains essential minerals. The gram flour provides fiber. Helps in digestion and provides energy.",
     "mood": "Spicy",
     "diet": "Vegetarian",
     "time": "Snack",
@@ -160,6 +164,8 @@
     "region": "Telangana",
     "mood": "Sweet",
     "diet": "Vegetarian",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in carbohydrates from bread. Contains essential minerals. The milk provides calcium. Helps in digestion and provides energy.",
     "time": "Dessert",
     "calories": "100",
     "price": "100rs",
@@ -182,6 +188,8 @@
     "mood": "Sweet",
     "diet": "Vegetarian",
     "time": "Dessert",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in antioxidants from apricots. Contains essential minerals. The cream provides healthy fats. Helps in digestion and provides energy.",
     "calories": "100",
     "price": "120rs",
     "ingredients": [
@@ -199,6 +207,8 @@
     "description": "A creamy, aromatic tea brewed with milk and cardamom, Irani Chai is a staple in Hyderabad's old-world cafes. Served in small cups, it's perfect for a relaxing break.",
     "region": "Telangana",
     "mood": "Relaxing",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in antioxidants from tea. Contains essential minerals. The cardamom has anti-inflammatory properties. Helps in digestion and provides energy.",
     "diet": "Vegetarian",
     "time": "Beverage",
     "calories": "100",
@@ -219,6 +229,8 @@
     "mood": "Spicy",
     "diet": "Non-Vegetarian",
     "time": "Snack",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in protein from minced meat. Contains essential vitamins and minerals. The spices have anti-inflammatory properties. Provides energy and helps in muscle maintenance.",
     "calories": "100",
     "price": "50rs",
     "ingredients": [
@@ -236,6 +248,8 @@
     "description": "A traditional Indian frozen dessert made from thickened milk, sugar, and nuts. Creamy, dense, and flavored with cardamom and saffron, it's the perfect summer treat.",
     "region": "Telangana",
     "mood": "Sweet",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. Good source of carbohydrates. Helps in bone health and provides energy.",
     "diet": "Vegetarian",
     "time": "Dessert",
     "calories": "100",
@@ -268,7 +282,8 @@
       "spices",
       "ghee"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/492890353/display_1500/stock-photo-hyderabadi-dum-ka-murgh-chicken-in-an-indian-style-492890353.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/492890353/display_1500/stock-photo-hyderabadi-dum-ka-murgh-chicken-in-an-indian-style-492890353.jpg",
+    "health_benefits": "High in protein from chicken. Contains essential minerals. The yogurt provides probiotics. Helps in muscle building and gut health."
   },
   {
     "id": "12",
@@ -288,7 +303,8 @@
       "spices",
       "curry leaves"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/2249888961/display_1500/stock-photo-khatti-dal-is-a-food-from-india-a-hyderabadi-cuisine-dal-made-using-masoor-or-toor-dal-2249888961.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/2249888961/display_1500/stock-photo-khatti-dal-is-a-food-from-india-a-hyderabadi-cuisine-dal-made-using-masoor-or-toor-dal-2249888961.jpg",
+    "health_benefits": "Rich in protein and fiber from lentils. Contains essential minerals. The tamarind provides vitamin C. Helps in digestion and maintains gut health."
   },
   {
     "id": "13",
@@ -307,7 +323,8 @@
       "spices",
       "oil"
     ],
-    "image_url": "https://www.foodforward.in/system/posts/cover_photos/000/000/011/header/L_-_lukhmi_2.jpg?1604401067"
+    "image_url": "https://www.foodforward.in/system/posts/cover_photos/000/000/011/header/L_-_lukhmi_2.jpg?1604401067",
+    "health_benefits": "Good source of protein from minced meat. Contains essential vitamins and minerals. The spices have anti-inflammatory properties. Provides energy and helps in muscle maintenance."
   },
   {
     "id": "14",
@@ -327,7 +344,8 @@
       "cardamom",
       "ghee"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/2445054655/display_1500/stock-photo-sheer-khurma-seviyan-popular-sweet-dish-special-dish-for-eid-2445054655.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/2445054655/display_1500/stock-photo-sheer-khurma-seviyan-popular-sweet-dish-special-dish-for-eid-2445054655.jpg",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. Good source of carbohydrates. Helps in bone health and provides energy."
   },
   {
     "id": "15",
@@ -347,7 +365,8 @@
       "oil",
       "stone"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1169124679/display_1500/stock-photo-beef-pathar-ka-gosht-cooking-on-hot-stone-street-food-in-indian-ramadan-market-in-bengaluru-india-1169124679.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1169124679/display_1500/stock-photo-beef-pathar-ka-gosht-cooking-on-hot-stone-street-food-in-indian-ramadan-market-in-bengaluru-india-1169124679.jpg",
+    "health_benefits": "High in protein from meat. Contains essential minerals. The stone cooking method preserves nutrients. Helps in muscle building and provides energy."
   },
   {
     "id": "16",
@@ -367,7 +386,8 @@
       "oil",
       "curry leaves"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1972196417/display_1500/stock-photo-baghare-baingan-baingan-masala-eggplant-or-brinjal-curry-bharli-vangi-khare-vanga-served-in-1972196417.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1972196417/display_1500/stock-photo-baghare-baingan-baingan-masala-eggplant-or-brinjal-curry-bharli-vangi-khare-vanga-served-in-1972196417.jpg",
+    "health_benefits": "Rich in fiber and antioxidants from eggplant. Contains essential minerals. The peanuts provide protein and healthy fats. Helps in heart health and digestion."
   },
   {
     "id": "17",
@@ -387,7 +407,8 @@
       "spices",
       "oil"
     ],
-    "image_url": "https://www.mirchitales.com/wp-content/uploads/2021/03/Khagina-or-Khageena-Pakistani-scrambled-eggs-with-onions-and-tomatoes-Featured-Image-6.jpg"
+    "image_url": "https://www.mirchitales.com/wp-content/uploads/2021/03/Khagina-or-Khageena-Pakistani-scrambled-eggs-with-onions-and-tomatoes-Featured-Image-6.jpg",
+    "health_benefits": "Excellent source of protein from eggs. Contains essential vitamins and minerals. The spices have anti-inflammatory properties. Helps in muscle building and brain function."
   },
   {
     "id": "18",
@@ -407,7 +428,8 @@
       "garlic",
       "oil"
     ],
-    "image_url": "https://d36v5spmfzyapc.cloudfront.net/wp-content/uploads/2019/08/mutton-paya-2-1-848x424.jpg.webp"
+    "image_url": "https://d36v5spmfzyapc.cloudfront.net/wp-content/uploads/2019/08/mutton-paya-2-1-848x424.jpg.webp",
+    "health_benefits": "Rich in collagen and protein from goat trotters. Contains essential minerals. The milk provides calcium. Helps in joint health and bone strength."
   },
   {
     "id": "19",
@@ -426,7 +448,8 @@
       "ghee",
       "onions"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1884791779/display_1500/stock-photo-indian-cuisine-chickpeas-biryani-chole-pulao-garnished-with-fried-onion-chopped-coriander-and-1884791779.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1884791779/display_1500/stock-photo-indian-cuisine-chickpeas-biryani-chole-pulao-garnished-with-fried-onion-chopped-coriander-and-1884791779.jpg",
+    "health_benefits": "Good source of protein and fiber from rice and dal. Contains essential minerals. The ghee provides healthy fats. Helps in digestion and provides sustained energy."
   },
   {
     "id": "20",
@@ -446,7 +469,8 @@
       "cardamom",
       "ghee"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/2552472309/display_1500/stock-photo-shahi-tukda-recipe-royal-indian-dessert-with-bread-and-cream-png-transparent-background-2552472309.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/2552472309/display_1500/stock-photo-shahi-tukda-recipe-royal-indian-dessert-with-bread-and-cream-png-transparent-background-2552472309.jpg",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. Good source of carbohydrates. Helps in bone health and provides energy."
   },
   {
     "id": "21",
@@ -466,7 +490,8 @@
       "garlic",
       "oil"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1620873763/display_1500/stock-photo-hyderabadi-mutton-paya-nehari-nahari-or-nihari-masala-served-with-naan-and-rice-selective-focus-1620873763.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1620873763/display_1500/stock-photo-hyderabadi-mutton-paya-nehari-nahari-or-nihari-masala-served-with-naan-and-rice-selective-focus-1620873763.jpg",
+    "health_benefits": "High in protein from mutton. Contains essential minerals. The spices have anti-inflammatory properties. Helps in muscle building and provides energy."
   },
   {
     "id": "22",
@@ -485,7 +510,8 @@
       "cardamom",
       "saffron"
     ],
-    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiCj_N7XgnkbTjQ14lja_OYYSx9OnZTssNKkK3fy6KwaHG49J4q1_sLTZvPMWaBY_-svUJC_Wy-00hCQ7Rd9Eb3XNsGhJzn1QeJW_kxt4KwLglaZu3AdTgSXR_un74CCSGulv9dfON3i8/s1600/af416aa7-31ac-4536-a585-bc0b26efc4dd.jpg"
+    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiCj_N7XgnkbTjQ14lja_OYYSx9OnZTssNKkK3fy6KwaHG49J4q1_sLTZvPMWaBY_-svUJC_Wy-00hCQ7Rd9Eb3XNsGhJzn1QeJW_kxt4KwLglaZu3AdTgSXR_un74CCSGulv9dfON3i8/s1600/af416aa7-31ac-4536-a585-bc0b26efc4dd.jpg",
+    "health_benefits": "Rich in protein and healthy fats from almonds. Contains essential minerals. The saffron has antioxidant properties. Helps in brain function and heart health."
   },
   {
     "id": "23",
@@ -505,7 +531,8 @@
       "ginger",
       "garlic"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1180504609/display_1500/stock-photo-chicken-keema-hyderabadi-cuisine-asia-traditional-assorted-dishes-top-view-1180504609.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1180504609/display_1500/stock-photo-chicken-keema-hyderabadi-cuisine-asia-traditional-assorted-dishes-top-view-1180504609.jpg",
+    "health_benefits": "Good source of protein from minced meat. Contains essential vitamins and minerals. The spices have anti-inflammatory properties. Helps in muscle maintenance and provides energy."
   },
   {
     "id": "24",
@@ -524,7 +551,8 @@
       "pistachios",
       "cardamom"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1049292461/display_1500/stock-photo-whip-strawberry-frappuccino-latte-milkshake-with-cream-sorbet-syrup-sherbet-isolated-on-white-1049292461.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1049292461/display_1500/stock-photo-whip-strawberry-frappuccino-latte-milkshake-with-cream-sorbet-syrup-sherbet-isolated-on-white-1049292461.jpg",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. The cardamom aids digestion. Helps in bone health and provides energy."
   },
   {
     "id": "25",
@@ -544,7 +572,8 @@
       "ginger",
       "garlic"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/2152403733/display_1500/stock-photo-indian-styled-truffle-spinach-murgh-curry-chicken-saagwla-2152403733.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/2152403733/display_1500/stock-photo-indian-styled-truffle-spinach-murgh-curry-chicken-saagwla-2152403733.jpg",
+    "health_benefits": "High in protein from mutton. Contains probiotics from yogurt. The cashews provide healthy fats. Helps in muscle building and gut health."
   },
   {
     "id": "26",
@@ -563,7 +592,8 @@
       "lemon",
       "water"
     ],
-    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVe3SZMjLciJOgx6zurhCVf4gCCeARf-N2aWEzB6REGDedwxVmxVv4wGbaOR8q39jawjs&usqp=CAU"
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVe3SZMjLciJOgx6zurhCVf4gCCeARf-N2aWEzB6REGDedwxVmxVv4wGbaOR8q39jawjs&usqp=CAU",
+    "health_benefits": "Rich in vitamin A and fiber from apricots. Contains antioxidants. The mint aids digestion. Helps in eye health and provides hydration."
   },
   {
     "id": "27",
@@ -583,7 +613,8 @@
       "tamarind",
       "oil"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1972196417/display_1500/stock-photo-baghare-baingan-baingan-masala-eggplant-or-brinjal-curry-bharli-vangi-khare-vanga-served-in-1972196417.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1972196417/display_1500/stock-photo-baghare-baingan-baingan-masala-eggplant-or-brinjal-curry-bharli-vangi-khare-vanga-served-in-1972196417.jpg",
+    "health_benefits": "Rich in fiber and antioxidants from eggplant. Contains healthy fats from peanuts and sesame. The tamarind provides vitamin C. Helps in heart health and digestion."
   },
   {
     "id": "28",
@@ -602,7 +633,8 @@
       "saffron",
       "cardamom"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1142569973/display_1500/stock-photo-top-shot-of-kheer-traditional-indian-sweet-dish-pakistani-dessert-ramadan-iftar-meal-ramzan-1142569973.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1142569973/display_1500/stock-photo-top-shot-of-kheer-traditional-indian-sweet-dish-pakistani-dessert-ramadan-iftar-meal-ramzan-1142569973.jpg",
+    "health_benefits": "Rich in protein and healthy fats from almonds. Contains calcium from milk. The saffron has antioxidant properties. Helps in brain function and bone health."
   },
   {
     "id": "29",
@@ -622,7 +654,8 @@
       "saffron",
       "ghee"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1995758066/display_1500/stock-photo-dum-handi-mutton-biryani-or-gosht-pilaf-is-prepared-in-an-earthen-or-clay-pot-called-haandi-or-1995758066.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1995758066/display_1500/stock-photo-dum-handi-mutton-biryani-or-gosht-pilaf-is-prepared-in-an-earthen-or-clay-pot-called-haandi-or-1995758066.jpg",
+    "health_benefits": "High in protein from mutton. Contains complex carbohydrates from rice. The spices have anti-inflammatory properties. Helps in muscle building and provides sustained energy."
   },
   {
     "id": "30",
@@ -642,7 +675,8 @@
       "basil seeds",
       "dry fruits"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/2527023581/display_1500/stock-photo-indian-falooda-dessert-three-glasses-layered-chia-pudding-fruit-yogurt-garnished-with-mint-leaves-2527023581.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/2527023581/display_1500/stock-photo-indian-falooda-dessert-three-glasses-layered-chia-pudding-fruit-yogurt-garnished-with-mint-leaves-2527023581.jpg",
+    "health_benefits": "Good source of calcium from milk. Contains protein from vermicelli. The basil seeds provide fiber. Helps in bone health and provides energy."
   },
   {
     "id": "31",
@@ -663,7 +697,8 @@
       "spices",
       "ghee"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/492890353/display_1500/stock-photo-hyderabadi-dum-ka-murgh-chicken-in-an-indian-style-492890353.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/492890353/display_1500/stock-photo-hyderabadi-dum-ka-murgh-chicken-in-an-indian-style-492890353.jpg",
+    "health_benefits": "High in protein from chicken. Contains probiotics from yogurt. The spices have anti-inflammatory properties. Helps in muscle building and gut health."
   },
   {
     "id": "32",
@@ -682,7 +717,8 @@
       "ginger",
       "sugar"
     ],
-    "image_url": "https://www.shutterstock.com/shutterstock/photos/1477476845/display_1500/stock-photo-top-view-of-brewed-hot-herbal-or-spiced-aromatic-milk-tea-with-spices-and-dry-fruits-in-kerala-1477476845.jpg"
+    "image_url": "https://www.shutterstock.com/shutterstock/photos/1477476845/display_1500/stock-photo-top-view-of-brewed-hot-herbal-or-spiced-aromatic-milk-tea-with-spices-and-dry-fruits-in-kerala-1477476845.jpg",
+    "health_benefits": "Contains antioxidants from tea. The ginger aids digestion. The cardamom has anti-inflammatory properties. Helps in metabolism and provides energy."
   },
   {
     "id": "33",
@@ -691,6 +727,8 @@
     "region": "South India",
     "mood": "Comforting",
     "diet": "Vegetarian",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in protein and fiber from rice and lentils. Contains essential minerals. The spices have anti-inflammatory properties. Provides energy and helps in muscle maintenance.",
     "time": "Breakfast",
     "calories": "100",
     "price": "100rs",
@@ -712,6 +750,8 @@
     "region": "Tamil Nadu",
     "mood": "Comforting",
     "diet": "Vegetarian",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in protein and fiber from moong dal. Contains essential minerals. The spices have anti-inflammatory properties. Helps in digestion and provides energy.",
     "time": "Breakfast",
     "calories": "100",
     "price": "90rs",
@@ -742,7 +782,8 @@
       "sugar",
       "water"
     ],
-    "image_url": "https://media.assettype.com/indulgexpress%2Fimport%2F2022%2F10%2F23%2Foriginal%2FFilter_coffee_3.png?w=1024&auto=format%2Ccompress&fit=max"
+    "image_url": "https://media.assettype.com/indulgexpress%2Fimport%2F2022%2F10%2F23%2Foriginal%2FFilter_coffee_3.png?w=1024&auto=format%2Ccompress&fit=max",
+    "health_benefits": "Contains antioxidants from coffee. The milk provides calcium. Helps in metabolism and provides energy. May improve focus and alertness."
   },
   {
     "id": "36",
@@ -752,6 +793,8 @@
     "mood": "Refreshing",
     "diet": "Vegetarian",
     "time": "Beverage",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in antioxidants from nannari root. Contains essential minerals. The basil seeds provide fiber. Helps in digestion and provides energy.",
     "calories": "100",
     "price": "50rs",
     "ingredients": [
@@ -770,6 +813,8 @@
     "region": "South India",
     "mood": "Crunchy",
     "diet": "Vegetarian",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in protein and fiber from urad dal. Contains essential minerals. The spices have anti-inflammatory properties. Provides energy and helps in muscle maintenance.",
     "time": "Breakfast",
     "calories": "100",
     "price": "60rs",
@@ -790,6 +835,8 @@
     "description": "A traditional South Indian summer drink made with jaggery, dry ginger powder, and cardamom. This sweet and spicy beverage is known for its cooling properties and is often served during Ram Navami festival.",
     "region": "Tamil Nadu",
     "mood": "Refreshing",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in antioxidants from jaggery. Contains essential minerals. The cardamom has anti-inflammatory properties. Helps in digestion and provides energy.",
     "diet": "Vegetarian",
     "time": "Beverage",
     "calories": "100",
@@ -809,6 +856,8 @@
     "description": "A tangy, spicy South Indian soup made with tamarind, tomatoes, and a special blend of spices. Known for its digestive properties, it can be enjoyed as a soup or paired with rice.",
     "region": "South India",
     "mood": "Comforting",
+    "spice_level": "Spicy",
+    "health_benefits": "Rich in antioxidants from tomatoes. Contains essential minerals. The tamarind provides vitamin C. Helps in digestion and provides energy.",
     "diet": "Vegetarian",
     "time": "Lunch",
     "calories": "100",
@@ -831,6 +880,8 @@
     "region": "Kerala",
     "mood": "Sweet",
     "diet": "Vegetarian",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in protein and fiber from moong dal. Contains healthy fats from coconut milk. The cardamom has anti-inflammatory properties. Helps in digestion and provides energy.",
     "time": "Dessert",
     "calories": "100",
     "price": "100rs",
@@ -852,6 +903,8 @@
     "region": "South India",
     "mood": "Comforting",
     "diet": "Vegetarian",
+    "spice_level": "Mild",
+    "health_benefits": "Rich in protein and fiber from lentils. Contains essential minerals. The spices have anti-inflammatory properties. Provides energy and helps in muscle maintenance.",
     "time": "Breakfast",
     "calories": "100",
     "price": "60rs",
@@ -875,7 +928,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Rich in probiotics, calcium, and vitamin C",
+    "health_benefits": "Rich in probiotics, calcium, and vitamin C. Helps in digestion and provides energy. May improve skin health and boost immunity.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -906,7 +959,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Good source of calcium from milk. Contains protein from vermicelli. The nuts provide healthy fats. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -939,7 +992,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "Mild",
-    "health_benefits": "Antioxidant properties, aids digestion",
+    "health_benefits": "Contains antioxidants from tea. The ginger aids digestion. The cardamom has anti-inflammatory properties. Helps in metabolism and provides energy.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -971,7 +1024,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Quick source of energy",
+    "health_benefits": "Provides quick energy from carbohydrates. The sugar syrup contains minerals. Best consumed in moderation. Helps in providing instant energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1003,7 +1056,7 @@
     "time": "Snack",
     "calories": "100",
     "spice_level": "Medium",
-    "health_benefits": "Low in calories, contains fiber",
+    "health_benefits": "Low in calories. Contains fiber from potatoes and chickpeas. The mint water aids digestion. The tamarind provides vitamin C. Helps in hydration and digestion.",
     "cuisine": "Indian",
     "category": "Street Food",
     "course": "Snack",
@@ -1035,7 +1088,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Good source of calcium and protein from milk solids. Contains healthy fats from ghee. Best consumed in moderation. Helps in providing energy and maintaining bone health.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1067,7 +1120,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "Mild",
-    "health_benefits": "Rich in calcium and protein",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. The saffron has antioxidant properties. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -1100,7 +1153,7 @@
     "time": "Snack",
     "calories": "100",
     "spice_level": "Medium",
-    "health_benefits": "Source of protein and carbohydrates",
+    "health_benefits": "Good source of protein from moong dal. Contains complex carbohydrates from flour. The spices have anti-inflammatory properties. Helps in muscle maintenance and provides energy.",
     "cuisine": "Indian",
     "category": "Snack",
     "course": "Appetizer",
@@ -1132,7 +1185,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Rich in calcium and protein",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from nuts. The saffron has antioxidant properties. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1164,7 +1217,7 @@
     "time": ["Breakfast","Lunch","Dinner"],
     "calories": "100",
     "spice_level": "Spicy",
-    "health_benefits": "Source of calcium",
+    "health_benefits": "Excellent source of protein from eggs. Contains essential vitamins and minerals. The tomatoes provide vitamin C. Helps in muscle building and provides energy.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": ["Breakfast","Lunch","Dinner"],
@@ -1196,7 +1249,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Good source of calcium from milk. Contains healthy fats from nuts. The saffron has antioxidant properties. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1228,7 +1281,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "Mild",
-    "health_benefits": "Aids digestion, cooling properties",
+    "health_benefits": "The black salt provides minerals. The mint aids digestion. The cumin has anti-inflammatory properties. Helps in digestion and provides hydration.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -1260,7 +1313,7 @@
     "time": "Snack",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Good source of calcium from cream. Contains healthy fats from nuts. The cardamom aids digestion. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Snack",
     "course": "Appetizer",
@@ -1292,7 +1345,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Rich in calcium, protein, and antioxidants",
+    "health_benefits": "Rich in calcium and protein from milk. Contains healthy fats from almonds. The saffron has antioxidant properties. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -1324,7 +1377,7 @@
     "time": "Beverage",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium, cooling properties",
+    "health_benefits": "Good source of calcium from milk. The rose syrup contains antioxidants. The cardamom aids digestion. Helps in bone health and provides hydration.",
     "cuisine": "Indian",
     "category": "Beverage",
     "course": "Drink",
@@ -1355,7 +1408,7 @@
     "time": "Snack",
     "calories": "100",
     "spice_level": "Medium",
-    "health_benefits": "Source of protein and carbohydrates",
+    "health_benefits": "Contains complex carbohydrates from bread. The vegetables provide fiber and vitamins. The spices have anti-inflammatory properties. Helps in providing energy and maintaining gut health.",
     "cuisine": "Indian",
     "category": "Snack",
     "course": "Appetizer",
@@ -1387,7 +1440,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Rich in calcium and protein from milk. Contains complex carbohydrates from rice. The cardamom aids digestion. Helps in bone health and provides energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1417,7 +1470,7 @@
     "time": "Dessert",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Rich in healthy fats from cashews. Contains protein and minerals. The cardamom aids digestion. Helps in heart health and provides energy.",
     "cuisine": "Indian",
     "category": "Dessert",
     "course": "Sweet",
@@ -1446,7 +1499,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Complete meal with balanced nutrition. Contains protein from curries, carbohydrates from rice, and fiber from vegetables. The variety ensures intake of essential vitamins and minerals. Helps in maintaining overall health.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1476,7 +1529,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Complete meal with balanced nutrition. Contains protein from curries, carbohydrates from rice, and fiber from vegetables. The variety ensures intake of essential vitamins and minerals. Helps in maintaining overall health.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1506,7 +1559,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "High in protein from chicken. Contains essential vitamins and minerals. The spices have anti-inflammatory properties. Helps in muscle building and provides sustained energy.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1538,7 +1591,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Rich in protein from chicken. Contains essential vitamins and minerals from spices and vegetables. The tomatoes provide vitamin C. Helps in muscle maintenance and immune support.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1570,7 +1623,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "High in protein from chicken. Contains healthy fats and essential minerals. The spices have antioxidant properties. Helps in muscle building and supports metabolism.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1602,7 +1655,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Rich in protein from chicken. Contains complex carbohydrates from rice. The spices have anti-inflammatory properties. Provides sustained energy and supports muscle health.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1634,7 +1687,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "High in protein from chicken. Contains essential vitamins and minerals. The spices have antioxidant properties. Helps in muscle building and provides energy.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1666,7 +1719,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Good source of protein from chicken and eggs. Contains complex carbohydrates from rice. The vegetables provide fiber and vitamins. Helps in muscle maintenance and provides energy.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
@@ -1698,7 +1751,7 @@
     "time": "Lunch",
     "calories": "100",
     "spice_level": "None",
-    "health_benefits": "Source of calcium and protein",
+    "health_benefits": "Excellent source of protein from eggs. Contains complex carbohydrates from rice. The vegetables provide fiber and vitamins. Helps in muscle building and supports metabolism.",
     "cuisine": "Indian",
     "category": "Main Dish",
     "course": "Main Dish",
