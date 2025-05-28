@@ -366,5 +366,20 @@ def user_data_page():
         return redirect(url_for('home'))
     return render_template('user_data.html')
 
+@app.route('/menu')
+def menu():
+    if not session.get('username'):
+        return redirect(url_for('home'))
+    
+    # Load food items from JSON file
+    try:
+        with open('data/food_items.json', 'r', encoding='utf-8') as file:
+            menu_items = json.load(file)
+    except Exception as e:
+        print(f"Error loading menu items: {str(e)}")
+        menu_items = []
+    
+    return render_template('menu.html', menu_items=menu_items)
+
 if __name__ == '__main__':
     app.run(debug=True) 
