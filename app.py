@@ -259,20 +259,27 @@ def get_user_data():
         if not user:
             return jsonify({'success': False, 'error': 'No data found for user'}), 404
 
-        conversations = Conversation.query.filter_by(user_id=user.id).all()
+        conversations = Conversation.query.filter_by(user_id=user.id).order_by(Conversation.id.desc()).all()
         data = []
+        
         for conv in conversations:
-            messages = Message.query.filter_by(conversation_id=conv.id).all()
+            messages = Message.query.filter_by(conversation_id=conv.id).order_by(Message.id).all()
+            
+            # Process messages in pairs (user message followed by bot response)
             for i in range(0, len(messages), 2):
-                user_msg = messages[i]
-                bot_msg = messages[i+1] if i+1 < len(messages) else None
-                data.append({
-                    'timestamp': user_msg.timestamp.isoformat(),
-                    'user_input': user_msg.content,
-                    'ai_response': bot_msg.content if bot_msg else '',
-                    'recommended_foods': bot_msg.recommended_foods if bot_msg else [],
-                    'is_followup': False
-                })
+                if i + 1 < len(messages):  # Ensure we have both user and bot messages
+                    user_msg = messages[i]
+                    bot_msg = messages[i + 1]
+                    
+                    conversation_data = {
+                        'timestamp': user_msg.timestamp.isoformat(),
+                        'user_input': user_msg.content,
+                        'ai_response': bot_msg.content,
+                        'recommended_foods': bot_msg.recommended_foods if bot_msg.recommended_foods else [],
+                        'is_followup': False  # You can implement followup detection logic here if needed
+                    }
+                    data.append(conversation_data)
+
         return jsonify({
             'success': True,
             'data': {
@@ -281,6 +288,7 @@ def get_user_data():
             }
         })
     except Exception as e:
+        print(f"Error in get_user_data: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/all_users', methods=['GET'])

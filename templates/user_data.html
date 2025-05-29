@@ -223,6 +223,12 @@
                         const conversationItem = document.createElement('div');
                         conversationItem.className = 'conversation-item';
                         
+                        // Format the AI response with proper line breaks and styling
+                        const formattedResponse = conv.ai_response
+                            .replace(/\n/g, '<br>')
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+                        
                         conversationItem.innerHTML = `
                             <div class="conversation-header">
                                 <span>${formatDate(conv.timestamp)}</span>
@@ -230,10 +236,14 @@
                             </div>
                             <div class="conversation-content">
                                 <div class="message user">
-                                    ${conv.user_input}
+                                    <div class="message-content">
+                                        ${conv.user_input}
+                                    </div>
                                 </div>
-                                <div class="message">
-                                    ${conv.ai_response}
+                                <div class="message bot">
+                                    <div class="message-content">
+                                        ${formattedResponse}
+                                    </div>
                                 </div>
                                 ${conv.recommended_foods.length > 0 ? `
                                     <div class="food-recommendations">
@@ -242,6 +252,7 @@
                                                 <img src="${food.image_url || '/static/default-food.jpg'}" alt="${food.name}">
                                                 <h4>${food.name}</h4>
                                                 <p>${food.description}</p>
+                                                ${food.price ? `<p class="price">₹${food.price}</p>` : ''}
                                             </div>
                                         `).join('')}
                                     </div>
@@ -251,13 +262,16 @@
                         
                         conversationList.appendChild(conversationItem);
                     });
+                } else {
+                    throw new Error(data.error || 'Failed to load user data');
                 }
             } catch (error) {
                 console.error('Error loading user data:', error);
+                alert('An error occurred while loading your data. Please try again.');
             }
         }
 
-        // Load data when page loads
+        // Load user data when the page loads
         document.addEventListener('DOMContentLoaded', loadUserData);
     </script>
 </body>
