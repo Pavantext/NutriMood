@@ -12,6 +12,16 @@ import json
 from functools import wraps
 from models import db, User, Conversation, Message
 from flask_migrate import Migrate
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
+from sqlalchemy import event
+import psycopg2
+from psycopg2 import pool
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -30,9 +40,18 @@ app.permanent_session_lifetime = timedelta(days=1)  # Session expires after 1 da
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")  # Paste your Supabase connection string here
+# Database configuration with connection pooling
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_size': 10,
+    'pool_timeout': 30,
+    'pool_recycle': 1800,  # Recycle connections after 30 minutes
+    'max_overflow': 5,
+    'pool_pre_ping': True  # Enable connection health checks
+}
 
+# Initialize database
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -75,50 +94,58 @@ def admin_logout():
 @app.route('/admin/dashboard')
 @admin_required
 def admin_dashboard():
-    users = User.query.all()
-    users_info = {}
-    for user in users:
-        conversations = Conversation.query.filter_by(user_id=user.id).all()
-        total_recommendations = 0
-        for conv in conversations:
-            messages = Message.query.filter_by(conversation_id=conv.id, sender='bot').all()
-            for msg in messages:
-                if msg.recommended_foods:
-                    total_recommendations += len(msg.recommended_foods)
-        users_info[user.username] = {
-            'login_time': user.login_time.isoformat(),
-            'conversation_count': len(conversations),
-            'total_recommendations': total_recommendations
-        }
-    return render_template('admin_dashboard.html', users=users_info)
+    try:
+        users = User.query.all()
+        users_info = {}
+        for user in users:
+            conversations = Conversation.query.filter_by(user_id=user.id).all()
+            total_recommendations = 0
+            for conv in conversations:
+                messages = Message.query.filter_by(conversation_id=conv.id, sender='bot').all()
+                for msg in messages:
+                    if msg.recommended_foods:
+                        total_recommendations += len(msg.recommended_foods)
+            users_info[user.username] = {
+                'login_time': user.login_time.isoformat(),
+                'conversation_count': len(conversations),
+                'total_recommendations': total_recommendations
+            }
+        return render_template('admin_dashboard.html', users=users_info)
+    except Exception as e:
+        logger.error(f"Error in admin_dashboard: {str(e)}")
+        return render_template('error.html', error="Database connection error. Please try again later."), 500
 
 @app.route('/admin/user/<username>')
 @admin_required
 def admin_user_details(username):
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return redirect(url_for('admin_dashboard'))
-    conversations = Conversation.query.filter_by(user_id=user.id).all()
-    user_data = {
-        'login_time': user.login_time.isoformat(),
-        'conversations': []
-    }
-    for conv in conversations:
-        messages = Message.query.filter_by(conversation_id=conv.id).all()
-        for i in range(0, len(messages), 2):
-            user_msg = messages[i]
-            bot_msg = messages[i+1] if i+1 < len(messages) else None
-            recommended_foods = []
-            if bot_msg and bot_msg.recommended_foods is not None:
-                recommended_foods = bot_msg.recommended_foods
-            user_data['conversations'].append({
-                'timestamp': user_msg.timestamp.isoformat(),
-                'user_input': user_msg.content,
-                'ai_response': bot_msg.content if bot_msg else '',
-                'recommended_foods': recommended_foods,
-                'is_followup': False
-            })
-    return render_template('admin_user_details.html', username=username, user_data=user_data)
+    try:
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            return redirect(url_for('admin_dashboard'))
+        conversations = Conversation.query.filter_by(user_id=user.id).all()
+        user_data = {
+            'login_time': user.login_time.isoformat(),
+            'conversations': []
+        }
+        for conv in conversations:
+            messages = Message.query.filter_by(conversation_id=conv.id).all()
+            for i in range(0, len(messages), 2):
+                user_msg = messages[i]
+                bot_msg = messages[i+1] if i+1 < len(messages) else None
+                recommended_foods = []
+                if bot_msg and bot_msg.recommended_foods is not None:
+                    recommended_foods = bot_msg.recommended_foods
+                user_data['conversations'].append({
+                    'timestamp': user_msg.timestamp.isoformat(),
+                    'user_input': user_msg.content,
+                    'ai_response': bot_msg.content if bot_msg else '',
+                    'recommended_foods': recommended_foods,
+                    'is_followup': False
+                })
+        return render_template('admin_user_details.html', username=username, user_data=user_data)
+    except Exception as e:
+        logger.error(f"Error in admin_user_details: {str(e)}")
+        return render_template('error.html', error="Database connection error. Please try again later."), 500
 
 @app.route('/')
 def home():
@@ -147,8 +174,8 @@ def login():
 
         return jsonify({'success': True, 'username': username})
     except Exception as e:
-        print(f"Login error: {str(e)}")
-        return jsonify({'success': False, 'error': str(e)}), 500
+        logger.error(f"Login error: {str(e)}")
+        return jsonify({'success': False, 'error': 'Database error. Please try again later.'}), 500
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -281,7 +308,8 @@ def get_user_data():
             }
         })
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+        logger.error(f"Error in get_user_data: {str(e)}")
+        return jsonify({'success': False, 'error': 'Database error. Please try again later.'}), 500
 
 @app.route('/all_users', methods=['GET'])
 def get_all_users():
@@ -299,7 +327,8 @@ def get_all_users():
             'users': users_info
         })
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+        logger.error(f"Error in get_all_users: {str(e)}")
+        return jsonify({'success': False, 'error': 'Database error. Please try again later.'}), 500
 
 def format_foods_for_prompt(foods):
     """Format food items for the prompt with dietary information"""
