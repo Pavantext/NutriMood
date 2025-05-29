@@ -372,5 +372,24 @@ def menu():
     
     return render_template('menu.html', menu_items=menu_items)
 
+@app.route('/reset_chat', methods=['POST'])
+def reset_chat():
+    try:
+        username = session.get('username')
+        if not username:
+            return jsonify({'success': False, 'error': 'User not logged in'}), 401
+
+        # Clear the conversation manager for this user
+        if username in conversation_managers:
+            del conversation_managers[username]
+        
+        # Create a new conversation manager
+        get_conversation_manager(username)
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Reset chat error: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True) 

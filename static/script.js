@@ -122,7 +122,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Add welcome message
                 const username = usernameDisplay.textContent;
-                addBotMessage(`Welcome back ${username}! How can I help you today?`);
+                const welcomeMessage = `
+                    <div class="message bot">
+                        <div class="message-content">
+                            <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
+                            <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
+                            <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
+                            <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
+                                <li>Recommend me some spicy dishes</li>
+                                <li>What are good vegetarian options?</li>
+                                <li>Show me quick breakfast ideas</li>
+                                <li>What's good in Hyderabadi cuisine?</li>
+                            </ul>
+                            <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
+                        </div>
+                    </div>
+                `;
+                chatMessages.innerHTML = welcomeMessage;
+            } else {
+                throw new Error(data.error || 'Failed to reset chat');
             }
         } catch (error) {
             console.error('Reset chat error:', error);
