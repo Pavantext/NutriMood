@@ -3,7 +3,10 @@ services:
     name: food-ai-chat
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app -c gunicorn.conf.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
+    healthCheckPath: /
+    autoDeploy: true
+    plan: free
