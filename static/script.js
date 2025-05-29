@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const welcomeMessage = `
                 <div class="message bot">
                     <div class="message-content">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat, ${username}! 👋</h2>
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
                         <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
                         <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
                         <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const welcomeMessage = `
                 <div class="message bot">
                     <div class="message-content">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Welcome to Food AI Chat, ${username}! 👋</h2>
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome, ${username}! 👋</h2>
                         <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
                         <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
                         <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
