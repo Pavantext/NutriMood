@@ -199,8 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove typing indicator
             typingIndicator.remove();
 
-            // Add bot response to chat
-            addMessage(data.response, 'bot');
+            // Add bot response to chat with word-by-word typing effect
+            await typeMessage(data.response, 'bot');
 
             // Add food cards if any
             if (data.foods && data.foods.length > 0) {
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function addMessage(content, role) {
+    async function typeMessage(messageContent, role) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}`;
         
@@ -237,27 +237,70 @@ document.addEventListener('DOMContentLoaded', function() {
         avatar.textContent = role === 'user' ? '🧑' : '🤖';
         messageDiv.appendChild(avatar);
 
-        const messageContent = document.createElement('div');
-        messageContent.className = 'message-content';
-        
-        // Add fun emoji to bot responses
-        let formattedContent = content
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/`(.*?)`/g, '<code>$1</code>')
-            .replace(/\n/g, '<br>');
-        if (role === 'bot') {
-            // Add a random fun emoji at the end of the bot message
-            const funEmojis = ['😋', '🍽️', '🥗', '🍜', '🍕', '🍔', '🌮', '🍣', '🍲', '🥑', '🍟', '🍱', '🍛', '🍦', '🍩', '🍉', '🍇', '🍒', '🍰', '🥞', '🍤', '🍿', '🥨', '🍪', '🧁', '🍔', '🍟', '🥪', '🥙', '🍧', '🍵', '🍹', '🍴'];
-            const emoji = funEmojis[Math.floor(Math.random() * funEmojis.length)];
-            formattedContent += ` <span style="font-size:1.2em;">${emoji}</span>`;
-        }
-        messageContent.innerHTML = formattedContent;
-        
-        messageDiv.appendChild(messageContent);
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        messageDiv.appendChild(contentDiv);
         chatMessages.appendChild(messageDiv);
+
+        if (role === 'bot') {
+            // Split the message into words
+            const words = messageContent.split(/(\s+)/);
+            let currentText = '';
+            
+            // Type each word with a delay
+            for (const word of words) {
+                currentText += word;
+                contentDiv.innerHTML = currentText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code>$1</code>')
+                    .replace(/\n/g, '<br>');
+                
+                // Add a random fun emoji at the end
+                const funEmojis = ['😋', '🍽️', '🥗', '🍜', '🍕', '🍔', '🌮', '🍣', '🍲', '🥑', '🍟', '🍱', '🍛', '🍦', '🍩', '🍉', '🍇', '🍒', '🍰', '🥞', '🍤', '🍿', '🥨', '🍪', '🧁', '🍔', '🍟', '🥪', '🥙', '🍧', '🍵', '🍹', '🍴'];
+                const emoji = funEmojis[Math.floor(Math.random() * funEmojis.length)];
+                contentDiv.innerHTML += ` <span style="font-size:1.2em;">${emoji}</span>`;
+                
+                scrollToBottom();
+                await new Promise(resolve => setTimeout(resolve, 50)); // 50ms delay between words
+            }
+        } else {
+            // For user messages, display immediately
+            contentDiv.innerHTML = messageContent
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+        }
         
         scrollToBottom();
+    }
+
+    function addMessage(content, role) {
+        if (role === 'bot') {
+            typeMessage(content, role);
+        } else {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const avatar = document.createElement('span');
+            avatar.className = 'avatar';
+            avatar.textContent = role === 'user' ? '🧑' : '🤖';
+            messageDiv.appendChild(avatar);
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            messageContent.innerHTML = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
     }
 
     function addTypingIndicator() {
