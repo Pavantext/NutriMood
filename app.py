@@ -177,6 +177,12 @@ def chat():
         if not user:
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
+        # Get conversation manager for the user
+        conversation_manager = get_conversation_manager(username)
+
+        # Analyze intent before processing
+        intent_analysis = conversation_manager.analyze_user_intent(user_input)
+        
         # Create a new conversation for each chat
         conversation = Conversation(user_id=user.id)
         db.session.add(conversation)
@@ -191,14 +197,27 @@ def chat():
         db.session.add(user_message)
         db.session.commit()
 
-        # Get conversation manager for the user
-        conversation_manager = get_conversation_manager(username)
-
         # Embed the user input
         query_embedding = get_embedding(user_input)
 
-        # Query Pinecone
+        # Query Pinecone with context-aware search
         index = get_index()
+        
+        # If it's a follow-up, include context in the search
+        if intent_analysis['is_followup']:
+            # Add context from conversation state to the search
+            context_terms = []
+            if conversation_manager.conversation_state['last_meal_type']:
+                context_terms.append(conversation_manager.conversation_state['last_meal_type'])
+            if conversation_manager.conversation_state['last_dietary']:
+                context_terms.append(conversation_manager.conversation_state['last_dietary'])
+            if conversation_manager.conversation_state['last_price_range']:
+                context_terms.append(conversation_manager.conversation_state['last_price_range'])
+            
+            # Combine user input with context
+            enhanced_query = f"{user_input} {' '.join(context_terms)}"
+            query_embedding = get_embedding(enhanced_query)
+        
         results = index.query(vector=query_embedding, top_k=10, include_metadata=True)
         matches = results['matches']
         retrieved_foods = [match['metadata'] for match in matches]
@@ -232,16 +251,15 @@ def chat():
         # Update conversation manager with the exchange
         conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
 
-        # Get the latest intent analysis
-        intent_analysis = conversation_manager.analyze_user_intent(user_input)
-
         return jsonify({
             'response': cleaned_response,
             'foods': filtered_foods,
             'is_followup': intent_analysis['is_followup'],
             'followup_type': intent_analysis['followup_type'],
             'intent': intent_analysis['intent'],
-            'context_references': intent_analysis['context_references']
+            'context_references': intent_analysis['context_references'],
+            'referenced_items': intent_analysis.get('referenced_items', []),
+            'conversation_state': conversation_manager.conversation_state
         })
 
     except Exception as e:
