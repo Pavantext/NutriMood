@@ -130,3 +130,40 @@ const chatInterface = (() => {
 
 // Initialize the chat interface
 document.addEventListener('DOMContentLoaded', chatInterface.init);
+
+document.addEventListener("DOMContentLoaded", function() {
+    const nameModal = document.getElementById("nameModal");
+    const nameInput = document.getElementById("nameInput");
+    const saveNameBtn = document.getElementById("saveNameBtn");
+    const usernameDiv = document.querySelector(".username");
+
+    // Function to set username in sidebar
+    function setUsername(name) {
+        usernameDiv.textContent = name;
+    }
+
+    // Check if name is in localStorage
+    let storedName = localStorage.getItem("username");
+    if (!storedName) {
+        nameModal.style.display = "flex";
+    } else {
+        setUsername(storedName);
+    }
+
+    // Save name and update UI
+    saveNameBtn.addEventListener("click", function() {
+        const name = nameInput.value.trim();
+        if (name) {
+            localStorage.setItem("username", name);
+            setUsername(name);
+            nameModal.style.display = "none";
+        }
+    });
+
+    // Optional: allow Enter key to submit
+    nameInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            saveNameBtn.click();
+        }
+    });
+});
