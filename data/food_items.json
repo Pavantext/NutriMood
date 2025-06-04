@@ -6997,5 +6997,55 @@
       "paneer",
       "pizza"
     ]
+  },
+  {
+    "id": "153",
+    "name": "VEG PARADISE PIZZALETTE",
+    "description": "Personal pizza loaded with garden-fresh vegetables that create a paradise of flavors in every bite.",
+    "region": "International",
+    "mood": "Fresh",
+    "diet": "Vegetarian",
+    "time": "Lunch/Dinner",
+    "spice_level": "Low-Medium",
+    "health_benefits": "Rich in vegetables providing diverse nutrients",
+    "cuisine": "Italian Fusion",
+    "category": "Pizza",
+    "course": "Main",
+    "calories": "530",
+    "price": "250rs",
+    "ingredients": [
+      "Personal pizza dough",
+      "Tomato sauce",
+      "Bell peppers",
+      "Zucchini",
+      "Eggplant",
+      "Cherry tomatoes",
+      "Olives",
+      "Mozzarella"
+    ],
+    "sides": [
+      "Garden salad",
+      "Herb dip"
+    ],
+    "cooking_method": "Oven-baked",
+    "dietary_tags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten (dough)",
+      "dairy (cheese)"
+    ],
+    "popularity": "Medium",
+    "pair_with": [
+      "Iced tea",
+      "Lemonade"
+    ],
+    "image_url": "https://example.com/veg-paradise-pizzalette.jpg",
+    "keywords": [
+      "garden",
+      "fresh",
+      "vegetable",
+      "pizza"
+    ]
   }
 ]
