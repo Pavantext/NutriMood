@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Niloufer's Food AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🍴 What are you craving?</h1>
+        <form action="/recommend" method="post">
+            <textarea name="query" placeholder="e.g. 'I want something chocolatey and indulgent for dessert'" required></textarea>
+            <button type="submit">Get Recommendations</button>
+        </form>
+    </div>
+</body>
+</html>
