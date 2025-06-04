@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Recommended For You</h1>
+        <div class="recommendation">
+            <pre>{{ recommendation }}</pre>
+        </div>
+        <a href="/" class="back-btn">Try Another</a>
+    </div>
+</body>
+</html>
