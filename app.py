@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
-from utils.pinecone_helper import get_index
+from utils.pinecone_helper import get_new_index
 from utils.conversation_manager import ConversationManager
 import google.generativeai as genai
 import time
@@ -201,7 +201,7 @@ def chat():
         query_embedding = get_embedding(user_input)
 
         # Query Pinecone with context-aware search
-        index = get_index()
+        index = get_new_index()
         
         # If it's a follow-up, include context in the search
         if intent_analysis['is_followup']:
