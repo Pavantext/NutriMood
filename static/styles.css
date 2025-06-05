@@ -2,12 +2,18 @@
 :root {
     --primary-color: #19C37D;
     --secondary-color: #10A37F;
-    --text-color: #353740;
+    --text-color: #333333;
     --bg-color: #ffffff;
-    --sidebar-bg: #202123;
+    --sidebar-bg: #1E1E1E;
     --chat-bg: #F7F7F8;
     --border-color: #E5E5E5;
     --hover-color: #2A2B32;
+    --main-bg: #ffffff;
+    --sidebar-text: #ffffff;
+    --accent-color: #FFA500;
+    --chat-bubble-bot: #E8F5E9;
+    --chat-bubble-user: #ffffff;
+    --button-hover: #2c2c2c;
 }
 
 * {
@@ -18,7 +24,7 @@
 }
 
 body {
-    background: var(--bg-color);
+    background: var(--main-bg);
     color: var(--text-color);
     line-height: 1.6;
     min-height: 100vh;
@@ -36,8 +42,8 @@ body {
 
 /* Sidebar styles */
 .sidebar {
-    background: var(--sidebar-bg);
-    color: white;
+    background: #3a3a3a;
+    color: var(--sidebar-text);
     padding: 0.8rem;
     display: flex;
     flex-direction: column;
@@ -46,12 +52,20 @@ body {
     overflow-y: auto;
 }
 
+.font-color {
+    color: #FFA500 !important;
+}
+
+#hello-text {
+    font-size: 20px !important;
+}
+
 .new-chat-button {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
+    background: #2a2a2a;
+    border: none;
+    color: var(--sidebar-text);
     padding: 0.8rem;
-    border-radius: 0.375rem;
+    border-radius: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -61,10 +75,11 @@ body {
     width: 100%;
     text-align: left;
     justify-content: flex-start;
+    margin-top: 0.5rem;
 }
 
 .new-chat-button:hover {
-    background: var(--hover-color);
+    background: var(--button-hover);
 }
 
 /* Add specific styles for the View My Data link */
@@ -118,52 +133,103 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: linear-gradient(135deg, #f7f7f8 60%, #e0ffe7 100%);
+    background: white;
     overflow: hidden;
 }
 
 .chat-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem 0;
+    padding: 2rem;
     scroll-behavior: smooth;
 }
 
 .message {
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem 1rem 1.5rem 3.5rem;
-    animation: fadeIn 0.3s ease;
-    background: var(--bg-color);
-    width: 100%;
-    position: relative;
-    border-radius: 1.2rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 8px rgba(25, 195, 125, 0.04);
-}
-
-.message.user {
-    background: linear-gradient(90deg, #e0ffe7 0%, #f7f7f8 100%);
-    border-bottom: 1px solid #b2f2d7;
+    display: flex;
+    margin-bottom: 1.5rem;
+    animation: none;
 }
 
 .message.bot {
-    background: linear-gradient(90deg, #e6f0ff 0%, #f7f7f8 100%);
-    border-bottom: 1px solid #b2d0f7;
+    justify-content: flex-start;
 }
 
-/* Emoji avatars */
-.message .avatar {
-    position: absolute;
-    left: 1rem;
-    top: 1.5rem;
-    font-size: 1.7rem;
-    user-select: none;
+.message.user {
+    justify-content: flex-end;
+}
+
+.message-wrapper {
+    display: flex;
+    gap: 12px;
+    max-width: 70%;
+}
+
+.message.user .message-wrapper {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.message-avatar img {
+    width: 50px;
+    height: 50px;
+}
+
+.message-bubble {
+    position: relative;
 }
 
 .message-content {
-    max-width: 768px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1.2rem;
+    position: relative;
+}
+
+.bot .message-content {
+    background: #dffec8;
+    border-top-left-radius: 4px;
+}
+
+.user .message-content {
+    background: black;
+    color: white;
+    border-top-right-radius: 4px;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 4px;
+    padding-left: 12px;
+}
+
+.user .message-time {
+    text-align: right;
+    padding-right: 12px;
+}
+
+.message-content h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.message-content p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
 }
 
 /* Food card styles */
@@ -227,54 +293,43 @@ body {
 
 /* Chat input area */
 .chat-input {
-    border-top: 1px solid var(--border-color);
-    padding: 1.5rem 1rem;
-    background: linear-gradient(90deg, #e0ffe7 0%, #f7f7f8 100%);
+    border-top: 1px solid #eee;
+    padding: 1.5rem;
+    background: white;
     position: sticky;
     bottom: 0;
-    width: 100%;
 }
 
 .input-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
+    max-width: 900px;
+    margin: 0 auto;
     position: relative;
 }
 
 .input-field {
     width: 100%;
-    background: #fff;
-    border: 2px solid #b2f2d7;
+    background: #EDEDED;
+    border: none;
     border-radius: 1.2rem;
     font-size: 1rem;
-    padding: 0.75rem 3rem 0.75rem 1rem;
-    transition: border-color 0.2s;
-}
-
-.input-field:focus {
-    border-color: #19C37D;
+    padding: 1rem 4rem 1rem 2rem;
+    resize: none;
+    outline: none;
 }
 
 .send-button {
     position: absolute;
-    right: 0.75rem;
-    bottom: 0.75rem;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: var(--primary-color);
+    color: black;
     cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
-}
-
-.send-button:hover {
-    background: rgba(25, 195, 125, 0.1);
 }
 
 .send-button i {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 /* Order controls */
@@ -424,6 +479,7 @@ body {
         flex-direction: column;
         height: 100vh;
         max-height: 100vh;
+        
     }
 
     .chat-messages {
@@ -638,14 +694,7 @@ body {
     display: none !important;
 }
 
-/* Add a little bounce to emoji avatars */
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
-.message .avatar {
-    animation: bounce 1.2s infinite;
-}
+
 
 /* Order success message styles */
 .order-success {
@@ -689,4 +738,53 @@ body {
 
 .order-details strong {
     color: var(--text-color);
+}
+
+/* New styles from the code block */
+.chef-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chef-avatar img {
+    width: 50px;
+    height: 50px;
+}
+
+.bot .message-content {
+    background: #dffec8;
+}
+
+.user .message-content {
+    background: black;
+    box-shadow: none;
+    color: white;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.quick-action-button {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.9em;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.quick-action-button:hover {
+    background: #f5f5f5;
 } 

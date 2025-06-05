@@ -26,57 +26,31 @@
         </div>
     </div>
 
-    <div class="container" style="display: none;">
+    <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="user-info">
-                <i class="fas fa-user"></i>
-                <span id="username-display"></span>
+                <span class="font-color" id="hello-text">Hello,</span>
+                <span id="username-display">wwwwwwww</span>
             </div>
 
-            <div class="sidebar-header">
-                <button class="new-chat-button" onclick="resetChat()">
-                    <i class="fas fa-rotate"></i>
-                    Reset
-                </button>
-            </div>
+            <button class="new-chat-button" onclick="resetChat()">
+                <i class="fas fa-rotate"></i>
+                Reset
+            </button>
             
-            <div class="sidebar-header">
-                <a href="/user_data_page" class="new-chat-button">
-                    <i class="fas fa-chart-bar"></i>
-                    View My Data
-                </a>
-            </div>
+            <a href="/user_data_page" class="new-chat-button">
+                <i class="fas fa-chart-bar"></i>
+                View My Data
+            </a>
 
-            <div class="sidebar-header">
-                <a href="/menu" class="new-chat-button">
-                    <i class="fas fa-utensils"></i>
-                    View Menu
-                </a>
-            </div>
+            <a href="/menu" class="new-chat-button">
+                <i class="fas fa-utensils"></i>
+                View Menu
+            </a>
 
             <div class="tips-section">
-                <h2>EXAMPLES</h2>
-                <ul class="tips-list">
-                    <li>
-                        <i class="fas fa-utensils"></i>
-                        "what's special today"
-                    </li>
-                    <li>
-                        <i class="fas fa-leaf"></i>
-                        "Show me vegetarian options"
-                    </li>
-                    <li>
-                        <i class="fas fa-globe-asia"></i>
-                        "What's good in Hyderabadi cuisine?"
-                    </li>
-                    <li>
-                        <i class="fas fa-clock"></i>
-                        "Quick breakfast ideas"
-                    </li>
-                </ul>
-
-                <h2 style="margin-top: 2rem;">CAPABILITIES</h2>
+                <h2 class="font-color">CAPABILITIES</h2>
                 <ul class="tips-list">
                     <li>
                         <i class="fas fa-brain"></i>
@@ -92,14 +66,14 @@
                     </li>
                 </ul>
 
-                <h2 style="margin-top: 2rem;">LIMITATIONS</h2>
+                <h2 class="font-color">LIMITATIONS</h2>
                 <ul class="tips-list">
                     <li>
                         <i class="fas fa-exclamation-circle"></i>
                         May not know very local dishes
                     </li>
                     <li>
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-store"></i>
                         Limited to available restaurants
                     </li>
                 </ul>
@@ -111,18 +85,63 @@
             <div class="chat-messages" id="chat-messages">
                 <!-- Welcome message -->
                 <div class="message bot">
-                    <div class="message-content">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey Welcome</h2>
-                        <p style="color: var(--text-color); opacity: 0.8;">I'm your personal food recommendation assistant. I can help you discover dishes based on your preferences, mood, or dietary requirements. How can I assist you today?</p>
+                    <div class="message-wrapper">
+                        <div class="message-avatar">
+                            <img src="{{ url_for('static', filename='chef-hat.png') }}" alt="Chef">
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-content">
+                                <h2>Hey, Welcome soul! 👋</h2>
+                                <p>I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
+                                <p>How can I help you today?</p>
+                                <div class="quick-actions">
+                                    <button class="quick-action-button">Recommend me some spicy dishes</button>
+                                    <button class="quick-action-button">What are good vegetarian options?</button>
+                                    <button class="quick-action-button">Show me quick breakfast ideas</button>
+                                </div>
+                            </div>
+                            <div class="message-time">8:16 AM</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Message Templates -->
+            <template id="user-message-template">
+                <div class="message user">
+                    <div class="message-wrapper">
+                        <div class="message-avatar">
+                            <img src="{{ url_for('static', filename='user-avatar.png') }}" alt="User">
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-content">
+                            </div>
+                            <div class="message-time"></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template id="bot-message-template">
+                <div class="message bot">
+                    <div class="message-wrapper">
+                        <div class="message-avatar">
+                            <img src="{{ url_for('static', filename='chef-hat.png') }}" alt="Chef">
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-content">
+                            </div>
+                            <div class="message-time"></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
 
             <!-- Input Area -->
             <div class="chat-input">
                 <form id="chat-form" class="input-container">
                     <textarea id="user-input" class="input-field" 
-                        placeholder="Message Food AI..." 
+                        placeholder="Ask Chef anything..." 
                         rows="1" 
                         required></textarea>
                     <button type="submit" class="send-button">

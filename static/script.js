@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add emoji avatar
         const avatar = document.createElement('span');
         avatar.className = 'avatar';
-        avatar.textContent = role === 'user' ? '🧑' : '🤖';
+        avatar.textContent = role === 'user' ? '🧑' : '🧑‍🍳';
         messageDiv.appendChild(avatar);
 
         const contentDiv = document.createElement('div');
