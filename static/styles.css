@@ -496,6 +496,7 @@ body {
         transition: left 0.3s ease;
         background: var(--sidebar-bg);
         padding-top: 1rem;
+        overflow-y: auto;
     }
 
     .sidebar.active {
@@ -570,6 +571,11 @@ body {
     .sidebar.active ~ .chat-container .chat-input,
     .menu-button.sidebar-open ~ .container .chat-container .chat-input {
         display: none !important;
+    }
+
+    /* Add padding to bottom to prevent content cutoff */
+    .sidebar .tips-section {
+        padding-bottom: 80px;
     }
 }
 
