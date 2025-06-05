@@ -232,9 +232,9 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.className = `message ${role}`;
         
         // Add emoji avatar
-        const avatar = document.createElement('span');
-        avatar.className = 'avatar';
-        avatar.textContent = role === 'user' ? '🧑' : '🧑‍🍳';
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = role === 'user' ? '🧑' : '👨‍🍳';
         messageDiv.appendChild(avatar);
 
         const contentDiv = document.createElement('div');
@@ -283,9 +283,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${role}`;
             
-            const avatar = document.createElement('span');
-            avatar.className = 'avatar';
-            avatar.textContent = role === 'user' ? '🧑' : '🤖';
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = role === 'user' ? '🧑' : '👨‍🍳';
             messageDiv.appendChild(avatar);
 
             const messageContent = document.createElement('div');

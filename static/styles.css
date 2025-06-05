@@ -172,11 +172,34 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #FFA500;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 24px;
+    margin: 0 12px;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 28px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message.user .message-avatar {
+    background: #4A90E2;
+}
+
+.message.bot .message-avatar {
+    background: #FFA500;
+}
+
+/* Hover animation */
+.message-avatar {
+    transition: transform 0.2s ease;
+}
+
+.message-avatar:hover {
+    transform: scale(1.1);
 }
 
 .message-avatar img {
