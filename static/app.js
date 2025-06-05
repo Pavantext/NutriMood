@@ -105,8 +105,6 @@ const chatInterface = (() => {
                 elements.chatMessages.appendChild(createMessageElement("Your preferences: Spicy food lover, Vegetarian"));
                 break;
             case 'View Menu':
-                // Add actual menu fetching logic here
-                elements.chatMessages.appendChild(createMessageElement("Today's Special: Butter Chicken, Dal Makhani, Naan"));
                 break;
         }
     };
@@ -130,3 +128,60 @@ const chatInterface = (() => {
 
 // Initialize the chat interface
 document.addEventListener('DOMContentLoaded', chatInterface.init);
+
+// Open menu in new tab when View Menu is clicked
+document.addEventListener('DOMContentLoaded', function() {
+    const viewMenuBtn = document.getElementById('viewMenuBtn');
+    if (viewMenuBtn) {
+        viewMenuBtn.addEventListener('click', function() {
+            window.open('/menu', '_blank');
+        });
+    }
+});
+
+// Fetch and show menu grouped by category
+async function fetchAndShowMenu() {
+    const chatMessages = document.querySelector('.chat-messages');
+    // Fetch menu data
+    const res = await fetch('/menu-data');
+    const menu = await res.json();
+
+    // Group by category
+    const grouped = {};
+    menu.forEach(item => {
+        if (!grouped[item.category]) grouped[item.category] = [];
+        grouped[item.category].push(item);
+    });
+
+    // Build HTML
+    let html = '<div><strong>Menu:</strong></div>';
+    for (const [category, items] of Object.entries(grouped)) {
+        html += `<div style="margin-top:12px;"><strong>${category}</strong><ul>`;
+        items.forEach(item => {
+            html += `<li><b>${item.name}</b>: ${item.description}</li>`;
+        });
+        html += '</ul></div>';
+    }
+
+    // Show in chat
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    messageDiv.innerHTML = `
+        <div class="chef-avatar">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </div>
+        <div class="message-content">
+            <div class="chef-name">Chef</div>
+            <div class="message-bubble">
+                <div class="message-text">${html}</div>
+                <div class="message-timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}

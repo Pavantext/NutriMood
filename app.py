@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
@@ -54,3 +54,11 @@ def recommend():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/menu')
+def menu():
+    return render_template('menu.html')
+
+@app.route('/menu-data')
+def menu_data():
+    return send_from_directory('data', 'niloufer_menu.json')
