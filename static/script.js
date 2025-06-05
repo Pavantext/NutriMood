@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <li>Recommend me some spicy dishes</li>
                             <li>What are good vegetarian options?</li>
                             <li>Show me quick breakfast ideas</li>
-                            <li>What's good in Hyderabadi cuisine?</li>
+                            <li>What is suitable for this weather?</li>
                         </ul>
                         <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
                     </div>
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <li>Recommend me some spicy dishes</li>
                             <li>What are good vegetarian options?</li>
                             <li>Show me quick breakfast ideas</li>
-                            <li>What's good in Hyderabadi cuisine?</li>
+                            <li>What is suitable for this weather?</li>
                         </ul>
                         <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
                     </div>
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li>Recommend me some spicy dishes</li>
                                 <li>What are good vegetarian options?</li>
                                 <li>Show me quick breakfast ideas</li>
-                                <li>What's good in Hyderabadi cuisine?</li>
+                                <li>What is suitable for this weather?</li>
                             </ul>
                             <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
                         </div>
@@ -322,10 +322,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addFoodCards(foods) {
         const foodCardsContainer = document.createElement('div');
-        foodCardsContainer.className = 'message bot';
+        foodCardsContainer.className = 'food-cards-container';
 
-        foods.forEach(food => {
+        foods.forEach((food, index) => {
             const foodCard = foodCardTemplate.content.cloneNode(true);
+            
+            // Add animation delay for staggered appearance
+            foodCard.querySelector('.food-card').style.animation = 
+                `fadeIn 0.3s ease ${index * 0.1}s forwards`;
             
             // Fill in food card details
             foodCard.querySelector('.food-card-title').textContent = food.name;
@@ -348,7 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
             foodCardsContainer.appendChild(foodCard);
         });
 
-        chatMessages.appendChild(foodCardsContainer);
+        const container = document.createElement('div');
+        container.className = 'message bot';
+        container.appendChild(foodCardsContainer);
+        chatMessages.appendChild(container);
         scrollToBottom();
     }
 
