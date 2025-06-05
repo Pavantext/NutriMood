@@ -429,7 +429,7 @@ body {
     display: none;
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    right: 1rem;
     z-index: 1001;
     background: var(--sidebar-bg);
     color: white;
@@ -460,7 +460,6 @@ body {
     }
 
     .menu-button.sidebar-open {
-        left: auto;
         right: 1rem;
     }
 
@@ -516,7 +515,7 @@ body {
     }
 
     .message-content {
-        padding: 0 0.5rem;
+        padding: 15px;
     }
 
     .food-card-body {
