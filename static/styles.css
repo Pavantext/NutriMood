@@ -124,10 +124,6 @@ body {
     gap: 0.8rem;
 }
 
-.tips-list li:hover {
-    background: var(--hover-color);
-}
-
 /* Main chat area */
 .chat-container {
     display: flex;
