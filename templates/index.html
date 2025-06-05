@@ -11,6 +11,42 @@
             box-sizing: border-box;
         }
 
+        /* Typing indicator */
+.typing-indicator {
+    display: inline-block;
+    position: relative;
+    width: 60px;
+    height: 30px;
+}
+
+/* Recommendations styling */
+.recommendations {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.recommendations h4 {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+}
+
+.recommendations ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.recommendations li {
+    padding: 6px 12px;
+    background: #f8f9fa;
+    margin: 4px 0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             height: 100vh;
@@ -488,10 +524,10 @@
         </div>
 
         <!-- Suggestion Buttons -->
-        <div class="suggestions">
-            <button class="suggestion-btn">Recommend me some spicy dishes</button>
-            <button class="suggestion-btn">What are good vegetarian options?</button>
-            <button class="suggestion-btn">Show me quick breakfast ideas</button>
+        <div class="suggestions" role="group">
+            <button type="button" class="suggestion-btn" data-query="Recommend me some spicy dishes">🌶️ Spicy Dishes</button>
+            <button type="button" class="suggestion-btn" data-query="Vegetarian options">🥗 Vegetarian</button>
+            <button type="button" class="suggestion-btn" data-query="Quick breakfast ideas">🍳 Breakfast</button>
         </div>
 
         <!-- Input Area -->
@@ -519,6 +555,133 @@
     </div>
 
     <!-- Add the new JS file -->
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=3"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let isSending = false; // Add sending state flag
+        const messageInput = document.querySelector('.message-input');
+        const sendBtn = document.querySelector('.send-btn');
+        const chatMessages = document.querySelector('.chat-messages');
+        const suggestions = document.querySelector('.suggestions');
+        const usernameSpan = document.getElementById('welcomeUsername');
+        
+        // Show login modal if no username
+        if(!localStorage.getItem('username')) {
+            document.getElementById('nameModal').style.display = 'flex';
+        }
+
+        // Login handling
+        document.getElementById('saveNameBtn').addEventListener('click', function() {
+            const username = document.getElementById('nameInput').value.trim();
+            if(username) {
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username: username})
+                }).then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        localStorage.setItem('username', username);
+                        usernameSpan.textContent = username;
+                        document.getElementById('nameModal').style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Message handling
+        async function sendMessage(message) {
+            if (isSending) return; // Prevent multiple sends
+            isSending = true;
+            
+            const messageDiv = appendMessage('user', message); // Store reference
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                
+                if (response.status === 401) { // Handle unauthorized
+                    sessionStorage.removeItem('username');
+                    document.getElementById('nameModal').style.display = 'flex';
+                    messageDiv.remove(); // Remove duplicate user message
+                    return;
+                }
+
+                if (data.error) {
+                    appendMessage('bot', `Error: ${data.error}`);
+                } else {
+                    appendMessage('bot', data.response, data.foods);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('bot', 'Sorry, there was an error. Please try again.');
+            } finally {
+                hideTypingIndicator();
+                isSending = false; // Reset sending state
+            }
+        }
+
+        function appendMessage(sender, text, foods = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            const avatar = sender === 'bot' ? 
+                '<div class="chef-avatar"><img src="static/images/Chef.svg" alt="Chef"></div>' : 
+                '<div class="user-avatar"></div>';
+            
+            const foodList = foods.length > 0 ? 
+                `<div class="recommendations">
+                    <h4>Recommended Foods:</h4>
+                    <ul>${foods.map(f => `<li>${f.name} (${f.region})</li>`).join('')}</ul>
+                 </div>` : '';
+            
+            messageDiv.innerHTML = `
+                ${avatar}
+                <div class="message-content">
+                    <div class="chef-name">${sender === 'bot' ? 'Chef' : 'You'}</div>
+                    <div class="message-bubble">
+                        <div class="message-text">${text}</div>
+                        ${foodList}
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv; // Return the created element
+        }
+
+        // Update event listeners to prevent duplicate submissions
+        function handleSend() {
+            const message = messageInput.value.trim();
+            if (message && !isSending) {
+                messageInput.value = '';
+                sendMessage(message);
+            }
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        // Update suggestion handler to use data attributes
+        suggestions.addEventListener('click', (e) => {
+            if(e.target.classList.contains('suggestion-btn')) {
+                sendMessage(e.target.dataset.query);
+            }
+        });
+    });
+    </script>
 </body>
 </html>

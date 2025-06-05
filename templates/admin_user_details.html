@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details - Food AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>User Details: {{ username }}</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-back">Back to Dashboard</a>
+        </header>
+
+        <div class="conversation-list">
+            {% for conv in user_data.conversations %}
+            <div class="conversation-card">
+                <div class="conv-header">
+                    <span class="timestamp">{{ conv.timestamp }}</span>
+                    {% if conv.is_followup %}<span class="followup-tag">Follow-up</span>{% endif %}
+                </div>
+                <div class="conv-body">
+                    <p><strong>User:</strong> {{ conv.user_input }}</p>
+                    <p><strong>AI:</strong> {{ conv.ai_response }}</p>
+                    {% if conv.recommended_foods %}
+                    <div class="recommendations">
+                        <h4>Recommended Foods:</h4>
+                        <ul>
+                            {% for food in conv.recommended_foods %}
+                            <li>{{ food.name }} ({{ food.region }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
