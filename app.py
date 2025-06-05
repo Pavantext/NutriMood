@@ -50,7 +50,7 @@ def home():
 def recommend():
     user_input = request.form['query']
     recommendation = get_recommendation(user_input)
-    return render_template('results.html', recommendation=recommendation)
+    return recommendation  # Return plain text instead of rendering template
 
 if __name__ == '__main__':
     app.run(debug=True)

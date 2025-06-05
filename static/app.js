@@ -47,36 +47,39 @@ const chatInterface = (() => {
         return messageDiv;
     };
 
+    // Process User Input
+    const processMessage = async (message) => {
+        try {
+            const response = await fetch('/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `query=${encodeURIComponent(message)}`
+            });
+            const result = await response.text();
+            return result;
+        } catch (error) {
+            console.error('Error:', error);
+            return "Sorry, I'm having trouble connecting to the kitchen. Please try again later!";
+        }
+    };
+
     // Simulate Chef Response
-    const simulateChefResponse = (message) => {
-        // Add typing indicator
+    const simulateChefResponse = async (message) => {
         const typingIndicator = createMessageElement('<div class="typing-indicator"></div>');
         elements.chatMessages.appendChild(typingIndicator);
         
-        setTimeout(() => {
+        try {
+            const response = await processMessage(message);
             typingIndicator.remove();
-            const response = processMessage(message);
             elements.chatMessages.appendChild(createMessageElement(response));
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-        }, config.responseDelay);
-    };
-
-    // Process User Input
-    const processMessage = (message) => {
-        const lowerMsg = message.toLowerCase();
-        let response = "I recommend trying: ";
-
-        if (lowerMsg.includes('spicy')) {
-            response += config.chefResponses.suggestions.spicy.join(', ');
-        } else if (lowerMsg.includes('vegetarian')) {
-            response += config.chefResponses.suggestions.vegetarian.join(', ');
-        } else if (lowerMsg.includes('breakfast')) {
-            response += config.chefResponses.suggestions.breakfast.join(', ');
-        } else {
-            response = "Let me think about that... Why not try one of our signature dishes?";
+        } catch (error) {
+            typingIndicator.remove();
+            elements.chatMessages.appendChild(createMessageElement("Oops! The chef is busy right now. Please try again later."));
         }
-
-        return response;
+        
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
     };
 
     // Event Handlers
@@ -140,6 +143,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to set username in sidebar
     function setUsername(name) {
         usernameDiv.textContent = name;
+        // Update welcome message
+        const welcomeSpan = document.getElementById('welcomeUsername');
+        if (welcomeSpan) {
+            welcomeSpan.textContent = name;
+        }
     }
 
     // Check if name is in localStorage

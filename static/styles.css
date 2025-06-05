@@ -71,3 +71,19 @@ pre {
     text-decoration: none;
     font-weight: bold;
 }
+
+.chef-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chef-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
