@@ -715,7 +715,7 @@ body {
     padding: 1.5rem;
     /* background: var(--primary-color); */
     color: white;
-    display: flex;
+    /* display: flex; */
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
