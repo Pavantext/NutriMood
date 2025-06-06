@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameDisplay = document.getElementById('username-display');
     const menuButton = document.getElementById('menu-button');
     const sidebar = document.querySelector('.sidebar');
+    const chatInput = document.querySelector('.chat-input');
 
     let chatHistory = [];
 
@@ -52,8 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
             chatHistory = [];
             
             // Add welcome message with typing effect
-            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHere are some things you can ask me:\n\n- Recommend me some spicy dishes\n- What are good vegetarian options?\n- Show me quick breakfast ideas\n- What is suitable for this weather?\n\nHow can I help you today?`;
-            await typeMessage(welcomeText, 'bot');
+            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+            typeMessage(welcomeText, 'bot');
+            
+            // Remove existing quick actions first
+            const existingButtons = document.querySelector('.quick-actions');
+            if (existingButtons) {
+                existingButtons.remove();
+            }
+
+            // Add new quick action buttons
+            createQuickActionButtons();
             
         } catch (error) {
             console.error('Login error:', error);
@@ -84,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             chatMessages.innerHTML = welcomeMessage;
+            createQuickActionButtons();
         }
     });
 
@@ -111,18 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="message-content">
                             <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
                             <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
-                            <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
-                            <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
-                                <li>Recommend me some spicy dishes</li>
-                                <li>What are good vegetarian options?</li>
-                                <li>Show me quick breakfast ideas</li>
-                                <li>What is suitable for this weather?</li>
-                            </ul>
-                            <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
+                            <p style="color: var(--text-color); opacity: 0.8;">How can I help you today?</p>
                         </div>
                     </div>
                 `;
                 chatMessages.innerHTML = welcomeMessage;
+                createQuickActionButtons();
             } else {
                 throw new Error(data.error || 'Failed to reset chat');
             }
@@ -437,6 +442,49 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.add('fa-bars');
         }
     });
+
+    // Modify the createQuickActionButtons function
+    function createQuickActionButtons() {
+        const existingButtons = document.querySelector('.quick-actions-container');
+        if (existingButtons) existingButtons.remove();
+
+        const examples = [
+            'Recommend me some spicy dishes',
+            'What are good vegetarian options?',
+            'Show me quick breakfast ideas',
+            'What is suitable for this weather?'
+        ];
+
+        const container = document.createElement('div');
+        container.className = 'quick-actions-container';
+        
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'quick-actions';
+        
+        examples.forEach(text => {
+            const button = document.createElement('button');
+            button.className = 'quick-action-button';
+            button.textContent = text;
+            button.addEventListener('click', () => {
+                userInput.value = text;
+                chatForm.dispatchEvent(new Event('submit'));
+            });
+            buttonsContainer.appendChild(button);
+        });
+
+        container.appendChild(buttonsContainer);
+        if (chatInput) {
+            chatInput.insertBefore(container, chatInput.firstChild);
+        }
+
+        // Hide buttons when any message is sent
+        chatForm.addEventListener('submit', () => {
+            container.style.display = 'none';
+        });
+    }
+
+    // In both login and reset handlers, add this after createQuickActionButtons():
+    document.querySelector('.quick-actions-container').style.display = 'block';
 });
 
 // Add some nice animations and transitions
