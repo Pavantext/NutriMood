@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, send_from_directory
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
@@ -390,13 +390,27 @@ def menu():
     
     # Load food items from JSON file
     try:
-        with open('data/food_items.json', 'r', encoding='utf-8') as file:
+        json_path = os.path.join(os.path.dirname(__file__), 'data', 'niloufer.json')
+        with open(json_path, 'r', encoding='utf-8') as file:
             menu_items = json.load(file)
     except Exception as e:
         print(f"Error loading menu items: {str(e)}")
         menu_items = []
     
     return render_template('menu.html', menu_items=menu_items)
+
+@app.route('/menu-data')
+def menu_data():
+    if not session.get('username'):
+        return jsonify({'error': 'Not authorized'}), 401
+    
+    try:
+        json_path = os.path.join(os.path.dirname(__file__), 'data', 'niloufer.json')
+        with open(json_path, 'r', encoding='utf-8') as file:
+            menu_items = json.load(file)
+        return jsonify(menu_items)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/reset_chat', methods=['POST'])
 def reset_chat():

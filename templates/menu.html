@@ -1,34 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Menu - Food AI Chat</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Niloufer Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-color: #F9B231;
+            --text-color: #333;
+            --background-color: #fff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        main {
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
         .menu-container {
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-
-        .menu-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .menu-grid {
+            margin: 2rem auto;
+            padding: 0 1rem;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            overflow-y: auto;
         }
 
         .menu-item {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: var(--background-color);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: var(--card-shadow);
             transition: transform 0.3s ease;
         }
 
@@ -36,264 +80,144 @@
             transform: translateY(-5px);
         }
 
-        .menu-item-image {
+        .menu-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
 
         .menu-item-content {
-            padding: 15px;
+            padding: 1.5rem;
         }
 
         .menu-item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
 
         .menu-item-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
         }
 
         .menu-item-price {
-            font-weight: bold;
-            color: #2ecc71;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .menu-item-description {
             color: #666;
-            margin-bottom: 10px;
-            font-size: 0.9em;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         .menu-item-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 10px;
+            gap: 0.5rem;
         }
 
-        .menu-item-tag {
-            background: #f0f0f0;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
+        .tag {
+            background-color: #f0f0f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             color: #666;
         }
 
-        .menu-filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .filter-button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            background: #f0f0f0;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .filter-button:hover {
-            background: #e0e0e0;
-        }
-
-        .filter-button.active {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .order-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .quantity-controls button {
-            background: #f0f0f0;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-        }
-
-        .quantity-controls button:hover {
-            background: #e0e0e0;
-        }
-
-        .quantity-controls input {
-            width: 50px;
+        footer {
             text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 5px;
-        }
-
-        .order-button {
-            width: 100%;
-            padding: 10px;
-            background: #2ecc71;
+            padding: 2rem;
+            background-color: var(--primary-color);
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .order-button:hover {
-            background: #27ae60;
-        }
-
-        .success-message {
-            display: none;
-            color: #2ecc71;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            margin-top: 2rem;
         }
 
         @media (max-width: 768px) {
-            .menu-grid {
+            .menu-container {
                 grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="menu-container">
-        <div class="menu-header">
-            <h1>Our Menu</h1>
-            <div class="menu-filters">
-                <button class="filter-button active" data-filter="all">All</button>
-                <button class="filter-button" data-filter="Main Dish">Main Dishes</button>
-                <button class="filter-button" data-filter="Snack">Snacks</button>
-                <button class="filter-button" data-filter="Dessert">Desserts</button>
-                <button class="filter-button" data-filter="Beverage">Drinks</button>
-            </div>
+    <header>
+        <h1>Niloufer Menu</h1>
+        <p class="subtitle">Discover our delicious offerings</p>
+    </header>
+
+    <main>
+        <div class="menu-container" id="menuContainer">
+            <!-- Items will be loaded here dynamically -->
+            {% if menu_items %}
+            <script>
+                // Initialize with server-side rendered data
+                var initialMenuItems = JSON.parse('{{ menu_items|tojson|safe }}');
+                document.addEventListener('DOMContentLoaded', () => displayMenuItems(initialMenuItems));
+            </script>
+            {% endif %}
         </div>
-        <div class="menu-grid">
-            {% for item in menu_items %}
-            <div class="menu-item" data-category="{{ item.category }}">
-                <img src="{{ item.image_url }}" alt="{{ item.name }}" class="menu-item-image">
-                <div class="menu-item-content">
-                    <div class="menu-item-header">
-                        <span class="menu-item-name">{{ item.name }}</span>
-                        <span class="menu-item-price">{{ item.price }}</span>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Niloufer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function loadMenuItems() {
+            try {
+                const response = await fetch('/menu-data');
+                const menuItems = await response.json();
+                displayMenuItems(menuItems);
+            } catch (error) {
+                console.error('Error loading menu items:', error);
+                document.getElementById('menuContainer').innerHTML = `
+                    <div class="error-message">
+                        Sorry, we couldn't load the menu items at this time.
+                        Please try again later.
                     </div>
-                    <p class="menu-item-description">{{ item.description }}</p>
-                    <div class="menu-item-tags">
-                        <span class="menu-item-tag">{{ item.diet }}</span>
-                        {% if item.spice_level %}
-                        <span class="menu-item-tag">{{ item.spice_level }}</span>
-                        {% endif %}
-                        <span class="menu-item-tag">{{ item.time }}</span>
-                    </div>
-                    <div class="order-section">
-                        <div class="quantity-controls">
-                            <button class="decrease-quantity" onclick="decreaseQuantity(this)">-</button>
-                            <input type="number" class="quantity-input" value="1" min="1" max="10">
-                            <button class="increase-quantity" onclick="increaseQuantity(this)">+</button>
+                `;
+            }
+        }
+
+        function displayMenuItems(items) {
+            const menuContainer = document.getElementById('menuContainer');
+
+            const menuHTML = items.map(item => `
+                <div class="menu-item">
+                    <img src="${item.image_url}" alt="${item.name}" 
+                        onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Available'">
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">${item.name}</h3>
+                            <span class="menu-item-price">${item.price}</span>
                         </div>
-                        <button class="order-button" onclick="placeOrder(this, '{{ item.name }}', '{{ item.price }}')">
-                            Order Now
-                        </button>
-                        <div class="success-message">
-                            Oreder placed successfully!
+                        <p class="menu-item-description">${item.description}</p>
+                        <div class="menu-item-tags">
+                            ${item.dietary_tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${item.spice_level !== "None" ? `<span class="tag">Spice: ${item.spice_level}</span>` : ''}
+                            <span class="tag">${item.category}</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+            `).join('');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-button');
-            const menuItems = document.querySelectorAll('.menu-item');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    button.classList.add('active');
-
-                    const filter = button.getAttribute('data-filter');
-
-                    menuItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-
-        function increaseQuantity(button) {
-            const input = button.parentElement.querySelector('.quantity-input');
-            const currentValue = parseInt(input.value);
-            if (currentValue < 10) {
-                input.value = currentValue + 1;
-            }
+            menuContainer.innerHTML = menuHTML;
         }
 
-        function decreaseQuantity(button) {
-            const input = button.parentElement.querySelector('.quantity-input');
-            const currentValue = parseInt(input.value);
-            if (currentValue > 1) {
-                input.value = currentValue - 1;
-            }
-        }
-
-        function placeOrder(button, itemName, itemPrice) {
-            const quantity = button.parentElement.querySelector('.quantity-input').value;
-            const successMessage = button.parentElement.querySelector('.success-message');
-            
-            // Here you can add the logic to send the order to your backend
-            console.log(`Order placed: ${quantity} x ${itemName} (${itemPrice})`);
-            
-            // Show success message
-            successMessage.classList.add('show');
-            
-            // Hide success message after 2 seconds
-            setTimeout(() => {
-                successMessage.classList.remove('show');
-            }, 2000);
+        // Only load items if they weren't provided server-side
+        if (!window.initialMenuItems) {
+            document.addEventListener('DOMContentLoaded', loadMenuItems);
         }
     </script>
 </body>
-</html> 
+</html>

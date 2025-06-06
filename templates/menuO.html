@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu - Food AI Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .menu-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 15px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .menu-item-price {
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+        .menu-item-description {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .menu-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .menu-item-tag {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .menu-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background: #f0f0f0;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background: #e0e0e0;
+        }
+
+        .filter-button.active {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .order-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .quantity-controls button {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .quantity-controls button:hover {
+            background: #e0e0e0;
+        }
+
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .order-button {
+            width: 100%;
+            padding: 10px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .order-button:hover {
+            background: #27ae60;
+        }
+
+        .success-message {
+            display: none;
+            color: #2ecc71;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-header">
+            <h1>Our Menu</h1>
+            <div class="menu-filters">
+                <button class="filter-button active" data-filter="all">All</button>
+                <button class="filter-button" data-filter="Main Dish">Main Dishes</button>
+                <button class="filter-button" data-filter="Snack">Snacks</button>
+                <button class="filter-button" data-filter="Dessert">Desserts</button>
+                <button class="filter-button" data-filter="Beverage">Drinks</button>
+            </div>
+        </div>
+        <div class="menu-grid">
+            {% for item in menu_items %}
+            <div class="menu-item" data-category="{{ item.category }}">
+                <img src="{{ item.image_url }}" alt="{{ item.name }}" class="menu-item-image">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">{{ item.name }}</span>
+                        <span class="menu-item-price">{{ item.price }}</span>
+                    </div>
+                    <p class="menu-item-description">{{ item.description }}</p>
+                    <div class="menu-item-tags">
+                        <span class="menu-item-tag">{{ item.diet }}</span>
+                        {% if item.spice_level %}
+                        <span class="menu-item-tag">{{ item.spice_level }}</span>
+                        {% endif %}
+                        <span class="menu-item-tag">{{ item.time }}</span>
+                    </div>
+                    <div class="order-section">
+                        <div class="quantity-controls">
+                            <button class="decrease-quantity" onclick="decreaseQuantity(this)">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1" max="10">
+                            <button class="increase-quantity" onclick="increaseQuantity(this)">+</button>
+                        </div>
+                        <button class="order-button" onclick="placeOrder(this, '{{ item.name }}', '{{ item.price }}')">
+                            Order Now
+                        </button>
+                        <div class="success-message">
+                            Oreder placed successfully!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+
+                    const filter = button.getAttribute('data-filter');
+
+                    menuItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        function increaseQuantity(button) {
+            const input = button.parentElement.querySelector('.quantity-input');
+            const currentValue = parseInt(input.value);
+            if (currentValue < 10) {
+                input.value = currentValue + 1;
+            }
+        }
+
+        function decreaseQuantity(button) {
+            const input = button.parentElement.querySelector('.quantity-input');
+            const currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        }
+
+        function placeOrder(button, itemName, itemPrice) {
+            const quantity = button.parentElement.querySelector('.quantity-input').value;
+            const successMessage = button.parentElement.querySelector('.success-message');
+            
+            // Here you can add the logic to send the order to your backend
+            console.log(`Order placed: ${quantity} x ${itemName} (${itemPrice})`);
+            
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Hide success message after 2 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 
