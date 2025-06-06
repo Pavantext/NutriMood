@@ -92,34 +92,47 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle new chat button
-    newChatButton.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/reset_chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                // Clear messages
-                chatMessages.innerHTML = '';
-                chatHistory = [];
-                
-                // Add welcome message with typing effect
-                const username = usernameDisplay.textContent;
-                const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
-                await typeMessage(welcomeText, 'bot');
-                createQuickActionButtons();
-            } else {
-                throw new Error(data.error || 'Failed to reset chat');
-            }
-        } catch (error) {
-            console.error('Reset chat error:', error);
-            alert('An error occurred while resetting the chat.');
+    newChatButton.addEventListener('click', function(e) {
+        // Close sidebar on mobile immediately when reset is clicked
+        if (window.innerWidth <= 768) {
+            sidebar.style.transition = 'transform 0.1s ease-out';
+            sidebar.classList.remove('active');
+            menuButton.classList.remove('sidebar-open');
+            const icon = menuButton.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
+
+        // Use setTimeout to ensure the sidebar closes before other operations
+        setTimeout(async () => {
+            try {
+                const response = await fetch('/reset_chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Clear messages
+                    chatMessages.innerHTML = '';
+                    chatHistory = [];
+                    
+                    // Add welcome message with typing effect
+                    const username = usernameDisplay.textContent;
+                    const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+                    await typeMessage(welcomeText, 'bot');
+                    createQuickActionButtons();
+                } else {
+                    throw new Error(data.error || 'Failed to reset chat');
+                }
+            } catch (error) {
+                console.error('Reset chat error:', error);
+                alert('An error occurred while resetting the chat.');
+            }
+        }, 0);
     });
 
     // Handle example clicks
