@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add welcome message with typing effect
             const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
-            typeMessage(welcomeText, 'bot');
+            await typeMessage(welcomeText, 'bot');
             
             // Remove existing quick actions first
             const existingButtons = document.querySelector('.quick-actions');
@@ -80,16 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const welcomeMessage = `
                 <div class="message bot">
                     <div class="message-content">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome, ${username}! 👋</h2>
+                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
                         <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
-                        <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
-                        <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
-                            <li>Recommend me some spicy dishes</li>
-                            <li>What are good vegetarian options?</li>
-                            <li>Show me quick breakfast ideas</li>
-                            <li>What is suitable for this weather?</li>
-                        </ul>
-                        <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
+                        <p style="color: var(--text-color); opacity: 0.8;">How can I help you today?</p>
                     </div>
                 </div>
             `;
@@ -115,18 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 chatMessages.innerHTML = '';
                 chatHistory = [];
                 
-                // Add welcome message
+                // Add welcome message with typing effect
                 const username = usernameDisplay.textContent;
-                const welcomeMessage = `
-                    <div class="message bot">
-                        <div class="message-content">
-                            <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
-                            <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
-                            <p style="color: var(--text-color); opacity: 0.8;">How can I help you today?</p>
-                        </div>
-                    </div>
-                `;
-                chatMessages.innerHTML = welcomeMessage;
+                const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+                await typeMessage(welcomeText, 'bot');
                 createQuickActionButtons();
             } else {
                 throw new Error(data.error || 'Failed to reset chat');
