@@ -45,31 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
             loginModal.style.display = 'none';
             container.style.display = 'grid';
             usernameDisplay.textContent = username;
-            // Show menu button after login
             menuButton.classList.remove('hidden');
             
             // Clear any existing messages
             chatMessages.innerHTML = '';
             chatHistory = [];
             
-            // Add welcome message with a clean design
-            const welcomeMessage = `
-                <div class="message bot">
-                    <div class="message-content">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
-                        <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
-                        <p style="color: var(--text-color); opacity: 0.8;">Here are some things you can ask me:</p>
-                        <ul style="color: var(--text-color); opacity: 0.8; margin-top: 0.5rem; padding-left: 1.5rem;">
-                            <li>Recommend me some spicy dishes</li>
-                            <li>What are good vegetarian options?</li>
-                            <li>Show me quick breakfast ideas</li>
-                            <li>What is suitable for this weather?</li>
-                        </ul>
-                        <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">How can I help you today?</p>
-                    </div>
-                </div>
-            `;
-            chatMessages.innerHTML = welcomeMessage;
+            // Add welcome message with typing effect
+            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHere are some things you can ask me:\n\n- Recommend me some spicy dishes\n- What are good vegetarian options?\n- Show me quick breakfast ideas\n- What is suitable for this weather?\n\nHow can I help you today?`;
+            await typeMessage(welcomeText, 'bot');
             
         } catch (error) {
             console.error('Login error:', error);
