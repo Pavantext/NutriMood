@@ -454,7 +454,7 @@ body {
     top: 1rem;
     right: 1rem;
     z-index: 1001;
-    background: var(--sidebar-bg);
+    background: #271910;
     color: white;
     border: none;
     padding: 0.75rem;
@@ -808,7 +808,7 @@ body {
 }
 
 .user .message-content {
-    background: black;
+    background: #271910;
     box-shadow: none;
     color: white;
 }
