@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add emoji avatar
         const avatar = document.createElement('div');
         avatar.className = 'message-avatar';
-        avatar.innerHTML = role === 'user' ? '🧑' : '👨‍🍳';
+        avatar.innerHTML = role === 'user' ? '' : '👨‍🍳';
         messageDiv.appendChild(avatar);
 
         const contentDiv = document.createElement('div');
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
-            avatar.innerHTML = role === 'user' ? '🧑' : '👨‍🍳';
+            avatar.innerHTML = role === 'user' ? '' : '👨‍🍳'; 
             messageDiv.appendChild(avatar);
 
             const messageContent = document.createElement('div');
