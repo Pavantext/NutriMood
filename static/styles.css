@@ -666,7 +666,7 @@ body {
 
 .login-button {
     padding: 1rem;
-    background-color: var(--primary-color);
+    background-color: #F9B231;
     color: white;
     border: none;
     border-radius: 12px;
