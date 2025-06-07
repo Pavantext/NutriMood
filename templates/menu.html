@@ -129,6 +129,69 @@
             color: #666;
         }
 
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .add-button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover {
+            background-color: #333;
+        }
+
+        .quantity-buttons {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-buttons.active {
+            display: flex;
+        }
+
+        .quantity-btn {
+            background-color: #F9B231;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .quantity-display {
+            font-size: 1rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .plus-icon {
+            color: #F9B231;
+        }
+
         footer {
             text-align: center;
             padding: 2rem;
@@ -207,11 +270,49 @@
                             ${item.spice_level !== "None" ? `<span class="tag">Spice: ${item.spice_level}</span>` : ''}
                             <span class="tag">${item.category}</span>
                         </div>
+                        <div class="quantity-control">
+                            <button class="add-button" onclick="toggleQuantity(this)">
+                                <span class="plus-icon">+</span>
+                                <span>Add</span>
+                            </button>
+                            <div class="quantity-buttons">
+                                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                                <span class="quantity-display">1</span>
+                                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
 
             menuContainer.innerHTML = menuHTML;
+        }
+
+        function toggleQuantity(button) {
+            const quantityButtons = button.nextElementSibling;
+            quantityButtons.classList.toggle('active');
+            if (quantityButtons.classList.contains('active')) {
+                button.style.display = 'none';
+            }
+        }
+
+        function increaseQuantity(button) {
+            const quantityDisplay = button.previousElementSibling;
+            let quantity = parseInt(quantityDisplay.textContent);
+            quantityDisplay.textContent = quantity + 1;
+        }
+
+        function decreaseQuantity(button) {
+            const quantityDisplay = button.nextElementSibling;
+            let quantity = parseInt(quantityDisplay.textContent);
+            if (quantity > 1) {
+                quantityDisplay.textContent = quantity - 1;
+            } else {
+                const quantityButtons = button.parentElement;
+                const addButton = quantityButtons.previousElementSibling;
+                quantityButtons.classList.remove('active');
+                addButton.style.display = 'flex';
+            }
         }
 
         // Only load items if they weren't provided server-side
