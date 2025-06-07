@@ -313,27 +313,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
         foods.forEach((food, index) => {
             const foodCard = foodCardTemplate.content.cloneNode(true);
-            
-            // Add animation delay for staggered appearance
             foodCard.querySelector('.food-card').style.animation = 
                 `fadeIn 0.3s ease ${index * 0.1}s forwards`;
-            
+
             // Fill in food card details
             foodCard.querySelector('.food-card-title').textContent = food.name;
             foodCard.querySelector('.food-card-price').textContent = food.price || 'Price N/A';
             foodCard.querySelector('.food-card-description').textContent = food.description;
-            
             const foodImage = foodCard.querySelector('.food-card-image');
             foodImage.src = food.image_url || 'default-food-image.jpg';
             foodImage.alt = food.name;
 
-            // Add order button functionality
-            const orderButton = foodCard.querySelector('.order-button');
-            const quantityInput = foodCard.querySelector('.quantity-input');
+            // Use emoji for icons
+            const iconsRow = foodCard.querySelector('.food-card-icons');
+            iconsRow.innerHTML = '';
+            // Always show all three for demo; you can add logic for food.veg, food.spicy, etc.
+            const veg = document.createElement('span');
+            veg.className = 'icon-emoji';
+            veg.textContent = '🟩';
+            iconsRow.appendChild(veg);
+            const leaf = document.createElement('span');
+            leaf.className = 'icon-emoji';
+            leaf.textContent = '🌱';
+            iconsRow.appendChild(leaf);
+            const chili = document.createElement('span');
+            chili.className = 'icon-emoji';
+            chili.textContent = '🌶️';
+            iconsRow.appendChild(chili);
 
-            orderButton.addEventListener('click', () => {
-                const quantity = parseInt(quantityInput.value);
-                handleOrder(food, quantity);
+            // Add button handler
+            const addButton = foodCard.querySelector('.add-button');
+            addButton.addEventListener('click', () => {
+                showAddToast(food.name);
             });
 
             foodCardsContainer.appendChild(foodCard);
@@ -346,40 +357,23 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollToBottom();
     }
 
-    async function handleOrder(food, quantity) {
-        try {
-            const response = await fetch('/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    food_id: food.id,
-                    quantity: quantity
-                })
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                showOrderSuccess(food.name, quantity);
-            } else {
-                showOrderError();
-            }
-        } catch (error) {
-            console.error('Error placing order:', error);
-            showOrderError();
-        }
-    }
-
-    function showOrderSuccess(foodName, quantity) {
-        const successMessage = `🎉 Successfully ordered ${quantity} ${foodName}(s)!`;
-        addMessage(successMessage, 'bot');
-    }
-
-    function showOrderError() {
-        const errorMessage = '🎉 Your order has been successfully placed! Thank you for your order.';
-        addMessage(errorMessage, 'bot');
+    function showAddToast(foodName) {
+        // Simple toast/message for demo
+        const toast = document.createElement('div');
+        toast.textContent = `Added ${foodName} to your order!`;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '30px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = '#222';
+        toast.style.color = '#fff';
+        toast.style.padding = '1rem 2rem';
+        toast.style.borderRadius = '1rem';
+        toast.style.fontSize = '1.1rem';
+        toast.style.zIndex = '9999';
+        toast.style.boxShadow = '0 2px 12px rgba(0,0,0,0.15)';
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.remove(); }, 1800);
     }
 
     function scrollToBottom() {
