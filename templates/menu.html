@@ -74,6 +74,9 @@
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .menu-item:hover {
@@ -88,6 +91,9 @@
 
         .menu-item-content {
             padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .menu-item-header {
@@ -111,14 +117,16 @@
 
         .menu-item-description {
             color: #666;
-            margin-bottom: 1rem;
+            margin-bottom: 0;
             font-size: 0.9rem;
+            flex-grow: 1;
         }
 
         .menu-item-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .tag {
@@ -133,7 +141,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
         }
 
         .add-button {
@@ -158,10 +168,40 @@
             display: none;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .quantity-buttons.active {
             display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .order-button {
+            background-color: #F9B231;
+            color: black;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .order-button:hover {
+            background-color: #F9B231;
+        }
+
+        .order-button.ordered {
+            background-color: #F9B231;
+            color: white;
         }
 
         .quantity-btn {
@@ -207,6 +247,21 @@
 
             header h1 {
                 font-size: 2rem;
+            }
+
+            .quantity-buttons.active {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .quantity-controls {
+                justify-content: center;
+            }
+
+            .order-button {
+                margin-left: 0;
+                width: 100%;
             }
         }
     </style>
@@ -276,9 +331,12 @@
                                 <span>Add</span>
                             </button>
                             <div class="quantity-buttons">
-                                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
-                                <span class="quantity-display">1</span>
-                                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                                    <span class="quantity-display">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+                                </div>
+                                <button class="order-button" onclick="placeOrder(this)">Order</button>
                             </div>
                         </div>
                     </div>
@@ -313,6 +371,12 @@
                 quantityButtons.classList.remove('active');
                 addButton.style.display = 'flex';
             }
+        }
+
+        function placeOrder(button) {
+            button.textContent = 'Ordered';
+            button.classList.add('ordered');
+            button.disabled = true;
         }
 
         // Only load items if they weren't provided server-side
