@@ -324,22 +324,22 @@ document.addEventListener('DOMContentLoaded', function() {
             foodImage.src = food.image_url || 'default-food-image.jpg';
             foodImage.alt = food.name;
 
-            // Use emoji for icons
-            const iconsRow = foodCard.querySelector('.food-card-icons');
-            iconsRow.innerHTML = '';
-            // Always show all three for demo; you can add logic for food.veg, food.spicy, etc.
-            const veg = document.createElement('span');
-            veg.className = 'icon-emoji';
-            veg.textContent = '🟩';
-            iconsRow.appendChild(veg);
-            const leaf = document.createElement('span');
-            leaf.className = 'icon-emoji';
-            leaf.textContent = '🌱';
-            iconsRow.appendChild(leaf);
-            const chili = document.createElement('span');
-            chili.className = 'icon-emoji';
-            chili.textContent = '🌶️';
-            iconsRow.appendChild(chili);
+            // // Use emoji for icons
+            // const iconsRow = foodCard.querySelector('.food-card-icons');
+            // iconsRow.innerHTML = '';
+            // // Always show all three for demo; you can add logic for food.veg, food.spicy, etc.
+            // const veg = document.createElement('span');
+            // veg.className = 'icon-emoji';
+            // veg.textContent = '🟩';
+            // iconsRow.appendChild(veg);
+            // const leaf = document.createElement('span');
+            // leaf.className = 'icon-emoji';
+            // leaf.textContent = '🌱';
+            // iconsRow.appendChild(leaf);
+            // const chili = document.createElement('span');
+            // chili.className = 'icon-emoji';
+            // chili.textContent = '🌶️';
+            // iconsRow.appendChild(chili);
 
             // Add button handler
             const addButton = foodCard.querySelector('.add-button');
