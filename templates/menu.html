@@ -273,6 +273,65 @@
                 width: 100%;
             }
         }
+
+        /* Filter styles */
+        .filter-container {
+            position: sticky;
+            top: 120px;
+            z-index: 99;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .filter-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .filter-scroll::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .filter-button {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                top: 105px;
+                padding: 0.75rem;
+            }
+
+            .filter-button {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 
@@ -281,6 +340,13 @@
         <h1>Niloufer Menu</h1>
         <p class="subtitle">Discover our delicious offerings</p>
     </header>
+
+    <div class="filter-container">
+        <div class="filter-scroll" id="filterContainer">
+            <button class="filter-button active" data-category="all">All</button>
+            <!-- Categories will be loaded dynamically -->
+        </div>
+    </div>
 
     <main>
         <div class="menu-container" id="menuContainer">
@@ -300,10 +366,15 @@
     </footer>
 
     <script>
+        let allMenuItems = [];
+        let activeCategory = 'all';
+
         async function loadMenuItems() {
             try {
                 const response = await fetch('/menu-data');
                 const menuItems = await response.json();
+                allMenuItems = menuItems;
+                loadCategories(menuItems);
                 displayMenuItems(menuItems);
             } catch (error) {
                 console.error('Error loading menu items:', error);
@@ -314,6 +385,40 @@
                     </div>
                 `;
             }
+        }
+
+        function loadCategories(items) {
+            const categories = new Set(['all']);
+            items.forEach(item => categories.add(item.category));
+            
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = Array.from(categories)
+                .map(category => `
+                    <button class="filter-button ${category === 'all' ? 'active' : ''}" 
+                            data-category="${category}">
+                        ${category === 'all' ? 'All' : category}
+                    </button>
+                `).join('');
+
+            // Add click event listeners to filter buttons
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-button')) {
+                    const category = e.target.dataset.category;
+                    activeCategory = category;
+                    
+                    // Update active button state
+                    document.querySelectorAll('.filter-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    
+                    // Filter and display items
+                    const filteredItems = category === 'all' 
+                        ? allMenuItems 
+                        : allMenuItems.filter(item => item.category === category);
+                    displayMenuItems(filteredItems);
+                }
+            });
         }
 
         function displayMenuItems(items) {
@@ -401,6 +506,13 @@
         // Only load items if they weren't provided server-side
         if (!window.initialMenuItems) {
             document.addEventListener('DOMContentLoaded', loadMenuItems);
+        } else {
+            // If we have initial items, load them and set up categories
+            allMenuItems = initialMenuItems;
+            document.addEventListener('DOMContentLoaded', () => {
+                loadCategories(initialMenuItems);
+                displayMenuItems(initialMenuItems);
+            });
         }
     </script>
 </body>
