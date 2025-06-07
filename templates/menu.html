@@ -222,10 +222,19 @@
             background-color: #e0e0e0;
         }
 
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .quantity-display {
             font-size: 1rem;
             min-width: 30px;
             text-align: center;
+        }
+
+        .quantity-display.disabled {
+            opacity: 0.5;
         }
 
         .plus-icon {
@@ -377,6 +386,16 @@
             button.textContent = 'Ordered';
             button.classList.add('ordered');
             button.disabled = true;
+
+            // Disable quantity controls
+            const quantityControls = button.parentElement.querySelector('.quantity-controls');
+            const quantityButtons = quantityControls.querySelectorAll('.quantity-btn');
+            const quantityDisplay = quantityControls.querySelector('.quantity-display');
+
+            quantityButtons.forEach(btn => {
+                btn.disabled = true;
+            });
+            quantityDisplay.classList.add('disabled');
         }
 
         // Only load items if they weren't provided server-side
