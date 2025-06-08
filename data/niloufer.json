@@ -496,7 +496,7 @@
     "allergens": ["soy"],
     "popularity": "High",
     "pair_with": ["Fried rice"],
-    "Image_url": "https://www.jinooskitchen.com/wp-content/uploads/2018/07/dragon-chicken-final.jpg",
+    "Image_url": "https://www.bitensip.com/wp-content/uploads/2023/11/dragon-mushroom-1024x614.jpg",
     "keywords": ["mushroom", "dragon sauce", "spicy"]
   },
   {
@@ -571,7 +571,7 @@
     "allergens": ["nuts"],
     "popularity": "Moderate",
     "pair_with": ["Herbal tea"],
-    "image_url": "https://pinchandswirl.com/wp-content/uploads/2015/01/Quinoa-Broccoli-Almond-Pesto-Feta-500x375.jpg",
+    "image_url": "https://nataliecooks.com/wp-content/uploads/2023/04/Roasted-Broccoli-Fennel-Quinoa-Salad-with-Raisins-and-Almonds2-500x500.jpg",
     "keywords": ["healthy", "kebab", "vegan"]
   },
   {
@@ -935,7 +935,7 @@
     "spice_level": "None",
     "health_benefits": "Rich in antioxidants and supports metabolism.",
     "cuisine": "Herbal",
-    "category": "Appetizers",
+    "category": "Niloufer Heritage Teas",
     "course": "Tea",
     "calories": "5",
     "price": "190rs",
@@ -1158,7 +1158,7 @@
         "Masala Dosa",
         "Benne Biscuit (butter cookies)"
       ],
-      "image_url": "https://example.com/niloufer-coffee-image.jpg",
+      "image_url": "https://cdn.shopify.com/s/files/1/0224/8028/9872/files/blog-spec-coffee.jpg?v=1561236035",
       "keywords": [
         "filter coffee",
         "South Indian",
@@ -1209,7 +1209,7 @@
         "Niloufer Special Coffee",
         "Masala Chai"
       ],
-      "image_url": "https://example.com/apple-blossom-niloufer.jpg",
+      "image_url": "https://atelizabethstable.com/wp-content/uploads/2023/11/Apple-Mocktail-5.jpg",
       "keywords": [
         "pastry",
         "apple dessert",
@@ -1256,7 +1256,7 @@
         "Croissants",
         "Chocolate pastries"
       ],
-      "image_url": "https://example.com/kitkat-frappe-niloufer.jpg",
+      "image_url": "https://www.nestleprofessional.ca/sites/default/files/srh_recipes/4c24595744f2c50c7e3f78fbfe80599f.png",
       "keywords": [
         "frappe",
         "KitKat",
@@ -1294,7 +1294,7 @@
       "allergens": ["gluten (brownie)", "dairy (milk, whipped cream)"],
       "popularity": "High",
       "pair_with": ["Chocolate chip cookies", "Tiramisu"],
-      "image_url": "https://example.com/brownie-frappe.jpg",
+      "image_url": "https://sarahscucinabella.com/wp-content/uploads/2013/08/Chocolate-Brownie-Coffee-Frappe-2.jpg",
       "keywords": ["chocolatey", "creamy", "cold", "dessert-drink"]
   },
     {
@@ -1335,7 +1335,7 @@
         "Brownie",
         "Donuts"
       ],
-      "image_url": "https://example.com/oreo-frappe-niloufer.jpg",
+      "image_url": "https://i0.wp.com/wonkywonderful.com/wp-content/uploads/2022/01/oreo-frappuccino.jpg?resize=720%2C720&ssl=1",
       "keywords": [
         "frappe",
         "Oreo",
@@ -1384,7 +1384,7 @@
         "Croissants",
         "Chocolate Waffles"
       ],
-      "image_url": "https://example.com/nutella-frappe-niloufer.jpg",
+      "image_url": "https://forgetsugarfriday.com/wp-content/uploads/2021/07/keto-nutella-frappuccino-featured-geo.jpg",
       "keywords": [
         "frappe",
         "Nutella",
@@ -1431,7 +1431,7 @@
         "Macarons",
         "Shortbread Cookies"
       ],
-      "image_url": "https://example.com/strawberry-white-chocolate-frappe.jpg",
+      "image_url": "https://plus.unsplash.com/premium_photo-1695927469061-4c307d53c7a5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "frappe",
         "strawberry",
@@ -1479,7 +1479,7 @@
         "Cinnamon Roll",
         "Almond Biscotti"
       ],
-      "image_url": "https://example.com/biscoff-frappe-niloufer.jpg",
+      "image_url": "https://media.istockphoto.com/id/1450192043/photo/close-up-of-coffee-with-whipped-cream-and-cookies-new-dalgona-coffee.jpg?s=612x612&w=0&k=20&c=pkP08O09K5aBPWPI_T2BxoFexVJiODoWpndCBDY-lHQ=",
       "keywords": [
         "frappe",
         "Biscoff",
@@ -1524,7 +1524,7 @@
         "French Fries",
         "Grilled Cheese Sandwich"
       ],
-      "image_url": "https://example.com/strawberry-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1583024012457-b6de05b7003a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "strawberry",
@@ -1569,7 +1569,7 @@
         "Donuts",
         "Chocolate Chip Cookies"
       ],
-      "image_url": "https://example.com/chocolate-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1591864384134-8a21ffb51cb5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "chocolate",
@@ -1614,7 +1614,7 @@
         "Peanut Butter Toast",
         "Oatmeal Cookies"
       ],
-      "image_url": "https://example.com/banana-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1685967836529-b0e8d6938227?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "banana",
@@ -1648,7 +1648,7 @@
       "allergens": [],
       "popularity": "Very High",
       "pair_with": ["Butter croissant", "Oatmeal cookies"],
-      "image_url": "https://example.com/cafe-americano-14.jpg",
+      "image_url": "https://images.unsplash.com/photo-1640735099606-8181a8c8f5a7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fENBRiVDMyU4OSUyMEFNRVJJQ0FOT3xlbnwwfHwwfHx8MA%3D%3D",
       "keywords": ["barista-style", "smooth", "strong", "black-coffee"]
   },
     {
@@ -1689,7 +1689,7 @@
         "Chocolate Brownie",
         "Salted Caramel Cookies"
       ],
-      "image_url": "https://example.com/kitkat-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1714799263245-4fc7cc21911e?q=80&w=1999&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "KitKat",
@@ -1733,7 +1733,7 @@
         "French Fries",
         "Butter Cookies"
       ],
-      "image_url": "https://example.com/vanilla-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1555411093-41f7864ed3a2?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "vanilla",
@@ -1780,7 +1780,7 @@
         "Chocolate Chip Cookies",
         "Salted Caramel Brownie"
       ],
-      "image_url": "https://example.com/oreo-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1641665271888-575e46923776?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "Oreo",
@@ -1828,7 +1828,7 @@
         "Banana Bread",
         "Almond Croissant"
       ],
-      "image_url": "https://example.com/nutella-milkshake-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1598976797326-f7c56d8fbd43?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "milkshake",
         "Nutella",
@@ -1871,7 +1871,7 @@
         "Osmania Biscuits",
         "Maska Bun"
       ],
-      "image_url": "https://example.com/apple-juice-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1605199910378-edb0c0709ab4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "juice",
         "apple",
@@ -1913,7 +1913,7 @@
         "Khara Biscuit",
         "Fruit Biscuit"
       ],
-      "image_url": "https://example.com/pineapple-juice-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "juice",
         "pineapple",
@@ -1955,7 +1955,7 @@
         "Butter Biscuit",
         "Maska Bun"
       ],
-      "image_url": "https://example.com/watermelon-juice-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1683531658992-b78c311900a3?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "juice",
         "watermelon",
@@ -1997,7 +1997,7 @@
         "Khara Biscuit",
         "Almond Croissant"
       ],
-      "image_url": "https://example.com/carrot-juice-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1628961915805-4c92c885ce61?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "juice",
         "carrot",
@@ -2042,7 +2042,7 @@
         "Khara Biscuit",
         "Maska Bun"
       ],
-      "image_url": "https://example.com/abc-juice-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1500291161618-747dee2ab16c?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "juice",
         "detox",
@@ -2090,7 +2090,7 @@
         "Irani Chai",
         "Black Coffee"
       ],
-      "image_url": "https://example.com/pineapple-pastry-niloufer.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJyA-ptE3pRGxPzCL3nl1DvOIBEtH5UNC6Q&s",
       "keywords": [
         "pastry",
         "pineapple",
@@ -2102,63 +2102,95 @@
     {
       "id": "25",
       "name": "Café Latte",
-      "description": "A smooth espresso-based drink with steamed milk and a light layer of foam. Creamy and mildly caffeinated.",
+      "description": "A smooth espresso-based drink with steamed milk and a light layer of foam. Creamy and mildly caffeinated, perfect for those who enjoy coffee with a velvety texture.",
       "region": "Global",
       "mood": "Comforting",
       "diet": "Vegetarian",
       "time": "Breakfast/Anytime",
       "spice_level": "None",
-      "health_benefits": "Calcium from milk; antioxidants from coffee.",
+      "health_benefits": "Calcium from milk; antioxidants from coffee; may improve focus",
       "cuisine": "International",
       "category": "Freshly Brewed Coffee",
       "course": "Hot Drink",
       "calories": "150",
       "price": "160rs",
       "ingredients": [
-        "Espresso",
-        "Steamed milk",
-        "Milk foam"
+          "Double espresso shot",
+          "Steamed whole milk",
+          "Microfoam",
+          "Optional: vanilla/caramel syrup"
       ],
       "sides": [
-        "Osmania Biscuit"
+          "Osmania Biscuit",
+          "Almond croissant"
       ],
+      "cooking_method": "Espresso machine brewed",
       "dietary_tags": [
-        "vegetarian"
+          "vegetarian"
       ],
       "allergens": [
-        "dairy"
+          "dairy"
       ],
-      "popularity": "High"
-    },
-    {
+      "popularity": "Very High",
+      "pair_with": [
+          "Cinnamon roll",
+          "Fruit tart"
+      ],
+      "image_url": "https://dairyfarmersofcanada.ca/sites/default/files/image_file_browser/conso_recipe/2021/Cafe%20Latte.jpg",
+      "keywords": [
+          "creamy",
+          "smooth",
+          "espresso",
+          "milk"
+      ]
+  },
+  {
       "id": "26",
       "name": "Café Mocha",
-      "description": "A decadent blend of espresso, steamed milk, chocolate syrup, and whipped cream. A dessert-like coffee.",
+      "description": "A decadent blend of espresso, steamed milk, chocolate syrup, and whipped cream. A dessert-like coffee that satisfies both chocolate and coffee cravings with its rich layered flavors.",
       "region": "Global",
       "mood": "Indulgent",
       "diet": "Vegetarian",
       "time": "Anytime",
       "spice_level": "None",
-      "health_benefits": "Antioxidants from cocoa (moderation).",
+      "health_benefits": "Antioxidants from cocoa and coffee; may boost mood",
       "cuisine": "International",
       "category": "Freshly Brewed Coffee",
       "course": "Hot Drink",
       "calories": "280",
       "price": "180rs",
       "ingredients": [
-        "Espresso",
-        "Chocolate syrup",
-        "Steamed milk",
-        "Whipped cream"
+          "Double espresso shot",
+          "Premium chocolate syrup",
+          "Steamed milk",
+          "Fresh whipped cream",
+          "Cocoa powder dusting"
       ],
+      "sides": [
+          "Chocolate-dipped biscotti",
+          "Hazelnut cookies"
+      ],
+      "cooking_method": "Espresso machine brewed",
       "dietary_tags": [
-        "vegetarian"
+          "vegetarian"
       ],
       "allergens": [
-        "dairy",
-        "gluten (trace)"
+          "dairy",
+          "gluten (trace in chocolate syrup)"
+      ],
+      "popularity": "High",
+      "pair_with": [
+          "Chocolate truffle",
+          "Caramel shortbread"
+      ],
+      "image_url": "https://www.deliciousmeetshealthy.com/wp-content/uploads/2021/03/Mocha-Coffee-6.jpg",
+      "keywords": [
+          "chocolatey",
+          "decadent",
+          "dessert-coffee",
+          "whipped-cream"
       ]
-    },
+  },
     {
       "id": "27",
       "name": "Butter Scotch Pastry",
@@ -2196,7 +2228,7 @@
         "Café Latte",
         "Black Coffee"
       ],
-      "image_url": "https://example.com/butterscotch-pastry-niloufer.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL6K9ewi8-nc5NSxY5vFA7Dx_5ywktxOmjEzaEIo1uJgL0fktIaj8toIciVMXo5rwkmpM&usqp=CAU",
       "keywords": [
         "pastry",
         "butterscotch",
@@ -2241,7 +2273,7 @@
         "Café Mocha",
         "Irani Chai"
       ],
-      "image_url": "https://example.com/black-forest-niloufer.jpg",
+      "image_url": "https://assets.winni.in/c_limit,dpr_1,fl_progressive,q_80,w_1000/72489_black-forest-pastry.jpeg",
       "keywords": [
         "chocolate",
         "cherry",
@@ -2286,7 +2318,7 @@
         "Coffee",
         "Vanilla Ice Cream"
       ],
-      "image_url": "https://example.com/chocolate-pastry.jpg",
+      "image_url": "https://www.elloras.in/cdn/shop/products/17Chcotrufflepastry_d6e55e82-3718-4067-8a98-73e880719fdb.jpg?v=1662568844",
       "keywords": [
         "chocolate",
         "pastry",
@@ -2331,7 +2363,7 @@
         "Espresso",
         "Cold Milk"
       ],
-      "image_url": "https://example.com/death-by-chocolate-niloufer.jpg",
+      "image_url": "https://images.unsplash.com/photo-1741244133035-660d79b51bfd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "chocolate",
         "decadent",
@@ -2376,7 +2408,7 @@
         "Masala Chai",
         "Badam Milk"
       ],
-      "image_url": "https://example.com/rasmalai-pastry-niloufer.jpg",
+      "image_url": "https://merakcakes.com/cdn/shop/files/IMG_0627.jpg?v=1745299666",
       "keywords": [
         "rasmalai",
         "indian",
@@ -2421,7 +2453,7 @@
         "Espresso",
         "Vanilla Bean Ice Cream"
       ],
-      "image_url": "https://example.com/belgium-chocolate-pastry.jpg",
+      "image_url": "https://frozenbottle.com/cdn/shop/files/Belgian_Chocolate_Truffle_Pastry.jpg?v=1725895590",
       "keywords": [
         "belgian",
         "chocolate",
@@ -2466,7 +2498,7 @@
         "Cappuccino",
         "Hazelnut Latte"
       ],
-      "image_url": "https://example.com/hazelnut-pastry.jpg",
+      "image_url": "https://i0.wp.com/theadventuresofbobandshan.com/wp-content/uploads/2015/11/The-Adventures-of-Bob-Shan-Chocolate-Hazelnut-Tart-8354.jpg?ssl=1",
       "keywords": [
         "hazelnut",
         "praline",
@@ -2475,215 +2507,8 @@
       ]
     },
     {
-      "id": "34",
-      "name": "Pineapple Pastry (Eggless)",
-      "description": "Light and tropical eggless pastry with pineapple-infused sponge, whipped cream, and pineapple chunks.",
-      "region": "Tropical Fusion",
-      "mood": "Refreshing",
-      "diet": "Vegetarian",
-      "time": "Afternoon",
-      "spice_level": "None",
-      "health_benefits": "Vitamin C from pineapple",
-      "cuisine": "International",
-      "category": "Pastry House",
-      "course": "Sweet",
-      "calories": "350",
-      "price": "190rs",
-      "ingredients": [
-        "Eggless vanilla sponge",
-        "Pineapple compote",
-        "Whipped cream",
-        "Fresh pineapple chunks",
-        "Cherry garnish"
-      ],
-      "sides": [],
-      "cooking_method": "Layered",
-      "dietary_tags": [
-        "vegetarian",
-        "eggless"
-      ],
-      "allergens": [
-        "dairy"
-      ],
-      "popularity": "Medium",
-      "pair_with": [
-        "Pina Colada Mocktail",
-        "Green Tea"
-      ],
-      "image_url": "https://example.com/pineapple-pastry.jpg",
-      "keywords": [
-        "pineapple",
-        "tropical",
-        "eggless",
-        "refreshing"
-      ]
-    },
-    {
-      "id": "35",
-      "name": "Butter Scotch Pastry (Eggless)",
-      "description": "Creamy butterscotch-flavored pastry with layers of eggless sponge, butterscotch cream, and caramelized sugar crunch.",
-      "region": "Western",
-      "mood": "Sweet & Creamy",
-      "diet": "Vegetarian",
-      "time": "Anytime",
-      "spice_level": "None",
-      "health_benefits": "Energy-boosting sugars",
-      "cuisine": "American Fusion",
-      "category": "Pastry House",
-      "course": "Sweet",
-      "calories": "400",
-      "price": "200rs",
-      "ingredients": [
-        "Eggless vanilla sponge",
-        "Butterscotch cream",
-        "Caramel sauce",
-        "Crushed butterscotch candy",
-        "Whipped cream"
-      ],
-      "sides": [],
-      "cooking_method": "Layered",
-      "dietary_tags": [
-        "vegetarian",
-        "eggless"
-      ],
-      "allergens": [
-        "dairy"
-      ],
-      "popularity": "High",
-      "pair_with": [
-        "Caramel Latte",
-        "Vanilla Milkshake"
-      ],
-      "image_url": "https://example.com/butterscotch-pastry.jpg",
-      "keywords": [
-        "butterscotch",
-        "caramel",
-        "eggless",
-        "dessert"
-      ]
-    },
-    {
-      "id": "36",
-      "name": "Black Forest Pastry (Eggless)",
-      "description": "Classic eggless Black Forest pastry with layers of chocolate sponge, whipped cream, and cherry compote.",
-      "region": "European",
-      "mood": "Classic & Rich",
-      "diet": "Vegetarian",
-      "time": "Evening",
-      "spice_level": "None",
-      "health_benefits": "Antioxidants from dark chocolate",
-      "cuisine": "German Fusion",
-      "category": "Pastry House",
-      "course": "Sweet",
-      "calories": "420",
-      "price": "230rs",
-      "ingredients": [
-        "Eggless chocolate sponge",
-        "Whipped cream",
-        "Cherry compote",
-        "Chocolate shavings",
-        "Vanilla essence"
-      ],
-      "sides": [],
-      "cooking_method": "Layered",
-      "dietary_tags": [
-        "vegetarian",
-        "eggless"
-      ],
-      "allergens": [
-        "dairy"
-      ],
-      "popularity": "Very High",
-      "pair_with": [
-        "Black Coffee",
-        "Cherry Compote"
-      ],
-      "image_url": "https://example.com/black-forest-eggless.jpg",
-      "keywords": [
-        "black forest",
-        "chocolate",
-        "cherry",
-        "eggless"
-      ]
-    },
-    {
-      "id": "37",
-      "name": "CAFÉ MOCHA",
-      "description": "A luxurious blend of freshly brewed espresso, steamed milk, and rich chocolate syrup, topped with whipped cream for a decadent coffee experience.",
-      "region": "International",
-      "mood": "Indulgent",
-      "diet": "Vegetarian",
-      "time": "Morning/Afternoon",
-      "spice_level": "None",
-      "health_benefits": "Antioxidants (cocoa), energy boost (espresso)",
-      "cuisine": "Coffee",
-      "category": "Freshly Brewed Coffee",
-      "course": "Beverage",
-      "calories": "330",
-      "price": "240rs",
-      "ingredients": [
-          "Double espresso shot",
-          "Steamed milk",
-          "Chocolate syrup",
-          "Whipped cream",
-          "Cocoa powder garnish"
-      ],
-      "sides": ["Chocolate-dipped biscotti", "Almond croissant"],
-      "cooking_method": "Espresso machine brewed",
-      "dietary_tags": ["vegetarian"],
-      "allergens": ["dairy (milk, whipped cream)"],
-      "popularity": "Very High",
-      "pair_with": ["Chocolate chip cookies", "Cinnamon roll"],
-      "image_url": "https://example.com/cafe-mocha-37.jpg",
-      "keywords": ["chocolatey", "creamy", "espresso", "specialty-coffee"]
-  },
-    {
-      "id": "38",
-      "name": "Chocolate Pastry (Eggless)",
-      "description": "Decadent eggless chocolate pastry with layers of moist chocolate sponge and velvety chocolate cream.",
-      "region": "Western",
-      "mood": "Indulgent",
-      "diet": "Vegetarian",
-      "time": "Anytime",
-      "spice_level": "None",
-      "health_benefits": "Antioxidants from cocoa",
-      "cuisine": "International",
-      "category": "Pastry House",
-      "course": "Sweet",
-      "calories": "390",
-      "price": "190rs",
-      "ingredients": [
-        "Eggless chocolate sponge",
-        "Chocolate ganache",
-        "Whipped cream",
-        "Chocolate curls",
-        "Vanilla essence"
-      ],
-      "sides": [],
-      "cooking_method": "Layered",
-      "dietary_tags": [
-        "vegetarian",
-        "eggless"
-      ],
-      "allergens": [
-        "dairy"
-      ],
-      "popularity": "Very High",
-      "pair_with": [
-        "Hot Chocolate",
-        "Strawberry Milkshake"
-      ],
-      "image_url": "https://example.com/chocolate-pastry-eggless.jpg",
-      "keywords": [
-        "chocolate",
-        "eggless",
-        "dessert",
-        "indulgent"
-      ]
-    },
-    {
       "id": "39",
-      "name": "Red Velvet Pastry (Eggless)",
+      "name": "Red Velvet Pastry",
       "description": "Classic eggless red velvet pastry with cream cheese frosting and a hint of cocoa.",
       "region": "American",
       "mood": "Romantic & Velvety",
@@ -2717,7 +2542,7 @@
         "Cold Coffee",
         "Berry Smoothie"
       ],
-      "image_url": "https://example.com/red-velvet-eggless.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKT28fgELWsOHYVrxbGcDVw2KIYOVIJfMfPKknVNnD2T8yOLBDDNnqYMuXzdz43dH85E0&usqp=CAU",
       "keywords": [
         "red velvet",
         "cream cheese",
@@ -2726,53 +2551,8 @@
       ]
     },
     {
-      "id": "40",
-      "name": "Rasmalai Pastry (Eggless)",
-      "description": "Fusion dessert combining rasmalai and pastry—eggless sponge soaked in rabdi, layered with cream and pistachios.",
-      "region": "Indian Fusion",
-      "mood": "Festive",
-      "diet": "Vegetarian",
-      "time": "Afternoon",
-      "spice_level": "None",
-      "health_benefits": "Calcium from milk, protein from paneer",
-      "cuisine": "Indian-Western Fusion",
-      "category": "Pastry House",
-      "course": "Sweet",
-      "calories": "380",
-      "price": "210rs",
-      "ingredients": [
-        "Eggless sponge",
-        "Rabdi (reduced milk)",
-        "Whipped cream",
-        "Pistachios",
-        "Saffron"
-      ],
-      "sides": [],
-      "cooking_method": "Layered",
-      "dietary_tags": [
-        "vegetarian",
-        "eggless"
-      ],
-      "allergens": [
-        "dairy",
-        "nuts"
-      ],
-      "popularity": "High",
-      "pair_with": [
-        "Masala Chai",
-        "Badam Milk"
-      ],
-      "image_url": "https://example.com/rasmalai-pastry.jpg",
-      "keywords": [
-        "rasmalai",
-        "indian",
-        "fusion",
-        "festive"
-      ]
-    },
-    {
       "id": "41",
-      "name": "German White Forest Pastry (Eggless)",
+      "name": "German White Forest Pastry",
       "description": "Eggless twist on the classic White Forest pastry—vanilla sponge, whipped cream, and cherry compote.",
       "region": "European",
       "mood": "Elegant & Creamy",
@@ -2806,7 +2586,7 @@
         "White Chocolate Mocha",
         "Berry Compote"
       ],
-      "image_url": "https://example.com/white-forest-eggless.jpg",
+      "image_url": "https://www.muffinscakes.com/files/catalog/New%20Photoshoot%20Cakes/WhiteForest%20Pastry.JPG",
       "keywords": [
         "white forest",
         "vanilla",
@@ -2816,7 +2596,7 @@
     },
     {
       "id": "42",
-      "name": "Kaju Katli Pastry (Eggless)",
+      "name": "Kaju Katli Pastry",
       "description": "Innovative fusion of kaju katli (cashew fudge) with pastry—layered with cashew cream and saffron.",
       "region": "Indian Fusion",
       "mood": "Royal & Rich",
@@ -2851,7 +2631,7 @@
         "Kesar Milk",
         "Cardamom Tea"
       ],
-      "image_url": "https://example.com/kaju-katli-pastry.jpg",
+      "image_url": "https://bakewithshivesh.com/wp-content/uploads/2020/10/IMG-9596-scaled.jpg",
       "keywords": [
         "kaju katli",
         "cashew",
@@ -2861,7 +2641,7 @@
     },
     {
       "id": "43",
-      "name": "Almond Burfi Pastry (Eggless)",
+      "name": "Almond Burfi Pastry",
       "description": "A delightful fusion of almond burfi and pastry—layered with almond cream and garnished with sliced almonds.",
       "region": "Indian Fusion",
       "mood": "Nutty & Festive",
@@ -2896,7 +2676,7 @@
         "Almond Milk",
         "Saffron Tea"
       ],
-      "image_url": "https://example.com/almond-burfi-pastry.jpg",
+      "image_url": "https://i0.wp.com/footprinttheworld.com/wp-content/uploads/2022/11/IMG_2734.jpeg?fit=3024%2C3186&ssl=1",
       "keywords": [
         "almond",
         "burfi",
@@ -2943,7 +2723,7 @@
         "Soft drinks",
         "Garlic bread"
       ],
-      "image_url": "https://example.com/veg-chatpata-pizzalette.jpg",
+      "image_url": "https://content.jdmagicbox.com/comp/def_content/fast-food/11-fast-food-8-4u2t5.jpg",
       "keywords": [
         "pizza",
         "indian",
@@ -2990,7 +2770,7 @@
         "Lassi",
         "Masala Chai"
       ],
-      "image_url": "https://example.com/paneer-makhani-pizzalette.jpg",
+      "image_url": "https://cdn.grofers.com/assets/search/usecase/banner/paneer_makhani_pizza_01.png",
       "keywords": [
         "pizza",
         "paneer",
@@ -3038,7 +2818,7 @@
         "Mojito",
         "Cold coffee"
       ],
-      "image_url": "https://example.com/paneer-chatpata-pizzalette.jpg",
+      "image_url": "https://b.zmtcdn.com/data/dish_photos/8d3/3f7b4790495d3ad00cc5de3c40edb8d3.jpg",
       "keywords": [
         "pizza",
         "paneer",
@@ -3087,7 +2867,7 @@
         "Red wine",
         "Garlic dip"
       ],
-      "image_url": "https://example.com/ultimate-pizza-pizzalette.jpg",
+      "image_url": "https://www.southernliving.com/thmb/UuflED14dkNrrm-TFbkz42Z5mRg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sl_supremepizza_00072-2000-4cab71bd67774233b45f05e4e32fdfde.jpg",
       "keywords": [
         "pizza",
         "loaded",
@@ -3135,7 +2915,7 @@
         "Red wine",
         "Garlic bread"
       ],
-      "image_url": "https://example.com/margherita-neapolitan.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOhWUnOv_aJci9j5Oy1LobMGRLF8n2Az1HiQ&s",
       "keywords": [
         "classic",
         "italian",
@@ -3183,7 +2963,7 @@
         "White wine",
         "Mushroom soup"
       ],
-      "image_url": "https://example.com/wild-mushroom-neapolitan.jpg",
+      "image_url": "https://assets.wsimgs.com/wsimgs/ab/images/dp/recipe/202503/0004/img36l.jpg",
       "keywords": [
         "gourmet",
         "truffle",
@@ -3232,7 +3012,7 @@
         "Margarita",
         "Mexican beer"
       ],
-      "image_url": "https://example.com/mexicano-neapolitan.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Rxsx5uArzpwcErQBbn7YM28WSPdnq2i_Dw&s",
       "keywords": [
         "spicy",
         "fusion",
@@ -3277,7 +3057,7 @@
         "Biscuits",
         "Toast"
       ],
-      "image_url": "https://example.com/niloufer-half-tea.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSVkosMlTJV3awCTYzdkLDlGQUr-Dfht5z1g&s",
       "keywords": [
         "irani",
         "chai",
@@ -3322,7 +3102,7 @@
         "Bun maska",
         "Samosa"
       ],
-      "image_url": "https://example.com/niloufer-special-tea.jpg",
+      "image_url": "https://content.jdmagicbox.com/v2/comp/hyderabad/y8/040pxx40.xx40.160116154747.k2y8/catalogue/new-niloufer-cafe-and-restaurant-khairatabad-hyderabad-restaurants-mcibrljxbc-250.jpg",
       "keywords": [
         "signature",
         "irani",
@@ -3372,7 +3152,7 @@
         "House salad",
         "Garlic bread"
       ],
-      "image_url": "https://example.com/veg-supreme-neapolitan.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzZmAAmlsnuffSc-qbvykCMokbUlPVPY3leQ&s",
       "keywords": [
         "vegetarian",
         "loaded",
@@ -3421,7 +3201,7 @@
         "White wine",
         "Minestrone"
       ],
-      "image_url": "https://example.com/caprese-neapolitan.jpg",
+      "image_url": "https://eu.gozney.com/cdn/shop/files/Caprese_Pizza_Feng_Chen_leopardcrust_-_Large_f0796fcd-05f1-4c1e-9341-fb6012fe7907.png?v=1743691203",
       "keywords": [
         "caprese",
         "fresh",
@@ -3469,7 +3249,7 @@
         "IPA beer",
         "Sweet lime soda"
       ],
-      "image_url": "https://example.com/paneer-bbq-neapolitan.jpg",
+      "image_url": "https://deliverywala.store/cdn/shop/files/images-_2_28.jpg?v=1729330206",
       "keywords": [
         "fusion",
         "paneer",
@@ -3517,7 +3297,7 @@
         "Mango lassi",
         "Masala lemonade"
       ],
-      "image_url": "https://example.com/paneer-tikka-neapolitan.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdRuDP-jvR2Dkm6poc-z92Sm3gdo3nye31Hw&s",
       "keywords": [
         "tikka",
         "spicy",
@@ -3566,7 +3346,7 @@
         "Sparkling water",
         "White wine"
       ],
-      "image_url": "https://example.com/greens-neapolitan.jpg",
+      "image_url": "https://www.stripes.com/incoming/2n33zb-090525wkafter-nuovophoto01.jpg/alternates/LANDSCAPE_480/090525wkAFTER-NUOVOphoto01.jpg",
       "keywords": [
         "healthy",
         "greens",
@@ -3616,7 +3396,7 @@
         "Prosecco",
         "Herbal tea"
       ],
-      "image_url": "https://example.com/exotic-greens-neapolitan.jpg",
+      "image_url": "https://imgmediagumlet.lbb.in/media/2020/03/5e6a287e0d860262dd40dec0_1584015486687.jpg",
       "keywords": [
         "gourmet",
         "superfood",
@@ -3664,7 +3444,7 @@
         "Raita",
         "Salad"
       ],
-      "image_url": "https://example.com/jeera-rice-paneer-bowl.jpg",
+      "image_url": "https://mealpractice.b-cdn.net/270441858713391104/paneer-tikka-masala-with-jeera-rice-and-mixed-veggie-raita-bqhhsqhgR2.webp",
       "keywords": [
         "comfort",
         "creamy",
@@ -3711,7 +3491,7 @@
         "Margarita",
         "Guacamole"
       ],
-      "image_url": "https://example.com/mexican-rice-bowl.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrz9g39ghzNFBro0XmW99yKTyftEeN9VcBBw&s",
       "keywords": [
         "mexican",
         "grilled",
@@ -3760,7 +3540,7 @@
         "Thai iced tea",
         "Lemon coriander soup"
       ],
-      "image_url": "https://example.com/chilli-paneer-rice-bowl.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3GBURGMJ-PBjD46Zp0yQyVpAaN0bwsFHUdw&s",
       "keywords": [
         "indochinese",
         "spicy",
@@ -3808,7 +3588,7 @@
         "Herbal iced tea",
         "Vegetable soup"
       ],
-      "image_url": "https://example.com/spinach-rice-bowl.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2lMQPSIqtsIL2gHS1Aw_2mYXobMOpL_A1pg&s",
       "keywords": [
         "healthy",
         "nutritious",
@@ -3857,7 +3637,7 @@
         "Toast",
         "Samosa"
       ],
-      "image_url": "https://example.com/masala-tea.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnCdXO8WbW9sMz7HQAMxhhoryYEyTJSW2Vyw&s",
       "keywords": [
         "chai",
         "spiced",
@@ -3903,7 +3683,7 @@
         "Curd",
         "Fryums"
       ],
-      "image_url": "https://example.com/sambar-rice-small.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrjb1mN6MRmfhinIdsUdD4SaVj23h1QfokaA&s",
       "keywords": [
         "comfort",
         "southindian",
@@ -3948,7 +3728,7 @@
         "Buttermilk",
         "Banana chips"
       ],
-      "image_url": "https://example.com/sambar-rice-large.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrjb1mN6MRmfhinIdsUdD4SaVj23h1QfokaA&s",
       "keywords": [
         "hearty",
         "wholesome",
@@ -3995,7 +3775,7 @@
         "Mojito",
         "Garlic bread"
       ],
-      "image_url": "https://example.com/piri-piri-paneer.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBiE0R9IVPUUfg70g5Cl4b5jMEdxmoCYqv7Q&s",
       "keywords": [
         "spicy",
         "grilled",
@@ -4040,7 +3820,7 @@
         "Kadhi",
         "Papad"
       ],
-      "image_url": "https://example.com/tawa-pulav.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo9IJb1CSOQRercvs6yw5i8WwxBpRg6NANmw&s",
       "keywords": [
         "streetfood",
         "flavorful",
@@ -4087,7 +3867,7 @@
         "Mango pickle",
         "Sambar"
       ],
-      "image_url": "https://example.com/curd-rice.jpg",
+      "image_url": "https://images.unsplash.com/photo-1633383718081-22ac93e3db65?q=80&w=1958&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "comfort",
         "cooling",
@@ -4136,7 +3916,7 @@
         "Red wine",
         "Bruschetta"
       ],
-      "image_url": "https://example.com/penne-arrabbiata.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS019-HD-FpnU5U9q83LDIIVUyy2H25ptkU9w&s",
       "keywords": [
         "spicy",
         "italian",
@@ -4184,7 +3964,7 @@
         "White wine",
         "Caesar salad"
       ],
-      "image_url": "https://example.com/penne-alfredo.jpg",
+      "image_url": "https://images.unsplash.com/photo-1662478838323-2b4d9dba8ce8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "creamy",
         "rich",
@@ -4232,7 +4012,7 @@
         "Rosé wine",
         "Minestrone"
       ],
-      "image_url": "https://example.com/penne-aurora.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttm2l5UXUqsFNChpqOxY6hKxLBepXdUPJ4Q&s",
       "keywords": [
         "pink sauce",
         "creamy",
@@ -4279,7 +4059,7 @@
         "White wine",
         "Caprese salad"
       ],
-      "image_url": "https://example.com/spaghetti-aglio-olio.jpg",
+      "image_url": "https://images.services.kitchenstories.io/UY89c4f471NaK1C-BQ07FGZ_qVA=/3840x0/filters:quality(80)/images.kitchenstories.io/wagtailOriginalImages/R131-final-photo-3-sg.jpg",
       "keywords": [
         "simple",
         "garlic",
@@ -4328,7 +4108,7 @@
         "Pinot Grigio",
         "Arugula salad"
       ],
-      "image_url": "https://example.com/penne-pesto.jpg",
+      "image_url": "https://chenabgourmet.b-cdn.net/wp-content/uploads/2022/02/Screenshot-2022-02-15-173915.png",
       "keywords": [
         "fresh",
         "herbal",
@@ -4374,7 +4154,7 @@
         "Millet cookies",
         "Roasted nuts"
       ],
-      "image_url": "https://example.com/jaggery-tea.jpg",
+      "image_url": "https://images.healthshots.com/healthshots/en/uploads/2023/01/08125853/jaggery-tea.jpg",
       "keywords": [
         "traditional",
         "unrefined",
@@ -4430,7 +4210,7 @@
         "Iced tea",
         "Tomato soup"
       ],
-      "image_url": "https://example.com/mac-n-cheese.jpg",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDd92rfM8vAljBlquu7xYsOoywAlK7jqW0fw&s",
       "keywords": [
         "comfort",
         "cheesy",
@@ -4479,7 +4259,7 @@
         "Red wine",
         "Minestrone"
       ],
-      "image_url": "https://example.com/lasagna.jpg",
+      "image_url": "https://images.unsplash.com/photo-1709429790175-b02bb1b19207?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "keywords": [
         "layered",
         "baked",
