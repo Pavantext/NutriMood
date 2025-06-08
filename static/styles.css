@@ -288,6 +288,8 @@ body {
     border-radius: 5px;
     border-top: 20px solid #F9B231;
     border-bottom: 20px solid #F9B231;
+    border-left: 10px solid #F9B231;
+    border-right: 10px solid #F9B231;
 }
 
 .food-card img {
