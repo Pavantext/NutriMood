@@ -239,6 +239,8 @@ class ConversationManager:
            - Acknowledge the connection to previous context
            - Reference specific items or preferences mentioned earlier
            - Maintain consistency with previous recommendations
+           - If the user is asking about a specific item mentioned earlier, focus on that item
+           - If the user is asking for more options, provide alternatives that match the previous context
         4. Make personalized recommendations based on user's preferences and constraints
         5. Keep the response concise but informative
         6. Do not use any HTML tags or special formatting

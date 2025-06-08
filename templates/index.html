@@ -154,23 +154,22 @@
 
     <!-- Templates for dynamic content -->
     <template id="food-card-template">
-        <div class="food-card">
-            <div class="food-card-header">
-                <div class="food-card-title"></div>
-                <div class="food-card-price"></div>
-            </div>
-            <div class="food-card-body">
+        <div class="food-card-outer">
+            <div class="food-card">
                 <img class="food-card-image" alt="Food Image">
-                <div class="food-card-content">
-                    <p class="food-card-description"></p>
+                <!-- <div class="food-card-icons">
+                    <img class="icon-veg" src="{{ url_for('static', filename='veg-icon.png') }}" alt="Veg">
+                    <img class="icon-leaf" src="{{ url_for('static', filename='leaf-icon.png') }}" alt="Leaf">
+                    <img class="icon-chili" src="{{ url_for('static', filename='chili-icon.png') }}" alt="Chili">
+                </div> -->
+                <div class="food-card-title-row">
+                    <div class="food-card-title"></div>
+                    <div class="food-card-price"></div>
                 </div>
-            </div>
-            <div class="food-card-footer">
-                <div class="quantity-controls">
-                    <label>Quantity:</label>
-                    <input type="number" class="quantity-input" min="1" value="1">
+                <div class="food-card-description"></div>
+                <div class="food-card-footer">
+                    <button class="add-button"><span class="plus-icon">+</span> Add</button>
                 </div>
-                <button class="order-button">Order Now</button>
             </div>
         </div>
     </template>

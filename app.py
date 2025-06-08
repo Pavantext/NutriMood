@@ -207,12 +207,26 @@ def chat():
         if intent_analysis['is_followup']:
             # Add context from conversation state to the search
             context_terms = []
+            
+            # Add last recommendations to context if this is a follow-up about specific items
+            if intent_analysis['followup_type'] in ['clarification', 'modification', 'comparison']:
+                last_foods = conversation_manager.conversation_state['last_recommendations']
+                if last_foods:
+                    context_terms.extend([food['name'] for food in last_foods])
+            
+            # Add other context terms
             if conversation_manager.conversation_state['last_meal_type']:
                 context_terms.append(conversation_manager.conversation_state['last_meal_type'])
             if conversation_manager.conversation_state['last_dietary']:
                 context_terms.append(conversation_manager.conversation_state['last_dietary'])
             if conversation_manager.conversation_state['last_price_range']:
                 context_terms.append(conversation_manager.conversation_state['last_price_range'])
+            if conversation_manager.conversation_state['last_cuisine']:
+                context_terms.append(conversation_manager.conversation_state['last_cuisine'])
+            
+            # Add referenced items from intent analysis
+            if intent_analysis.get('referenced_items'):
+                context_terms.extend(intent_analysis['referenced_items'])
             
             # Combine user input with context
             enhanced_query = f"{user_input} {' '.join(context_terms)}"
