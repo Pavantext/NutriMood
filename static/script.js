@@ -294,11 +294,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const indicator = document.createElement('div');
         indicator.className = 'message bot';
         indicator.innerHTML = `
-            <div class="message-content">
-                <div class="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <div class="message-wrapper">
+                <div class="message-avatar">
+                    👨‍🍳
+                </div>
+                <div class="message-bubble">
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
