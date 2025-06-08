@@ -269,6 +269,14 @@ body {
 }
 
 .food-card {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 16px auto;
+    box-sizing: border-box;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -282,19 +290,53 @@ body {
     border-bottom: 20px solid #F9B231;
 }
 
-.food-card-image {
+.food-card img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
     margin-bottom: 0.7rem;
     background: #f3f3f3;
     display: block;
+    background: #f5f5f5;
 }
 
-.food-card-image:empty,
-.food-card-image.broken {
-    background: #f3f3f3 url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><rect width="100%25" height="100%25" fill="%23f3f3f3"/><text x="50%25" y="50%25" font-size="20" text-anchor="middle" fill="%23ccc" dy=".3em">No Image</text></svg>') center center no-repeat;
+.food-card .food-info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.food-card .food-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.food-card .food-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.food-card .food-desc {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.food-card .add-btn {
+    width: 100%;
+    padding: 10px 0;
+    background: #2d1e0f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .food-card-icons {
@@ -394,7 +436,7 @@ body {
         box-shadow: none;
         padding: 10px;
         border-radius: 6px;
-        gap: 20px;
+        gap: 15px;
     }
     .food-card-image {
         width: 100%;

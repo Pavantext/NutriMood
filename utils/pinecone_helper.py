@@ -33,3 +33,12 @@ def upsert_data(index, food_data, get_embedding):
             "metadata": item
         })
     index.upsert(vectors=vectors)
+
+def delete_all_data(index):
+    """
+    Delete all vectors from the Pinecone index.
+    Args:
+        index: Pinecone index instance
+    """
+    index.delete(delete_all=True)
+    print(f"All data deleted from index: {INDEX_NAME}")
