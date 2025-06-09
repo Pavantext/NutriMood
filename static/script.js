@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chatHistory = [];
             
             // Add welcome message with typing effect
-            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation Chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
             await typeMessage(welcomeText, 'bot');
             
             // Remove existing quick actions first
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="message bot">
                     <div class="message-content">
                         <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
-                        <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
+                        <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
                         <p style="color: var(--text-color); opacity: 0.8;">How can I help you today?</p>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Add welcome message with typing effect
                     const username = usernameDisplay.textContent;
-                    const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation assistant. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+                    const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
                     await typeMessage(welcomeText, 'bot');
                     createQuickActionButtons();
                 } else {
