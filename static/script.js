@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const examples = [
             'Recommend me some spicy dishes',
-            'What are good vegetarian options?',
+            "what pizza's do you have?",
             'Show me quick breakfast ideas',
             'What is suitable for this weather?'
         ];
