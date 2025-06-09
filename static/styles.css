@@ -20,7 +20,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Jost', sans-serif;
 }
 
 body {
@@ -1082,6 +1082,7 @@ body {
     gap: 8px;
     padding: 0 8px;
     min-width: max-content;
+    margin: 6px;
 }
 
 .quick-action-button {
