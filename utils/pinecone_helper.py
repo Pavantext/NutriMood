@@ -25,7 +25,7 @@ def get_new_index():
 def upsert_data(index, food_data, get_embedding):
     vectors = []
     for item in food_data:
-        full_text = f"{item['name']}: {item['description']} (Region: {item['region']}, Mood: {item['mood']}, Time: {item['time']}, Diet: {item['diet']})"
+        full_text = f"name: {item['name']}, description: {item['description']}, region: {item['region']}, mood: {item['mood']}, time: {item['time']}, diet: {item['diet']}, category: {item['category']}, spice_level: {item['spice_level']}, health_benefits: {item['health_benefits']}, region: {item['region']}, ingredients: {item['ingredients']}, sides: {item['sides']}, cooking_method: {item['cooking_method']}, dietary_tags: {item['dietary_tags']}, price: {item['price']}, calories: {item['calories']})"
         embedding = get_embedding(full_text)
         vectors.append({
             "id": item["id"],
