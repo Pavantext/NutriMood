@@ -389,6 +389,8 @@ def clean_response(text):
     text = re.sub(r'\[RECOMMENDED_FOODS:[^\]]+\]', '', text)
     # Remove [FOOD RECOMMENDATION] text
     text = re.sub(r'\[FOOD RECOMMENDATION\]', '', text)
+    # Remove ID references in the format "ID: number"
+    text = re.sub(r'\(ID:\s*\d+\)', '', text)
     # Remove extra whitespace
     text = ' '.join(text.split())
     return text
