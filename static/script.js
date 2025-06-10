@@ -221,11 +221,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageWrapper = document.createElement('div');
         messageWrapper.className = 'message-wrapper';
         
-        // Add emoji avatar
-        const avatar = document.createElement('div');
-        avatar.className = 'message-avatar';
-        avatar.innerHTML = role === 'user' ? '' : '👨‍🍳';
-        messageWrapper.appendChild(avatar);
+        // Add emoji avatar only for bot messages
+        if (role === 'bot') {
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = '👨‍🍳';
+            messageWrapper.appendChild(avatar);
+        }
 
         const messageBubble = document.createElement('div');
         messageBubble.className = 'message-bubble';
@@ -291,11 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const messageWrapper = document.createElement('div');
             messageWrapper.className = 'message-wrapper';
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.innerHTML = role === 'user' ? '' : '👨‍🍳'; 
-            messageWrapper.appendChild(avatar);
 
             const messageBubble = document.createElement('div');
             messageBubble.className = 'message-bubble';
