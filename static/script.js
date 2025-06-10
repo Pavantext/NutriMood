@@ -218,15 +218,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}`;
         
+        const messageWrapper = document.createElement('div');
+        messageWrapper.className = 'message-wrapper';
+        
         // Add emoji avatar
         const avatar = document.createElement('div');
         avatar.className = 'message-avatar';
         avatar.innerHTML = role === 'user' ? '' : '👨‍🍳';
-        messageDiv.appendChild(avatar);
+        messageWrapper.appendChild(avatar);
+
+        const messageBubble = document.createElement('div');
+        messageBubble.className = 'message-bubble';
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
-        messageDiv.appendChild(contentDiv);
+        messageBubble.appendChild(contentDiv);
+
+        // Add timestamp
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'message-time';
+        timeDiv.textContent = new Date().toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: 'numeric',
+            hour12: true 
+        });
+        messageBubble.appendChild(timeDiv);
+
+        messageWrapper.appendChild(messageBubble);
+        messageDiv.appendChild(messageWrapper);
         chatMessages.appendChild(messageDiv);
 
         if (role === 'bot') {
@@ -270,10 +289,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${role}`;
             
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = 'message-wrapper';
+            
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
             avatar.innerHTML = role === 'user' ? '' : '👨‍🍳'; 
-            messageDiv.appendChild(avatar);
+            messageWrapper.appendChild(avatar);
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
 
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
@@ -284,7 +309,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 .replace(/`(.*?)`/g, '<code>$1</code>')
                 .replace(/\n/g, '<br>');
             
-            messageDiv.appendChild(messageContent);
+            messageBubble.appendChild(messageContent);
+
+            // Add timestamp
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: 'numeric',
+                hour12: true 
+            });
+            messageBubble.appendChild(timeDiv);
+            
+            messageWrapper.appendChild(messageBubble);
+            messageDiv.appendChild(messageWrapper);
             chatMessages.appendChild(messageDiv);
             scrollToBottom();
         }
@@ -305,6 +343,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span></span>
                             <span></span>
                         </div>
+                    </div>
+                    <div class="message-time">
+                        ${new Date().toLocaleTimeString('en-US', { 
+                            hour: 'numeric', 
+                            minute: 'numeric',
+                            hour12: true 
+                        })}
                     </div>
                 </div>
             </div>
@@ -488,6 +533,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add some nice animations and transitions
 document.addEventListener('DOMContentLoaded', function() {
+    // Set welcome message time
+    const welcomeMessageTime = document.getElementById('welcome-message-time');
+    if (welcomeMessageTime) {
+        welcomeMessageTime.textContent = new Date().toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: 'numeric',
+            hour12: true 
+        });
+    }
+
     // Animate welcome message
     const welcomeMessage = document.querySelector('.message.bot');
     welcomeMessage.style.opacity = '0';
