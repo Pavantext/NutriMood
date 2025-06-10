@@ -12,7 +12,14 @@ class ConversationManager:
             'price_range': None,
             'meal_type': None,
             'cuisine_preferences': [],
-            'spice_level': None
+            'spice_level': None,
+            'health_benefits': [],
+            'ingredients': [],
+            'cooking_method': [],
+            'calories': None,
+            'sides': [],
+            'weather': None,
+            'mood': None
         }
         self.conversation_state = {
             'current_topic': None,
@@ -260,6 +267,20 @@ class ConversationManager:
         preferences = []
         if self.user_preferences['dietary_restrictions']:
             preferences.append(f"Dietary restrictions: {', '.join(self.user_preferences['dietary_restrictions'])}")
+        if self.user_preferences['health_benefits']:
+            preferences.append(f"Health benefits: {', '.join(self.user_preferences['health_benefits'])}")
+        if self.user_preferences['ingredients']:
+            preferences.append(f"Ingredients: {', '.join(self.user_preferences['ingredients'])}")
+        if self.user_preferences['cooking_method']:
+            preferences.append(f"Cooking method: {', '.join(self.user_preferences['cooking_method'])}")
+        if self.user_preferences['calories']:
+            preferences.append(f"Calories: {self.user_preferences['calories']}")
+        if self.user_preferences['sides']:
+            preferences.append(f"Sides: {', '.join(self.user_preferences['sides'])}")
+        if self.user_preferences['weather']:
+            preferences.append(f"Weather: {self.user_preferences['weather']}")
+        if self.user_preferences['mood']:
+            preferences.append(f"Mood: {self.user_preferences['mood']}")
         if self.user_preferences['price_range']:
             preferences.append(f"Price range: {self.user_preferences['price_range']}")
         if self.user_preferences['meal_type']:
