@@ -267,6 +267,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function addFollowUpQuestions(foods, aiResponse) {
+        // Remove any existing follow-up questions
+        const existingFollowUps = document.querySelectorAll('.quick-actions-container');
+        existingFollowUps.forEach(container => container.remove());
+
         const followUpContainer = document.createElement('div');
         followUpContainer.className = 'quick-actions-container';
         
@@ -295,38 +299,43 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateFollowUpQuestions(foods, aiResponse) {
         const questions = [];
         
-        // Add questions about specific food items
-        foods.forEach(food => {
-            questions.push(`Tell me more about ${food.name}`);
-            questions.push(`What are the ingredients in ${food.name}?`);
-            questions.push(`Is ${food.name} suitable for vegetarians?`);
-        });
+        // Add one question about a specific food item
+        if (foods.length > 0) {
+            const randomFood = foods[Math.floor(Math.random() * foods.length)];
+            questions.push(`Tell me more about ${randomFood.name}`);
+        }
 
-        // Add general follow-up questions based on the AI response
+        // Add one question about trying other food categories
+        const categories = [
+            'spicy dishes',
+            'healthy options',
+            'quick meals',
+            'desserts',
+            'vegetarian dishes',
+            'seafood',
+            'comfort food',
+            'international cuisine'
+        ];
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        questions.push(`Show me some ${randomCategory}`);
+
+        // Add one contextual question based on the AI response
         if (aiResponse.toLowerCase().includes('spicy')) {
-            questions.push('Show me more spicy dishes');
             questions.push('What are some milder alternatives?');
-        }
-        if (aiResponse.toLowerCase().includes('breakfast')) {
-            questions.push('What are some lunch options?');
-            questions.push('Show me dinner suggestions');
-        }
-        if (aiResponse.toLowerCase().includes('healthy')) {
-            questions.push('Show me more healthy options');
+        } else if (aiResponse.toLowerCase().includes('healthy')) {
             questions.push('What are some indulgent alternatives?');
-        }
-        if (aiResponse.toLowerCase().includes('quick')) {
-            questions.push('Show me more quick recipes');
+        } else if (aiResponse.toLowerCase().includes('quick')) {
             questions.push('What are some elaborate dishes?');
+        } else if (aiResponse.toLowerCase().includes('breakfast')) {
+            questions.push('What do you recommend for dinner?');
+        } else {
+            questions.push('What are some popular combinations?');
         }
 
-        // Add general exploration questions
-        questions.push('Show me more dishes from this cuisine');
-        questions.push('What are some popular combinations?');
-        questions.push('Show me seasonal specials');
+        // Add one general exploration question
+        questions.push('What other cuisines would you recommend?');
 
-        // Limit to 4 most relevant questions
-        return questions.slice(0, 4);
+        return questions;
     }
 
     async function typeMessage(messageContent, role) {
