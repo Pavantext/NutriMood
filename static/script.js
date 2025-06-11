@@ -12,8 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.getElementById('menu-button');
     const sidebar = document.querySelector('.sidebar');
     const chatInput = document.querySelector('.chat-input');
+    const weatherTimeToggle = document.getElementById('weather-time-toggle');
 
     let chatHistory = [];
+    let useWeatherTime = false;
 
     // Auto-resize textarea
     userInput.addEventListener('input', function() {
@@ -53,9 +55,33 @@ document.addEventListener('DOMContentLoaded', function() {
             chatHistory = [];
             
             // Add welcome message with typing effect
-            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation Chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
+            const welcomeText = `**Hey, Welcome ${username}! 👋**\n\nI'm your personal food recommendation chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.\n\nHow can I help you today?`;
             await typeMessage(welcomeText, 'bot');
             
+            // Add toggle button after the welcome message
+            const welcomeMessage = document.querySelector('.message.bot:last-child');
+            if (welcomeMessage) {
+                const messageContent = welcomeMessage.querySelector('.message-content');
+                if (messageContent) {
+                    const toggleContainer = document.createElement('div');
+                    toggleContainer.className = 'toggle-container';
+                    toggleContainer.innerHTML = `
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="weather-time-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Weather & Time Based Recommendations</span>
+                    `;
+                    messageContent.appendChild(toggleContainer);
+                    
+                    // Add event listener to the toggle
+                    const toggle = toggleContainer.querySelector('#weather-time-toggle');
+                    toggle.addEventListener('change', function() {
+                        useWeatherTime = this.checked;
+                    });
+                }
+            }
+
             // Remove existing quick actions first
             const existingButtons = document.querySelector('.quick-actions');
             if (existingButtons) {
@@ -83,10 +109,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h2 style="margin-bottom: 1rem; color: var(--text-color);">Hey, Welcome ${username}! 👋</h2>
                         <p style="color: var(--text-color); opacity: 0.8; margin-bottom: 1rem;">I'm your personal food recommendation chef. I can help you discover delicious dishes based on your preferences, mood, or dietary requirements.</p>
                         <p style="color: var(--text-color); opacity: 0.8;">How can I help you today?</p>
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="weather-time-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Weather & Time Based Recommendations</span>
+                        </div>
                     </div>
                 </div>
             `;
             chatMessages.innerHTML = welcomeMessage;
+            
+            // Add event listener to the toggle
+            const toggle = document.querySelector('#weather-time-toggle');
+            if (toggle) {
+                toggle.addEventListener('change', function() {
+                    useWeatherTime = this.checked;
+                });
+            }
+            
             createQuickActionButtons();
         }
     });
@@ -155,7 +197,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    chatForm.addEventListener('submit', async function(e) {
+    // Handle toggle state change
+    weatherTimeToggle.addEventListener('change', function() {
+        useWeatherTime = this.checked;
+    });
+
+    // Update the chat form submission handler
+    chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const message = userInput.value.trim();
         if (!message) return;
@@ -165,51 +213,53 @@ document.addEventListener('DOMContentLoaded', function() {
         userInput.value = '';
         userInput.style.height = 'auto';
 
-        // Show typing indicator
+        // Add to chat history
+        chatHistory.push({ role: 'user', content: message });
+
+        // Add typing indicator
         const typingIndicator = addTypingIndicator();
 
         try {
-            // Send message to backend
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     message: message,
-                    history: chatHistory
+                    history: chatHistory,
+                    use_weather_time: useWeatherTime
                 })
             });
 
             const data = await response.json();
             
             // Remove typing indicator
-            typingIndicator.remove();
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
 
-            // Add bot response to chat with word-by-word typing effect
+            // Add bot response to chat
             await typeMessage(data.response, 'bot');
 
-            // Add food cards if any
+            // Add to chat history
+            chatHistory.push({ role: 'assistant', content: data.response });
+
+            // Display food recommendations if any
             if (data.foods && data.foods.length > 0) {
                 addFoodCards(data.foods);
             }
 
-            // Update chat history
-            chatHistory.push({
-                role: 'user',
-                content: message
-            });
-            chatHistory.push({
-                role: 'assistant',
-                content: data.response
-            });
-
-            // Scroll to bottom
-            scrollToBottom();
-
         } catch (error) {
             console.error('Error:', error);
-            typingIndicator.remove();
+            // Remove typing indicator if it exists
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
             addMessage('Sorry, I encountered an error. Please try again.', 'bot');
         }
     });
@@ -373,23 +423,6 @@ document.addEventListener('DOMContentLoaded', function() {
             foodImage.src = food.image_url || 'default-food-image.jpg';
             foodImage.alt = food.name;
 
-            // // Use emoji for icons
-            // const iconsRow = foodCard.querySelector('.food-card-icons');
-            // iconsRow.innerHTML = '';
-            // // Always show all three for demo; you can add logic for food.veg, food.spicy, etc.
-            // const veg = document.createElement('span');
-            // veg.className = 'icon-emoji';
-            // veg.textContent = '🟩';
-            // iconsRow.appendChild(veg);
-            // const leaf = document.createElement('span');
-            // leaf.className = 'icon-emoji';
-            // leaf.textContent = '🌱';
-            // iconsRow.appendChild(leaf);
-            // const chili = document.createElement('span');
-            // chili.className = 'icon-emoji';
-            // chili.textContent = '🌶️';
-            // iconsRow.appendChild(chili);
-
             // Add button handler
             const addButton = foodCard.querySelector('.add-button');
             addButton.addEventListener('click', () => {
@@ -542,11 +575,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Animate welcome message
     const welcomeMessage = document.querySelector('.message.bot');
-    welcomeMessage.style.opacity = '0';
-    setTimeout(() => {
-        welcomeMessage.style.transition = 'opacity 0.5s ease-in-out';
-        welcomeMessage.style.opacity = '1';
-    }, 100);
+    if (welcomeMessage) {
+        welcomeMessage.style.opacity = '0';
+        setTimeout(() => {
+            welcomeMessage.style.transition = 'opacity 0.5s ease-in-out';
+            welcomeMessage.style.opacity = '1';
+        }, 100);
+    }
 
     // Animate sidebar tips
     const tips = document.querySelectorAll('.tips-list li');
