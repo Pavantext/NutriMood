@@ -252,6 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Display food recommendations if any
             if (data.foods && data.foods.length > 0) {
                 addFoodCards(data.foods);
+                // Add follow-up questions based on the food recommendations
+                addFollowUpQuestions(data.foods, data.response);
             }
 
         } catch (error) {
@@ -263,6 +265,69 @@ document.addEventListener('DOMContentLoaded', function() {
             addMessage('Sorry, I encountered an error. Please try again.', 'bot');
         }
     });
+
+    function addFollowUpQuestions(foods, aiResponse) {
+        const followUpContainer = document.createElement('div');
+        followUpContainer.className = 'quick-actions-container';
+        
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'quick-actions';
+        
+        // Generate follow-up questions based on the food items and AI response
+        const followUpQuestions = generateFollowUpQuestions(foods, aiResponse);
+        
+        followUpQuestions.forEach(text => {
+            const button = document.createElement('button');
+            button.className = 'quick-action-button';
+            button.textContent = text;
+            button.addEventListener('click', () => {
+                userInput.value = text;
+                chatForm.dispatchEvent(new Event('submit'));
+            });
+            buttonsContainer.appendChild(button);
+        });
+
+        followUpContainer.appendChild(buttonsContainer);
+        chatMessages.appendChild(followUpContainer);
+        scrollToBottom();
+    }
+
+    function generateFollowUpQuestions(foods, aiResponse) {
+        const questions = [];
+        
+        // Add questions about specific food items
+        foods.forEach(food => {
+            questions.push(`Tell me more about ${food.name}`);
+            questions.push(`What are the ingredients in ${food.name}?`);
+            questions.push(`Is ${food.name} suitable for vegetarians?`);
+        });
+
+        // Add general follow-up questions based on the AI response
+        if (aiResponse.toLowerCase().includes('spicy')) {
+            questions.push('Show me more spicy dishes');
+            questions.push('What are some milder alternatives?');
+        }
+        if (aiResponse.toLowerCase().includes('breakfast')) {
+            questions.push('What are some lunch options?');
+            questions.push('Show me dinner suggestions');
+        }
+        if (aiResponse.toLowerCase().includes('healthy')) {
+            questions.push('Show me more healthy options');
+            questions.push('What are some indulgent alternatives?');
+        }
+        if (aiResponse.toLowerCase().includes('quick')) {
+            questions.push('Show me more quick recipes');
+            questions.push('What are some elaborate dishes?');
+        }
+
+        // Add general exploration questions
+        questions.push('Show me more dishes from this cuisine');
+        questions.push('What are some popular combinations?');
+        questions.push('Show me seasonal specials');
+
+        // Limit to 4 most relevant questions
+        return questions.slice(0, 4);
+    }
 
     async function typeMessage(messageContent, role) {
         const messageDiv = document.createElement('div');
@@ -557,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // In both login and reset handlers, add this after createQuickActionButtons():
+    // Show quick actions after initialization
     document.querySelector('.quick-actions-container').style.display = 'block';
 });
 

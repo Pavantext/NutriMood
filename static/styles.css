@@ -1206,6 +1206,7 @@ body {
     background-color: #ccc;
     transition: .4s;
     border-radius: 24px;
+    width: 50px;
 }
 
 .toggle-slider:before {
@@ -1255,3 +1256,9 @@ input:checked + .toggle-slider:before {
 .message.bot .message-content p:last-of-type {
     margin-bottom: 0.5rem;
 } 
+
+@media (max-width: 768px) {
+.toggle-container {
+gap: 20px;
+}
+}
