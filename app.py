@@ -12,6 +12,8 @@ import json
 from functools import wraps
 from models import db, User, Conversation, Message
 from flask_migrate import Migrate
+import requests
+import pytz
 
 # Load environment variables
 load_dotenv()
@@ -161,6 +163,69 @@ def logout():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+def get_contextual_info():
+    """Get weather, time, and holiday information"""
+    context = {}
+    
+    # Get current time
+    ist = pytz.timezone('Asia/Kolkata')
+    current_time = datetime.now(ist)
+    context['time'] = {
+        'hour': current_time.hour,
+        'day': current_time.strftime('%A'),
+        'date': current_time.strftime('%Y-%m-%d')
+    }
+    
+    # Get weather
+    weather_api_key = os.getenv("WEATHER_API_KEY")
+    if weather_api_key:
+        try:
+            response = requests.get(
+                "http://api.openweathermap.org/data/2.5/weather",
+                params={
+                    'q': 'Hyderabad,IN',
+                    'appid': weather_api_key,
+                    'units': 'metric'
+                }
+            )
+            if response.status_code == 200:
+                weather_data = response.json()
+                context['weather'] = {
+                    'temperature': weather_data['main']['temp'],
+                    'description': weather_data['weather'][0]['description'],
+                    'humidity': weather_data['main']['humidity']
+                }
+        except Exception as e:
+            print(f"Warning: Could not fetch weather data: {str(e)}")
+    
+    # Get holidays
+    holiday_api_key = os.getenv("HOLIDAY_API_KEY")
+    if holiday_api_key:
+        try:
+            response = requests.get(
+                "https://calendarific.com/api/v2/holidays",
+                params={
+                    'api_key': holiday_api_key,
+                    'country': 'IN',
+                    'year': current_time.year,
+                    'month': current_time.month
+                }
+            )
+            if response.status_code == 200:
+                holiday_data = response.json()
+                holidays = holiday_data.get('response', {}).get('holidays', [])
+                context['holidays'] = [
+                    {
+                        'name': holiday['name'],
+                        'date': holiday['date']['iso']
+                    }
+                    for holiday in holidays
+                ]
+        except Exception as e:
+            print(f"Warning: Could not fetch holiday data: {str(e)}")
+    
+    return context
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
@@ -171,6 +236,7 @@ def chat():
         data = request.json
         user_input = data['message']
         chat_history = data.get('history', [])
+        use_weather_time = data.get('use_weather_time', False)
 
         # Get user
         user = User.query.filter_by(username=username).first()
@@ -180,8 +246,22 @@ def chat():
         # Get conversation manager for the user
         conversation_manager = get_conversation_manager(username)
 
+        # Get contextual information if toggle is on
+        context = get_contextual_info() if use_weather_time else None
+
         # Analyze intent before processing
-        intent_analysis = conversation_manager.analyze_user_intent(user_input)
+        try:
+            intent_analysis = conversation_manager.analyze_user_intent(user_input)
+        except Exception as e:
+            print(f"Error analyzing intent: {str(e)}")
+            # Provide a default intent analysis if there's an error
+            intent_analysis = {
+                'is_followup': False,
+                'followup_type': None,
+                'intent': 'general_query',
+                'context_references': [],
+                'referenced_items': []
+            }
         
         # Create a new conversation for each chat
         conversation = Conversation(user_id=user.id)
@@ -205,80 +285,163 @@ def chat():
         
         # If it's a follow-up, include context in the search
         if intent_analysis['is_followup']:
-            # Add context from conversation state to the search
-            context_terms = []
-            
-            # Add last recommendations to context if this is a follow-up about specific items
-            if intent_analysis['followup_type'] in ['clarification', 'modification', 'comparison']:
-                last_foods = conversation_manager.conversation_state['last_recommendations']
-                if last_foods:
-                    context_terms.extend([food['name'] for food in last_foods])
-            
-            # Add other context terms
-            if conversation_manager.conversation_state['last_meal_type']:
-                context_terms.append(conversation_manager.conversation_state['last_meal_type'])
-            if conversation_manager.conversation_state['last_dietary']:
-                context_terms.append(conversation_manager.conversation_state['last_dietary'])
-            if conversation_manager.conversation_state['last_price_range']:
-                context_terms.append(conversation_manager.conversation_state['last_price_range'])
-            if conversation_manager.conversation_state['last_cuisine']:
-                context_terms.append(conversation_manager.conversation_state['last_cuisine'])
-            
-            # Add referenced items from intent analysis
-            if intent_analysis.get('referenced_items'):
-                context_terms.extend(intent_analysis['referenced_items'])
-            
-            # Combine user input with context
-            enhanced_query = f"{user_input} {' '.join(context_terms)}"
-            query_embedding = get_embedding(enhanced_query)
+            try:
+                # Add context from conversation state to the search
+                context_terms = []
+                
+                # Add last recommendations to context if this is a follow-up about specific items
+                if intent_analysis['followup_type'] in ['clarification', 'modification', 'comparison']:
+                    last_foods = conversation_manager.conversation_state.get('last_recommendations', [])
+                    if last_foods:
+                        context_terms.extend([food['name'] for food in last_foods])
+                
+                # Add other context terms
+                if conversation_manager.conversation_state.get('last_meal_type'):
+                    context_terms.append(conversation_manager.conversation_state['last_meal_type'])
+                if conversation_manager.conversation_state.get('last_dietary'):
+                    context_terms.append(conversation_manager.conversation_state['last_dietary'])
+                if conversation_manager.conversation_state.get('last_price_range'):
+                    context_terms.append(conversation_manager.conversation_state['last_price_range'])
+                if conversation_manager.conversation_state.get('last_cuisine'):
+                    context_terms.append(conversation_manager.conversation_state['last_cuisine'])
+                
+                # Add referenced items from intent analysis
+                if intent_analysis.get('referenced_items'):
+                    context_terms.extend(intent_analysis['referenced_items'])
+                
+                # Combine user input with context
+                enhanced_query = f"{user_input} {' '.join(context_terms)}"
+                query_embedding = get_embedding(enhanced_query)
+            except Exception as e:
+                print(f"Error updating preferences: {str(e)}")
+                # Continue with original query if context update fails
+                pass
         
-        results = index.query(vector=query_embedding, top_k=10, include_metadata=True)
-        matches = results['matches']
-        retrieved_foods = [match['metadata'] for match in matches]
+        try:
+            results = index.query(vector=query_embedding, top_k=10, include_metadata=True)
+            matches = results['matches']
+            retrieved_foods = [match['metadata'] for match in matches]
+        except Exception as e:
+            print(f"Error querying Pinecone: {str(e)}")
+            retrieved_foods = []
 
         # Generate contextual prompt using AI-driven conversation manager
-        prompt = conversation_manager.generate_contextual_prompt(user_input, retrieved_foods)
+        try:
+            prompt = conversation_manager.generate_contextual_prompt(user_input, retrieved_foods)
+        except Exception as e:
+            print(f"Error generating prompt: {str(e)}")
+            prompt = f"User query: {user_input}\n\nAvailable foods:\n{format_foods_for_prompt(retrieved_foods)}\n\nPlease provide a helpful response about these food options."
+        
+        # Add contextual information to the prompt if toggle is on
+        if use_weather_time and context:
+            try:
+                context_text = f"""
+Current Time: {context['time']['hour']}:00 on {context['time']['day']}, {context['time']['date']}
+"""
+                if 'weather' in context:
+                    context_text += f"""
+Current Weather: {context['weather']['temperature']}°C, {context['weather']['description']}
+Humidity: {context['weather']['humidity']}%
+"""
+                if 'holidays' in context:
+                    context_text += "\nUpcoming Holidays:\n" + "\n".join([
+                        f"- {holiday['name']} ({holiday['date']})"
+                        for holiday in context['holidays']
+                    ])
+
+                prompt = f"""
+Current Context:
+{context_text}
+
+{prompt}
+
+Based on the user's mood, current time, weather conditions, and any upcoming holidays, suggest the best option(s) in a friendly and intelligent way. Consider:
+1. Time of day (breakfast, lunch, dinner, snack)
+2. Weather conditions (hot, cold, rainy)
+3. Any special occasions or holidays
+4. User's mood and preferences
+
+Your recommendation:
+"""
+            except Exception as e:
+                print(f"Error adding context: {str(e)}")
+                # Continue without context if there's an error
+                pass
 
         # Generate with Gemini
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
-        
-        # Clean response and extract recommended food IDs
-        cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
+        try:
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            response = model.generate_content(prompt)
+            
+            # Clean response and extract recommended food IDs
+            cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
 
-        # Filter retrieved foods based on recommendations
-        filtered_foods = [
-            food for food in retrieved_foods 
-            if str(food.get('id', '')) in recommended_food_ids
-        ] if recommended_food_ids else []
+            # Filter retrieved foods based on recommendations
+            filtered_foods = [
+                food for food in retrieved_foods 
+                if str(food.get('id', '')) in recommended_food_ids
+            ] if recommended_food_ids else []
 
-        # Store bot message
-        bot_message = Message(
-            conversation_id=conversation.id,
-            sender='bot',
-            content=cleaned_response,
-            recommended_foods=filtered_foods
-        )
-        db.session.add(bot_message)
-        db.session.commit()
+            # Store bot message
+            bot_message = Message(
+                conversation_id=conversation.id,
+                sender='bot',
+                content=cleaned_response,
+                recommended_foods=filtered_foods
+            )
+            db.session.add(bot_message)
+            db.session.commit()
 
-        # Update conversation manager with the exchange
-        conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
+            # Update conversation manager with the exchange
+            try:
+                conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
+            except Exception as e:
+                print(f"Error updating conversation manager: {str(e)}")
+                # Continue even if conversation manager update fails
+                pass
 
-        return jsonify({
-            'response': cleaned_response,
-            'foods': filtered_foods,
-            'is_followup': intent_analysis['is_followup'],
-            'followup_type': intent_analysis['followup_type'],
-            'intent': intent_analysis['intent'],
-            'context_references': intent_analysis['context_references'],
-            'referenced_items': intent_analysis.get('referenced_items', []),
-            'conversation_state': conversation_manager.conversation_state
-        })
+            # Return the successful response
+            return jsonify({
+                'response': cleaned_response,
+                'foods': filtered_foods,
+                'is_followup': intent_analysis['is_followup'],
+                'followup_type': intent_analysis['followup_type'],
+                'intent': intent_analysis['intent'],
+                'context_references': intent_analysis['context_references'],
+                'referenced_items': intent_analysis.get('referenced_items', []),
+                'conversation_state': conversation_manager.conversation_state,
+                'context': context if use_weather_time else None
+            })
+
+        except Exception as e:
+            print(f"Error generating response: {str(e)}")
+            # Return a single error response
+            return jsonify({
+                'response': "I apologize, but I'm having trouble processing your request right now. Could you please try again?",
+                'foods': [],
+                'is_followup': False,
+                'followup_type': None,
+                'intent': 'error',
+                'context_references': [],
+                'referenced_items': [],
+                'conversation_state': conversation_manager.conversation_state,
+                'context': None
+            })
 
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
-        return jsonify({'error': 'An error occurred while processing your request.', 'details': str(e)}), 500
+        # Return a single error response
+        return jsonify({
+            'response': "I apologize, but I'm having trouble processing your request right now. Could you please try again?",
+            'foods': [],
+            'is_followup': False,
+            'followup_type': None,
+            'intent': 'error',
+            'context_references': [],
+            'referenced_items': [],
+            'conversation_state': {},
+            'context': None
+        }), 500
 
 @app.route('/user_data', methods=['GET'])
 def get_user_data():
