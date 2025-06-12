@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niloufer Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Jost', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-color: #F9B231;
+            --text-color: #333;
+            --background-color: #fff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        main {
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            background: var(--background-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .menu-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .menu-item-description {
+            color: #666;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        .menu-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: #f0f0f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .add-button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover {
+            background-color: #333;
+        }
+
+        .quantity-buttons {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quantity-buttons.active {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .order-button {
+            background-color: #F9B231;
+            color: black;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .order-button:hover {
+            background-color: #F9B231;
+        }
+
+        .order-button.ordered {
+            background-color: #F9B231;
+            color: white;
+        }
+
+        .quantity-btn {
+            background-color: #F9B231;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quantity-display {
+            font-size: 1rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .quantity-display.disabled {
+            opacity: 0.5;
+        }
+
+        .plus-icon {
+            color: #F9B231;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-container {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .quantity-buttons.active {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .quantity-controls {
+                justify-content: center;
+            }
+
+            .order-button {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        /* Filter styles */
+        .filter-container {
+            position: sticky;
+            top: 120px;
+            z-index: 99;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .filter-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .filter-scroll::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .filter-button {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                top: 105px;
+                padding: 0.75rem;
+            }
+
+            .filter-button {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Niloufer Menu</h1>
+        <p class="subtitle">Discover our delicious offerings</p>
+    </header>
+
+    <div class="filter-container">
+        <div class="filter-scroll" id="filterContainer">
+            <button class="filter-button active" data-category="all">All</button>
+            <!-- Categories will be loaded dynamically -->
+        </div>
+    </div>
+
+    <main>
+        <div class="menu-container" id="menuContainer">
+            <!-- Items will be loaded here dynamically -->
+            {% if menu_items %}
+            <script>
+                // Initialize with server-side rendered data
+                var initialMenuItems = JSON.parse('{{ menu_items|tojson|safe }}');
+                document.addEventListener('DOMContentLoaded', () => displayMenuItems(initialMenuItems));
+            </script>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Niloufer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let allMenuItems = [];
+        let activeCategory = 'all';
+
+        async function loadMenuItems() {
+            try {
+                const response = await fetch('/menu-data');
+                const menuItems = await response.json();
+                allMenuItems = menuItems;
+                loadCategories(menuItems);
+                displayMenuItems(menuItems);
+            } catch (error) {
+                console.error('Error loading menu items:', error);
+                document.getElementById('menuContainer').innerHTML = `
+                    <div class="error-message">
+                        Sorry, we couldn't load the menu items at this time.
+                        Please try again later.
+                    </div>
+                `;
+            }
+        }
+
+        function loadCategories(items) {
+            const categories = new Set(['all']);
+            items.forEach(item => categories.add(item.category));
+            
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = Array.from(categories)
+                .map(category => `
+                    <button class="filter-button ${category === 'all' ? 'active' : ''}" 
+                            data-category="${category}">
+                        ${category === 'all' ? 'All' : category}
+                    </button>
+                `).join('');
+
+            // Add click event listeners to filter buttons
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-button')) {
+                    const category = e.target.dataset.category;
+                    activeCategory = category;
+                    
+                    // Update active button state
+                    document.querySelectorAll('.filter-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    
+                    // Filter and display items
+                    const filteredItems = category === 'all' 
+                        ? allMenuItems 
+                        : allMenuItems.filter(item => item.category === category);
+                    displayMenuItems(filteredItems);
+                }
+            });
+        }
+
+        function displayMenuItems(items) {
+            const menuContainer = document.getElementById('menuContainer');
+
+            const menuHTML = items.map(item => `
+                <div class="menu-item">
+                    <img src="${item.image_url}" alt="${item.name}" 
+                        onerror="this.src='https://yt3.googleusercontent.com/wbVrjhElKxaOnSmcdEsoE8BebZKgaaOnCwjqEA5R7a47JtHNz3opPxStVQpVggrIM05pIxMqHQ=s900-c-k-c0x00ffffff-no-rj'">
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">${item.name}</h3>
+                            <span class="menu-item-price">${item.price}</span>
+                        </div>
+                        <p class="menu-item-description">${item.description}</p>
+                        <div class="menu-item-tags">
+                            ${item.dietary_tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${item.spice_level !== "None" ? `<span class="tag">Spice: ${item.spice_level}</span>` : ''}
+                            <span class="tag">${item.category}</span>
+                        </div>
+                        <div class="quantity-control">
+                            <button class="add-button" onclick="toggleQuantity(this)">
+                                <span class="plus-icon">+</span>
+                                <span>Add</span>
+                            </button>
+                            <div class="quantity-buttons">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                                    <span class="quantity-display">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+                                </div>
+                                <button class="order-button" onclick="placeOrder(this)">Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            menuContainer.innerHTML = menuHTML;
+        }
+
+        function toggleQuantity(button) {
+            const quantityButtons = button.nextElementSibling;
+            quantityButtons.classList.toggle('active');
+            if (quantityButtons.classList.contains('active')) {
+                button.style.display = 'none';
+            }
+        }
+
+        function increaseQuantity(button) {
+            const quantityDisplay = button.previousElementSibling;
+            let quantity = parseInt(quantityDisplay.textContent);
+            quantityDisplay.textContent = quantity + 1;
+        }
+
+        function decreaseQuantity(button) {
+            const quantityDisplay = button.nextElementSibling;
+            let quantity = parseInt(quantityDisplay.textContent);
+            if (quantity > 1) {
+                quantityDisplay.textContent = quantity - 1;
+            } else {
+                const quantityButtons = button.parentElement;
+                const addButton = quantityButtons.previousElementSibling;
+                quantityButtons.classList.remove('active');
+                addButton.style.display = 'flex';
+            }
+        }
+
+        function placeOrder(button) {
+            button.textContent = 'Ordered';
+            button.classList.add('ordered');
+            button.disabled = true;
+
+            // Disable quantity controls
+            const quantityControls = button.parentElement.querySelector('.quantity-controls');
+            const quantityButtons = quantityControls.querySelectorAll('.quantity-btn');
+            const quantityDisplay = quantityControls.querySelector('.quantity-display');
+
+            quantityButtons.forEach(btn => {
+                btn.disabled = true;
+            });
+            quantityDisplay.classList.add('disabled');
+        }
+
+        // Only load items if they weren't provided server-side
+        if (!window.initialMenuItems) {
+            document.addEventListener('DOMContentLoaded', loadMenuItems);
+        } else {
+            // If we have initial items, load them and set up categories
+            allMenuItems = initialMenuItems;
+            document.addEventListener('DOMContentLoaded', () => {
+                loadCategories(initialMenuItems);
+                displayMenuItems(initialMenuItems);
+            });
+        }
+    </script>
+</body>
+</html>
