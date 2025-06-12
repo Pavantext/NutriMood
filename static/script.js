@@ -632,7 +632,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Show quick actions after initialization
-    document.querySelector('.quick-actions-container').style.display = 'block';
+    const quickActionsContainer = document.querySelector('.quick-actions-container');
+    if (quickActionsContainer) {
+        quickActionsContainer.style.display = 'block';
+    }
+
+    // Add resetChat function
+    window.resetChat = function() {
+        const newChatButton = document.querySelector('.new-chat-button');
+        if (newChatButton) {
+            newChatButton.click();
+        }
+    };
 });
 
 // Add some nice animations and transitions
