@@ -45,7 +45,7 @@ An AI-powered food recommendation system that provides personalized food suggest
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/food-ai.git
+git clone https://github.com/Pavantext/food-ai.git
 cd food-ai
 ```
 
