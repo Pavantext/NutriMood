@@ -311,10 +311,9 @@ document.addEventListener('DOMContentLoaded', function() {
             'healthy options',
             'quick meals',
             'desserts',
-            'vegetarian dishes',
-            'seafood',
-            'comfort food',
-            'international cuisine'
+            'calories',
+            'health benefits',
+            'deit',
         ];
         const randomCategory = categories[Math.floor(Math.random() * categories.length)];
         questions.push(`Show me some ${randomCategory}`);

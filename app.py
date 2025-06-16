@@ -318,12 +318,17 @@ def chat():
                 pass
         
         try:
-            results = index.query(vector=query_embedding, top_k=10, include_metadata=True)
+            # Increase top_k to get more potential matches
+            results = index.query(vector=query_embedding, top_k=20, include_metadata=True)
             matches = results['matches']
             retrieved_foods = [match['metadata'] for match in matches]
+            
+            # Ensure diversity in recommendations
+            diverse_foods = conversation_manager._enforce_recommendation_diversity(retrieved_foods)
         except Exception as e:
             print(f"Error querying Pinecone: {str(e)}")
             retrieved_foods = []
+            diverse_foods = []
 
         # Generate contextual prompt using AI-driven conversation manager
         try:
