@@ -200,6 +200,22 @@ class ConversationManager:
                 "conversation_state": self.conversation_state
             }
 
+    def _enforce_recommendation_diversity(self, retrieved_foods: List[Dict[str, Any]], max_recommendations: int = 5) -> List[Dict[str, Any]]:
+        """Ensure diversity in recommendations by avoiding recently recommended items"""
+        # Get IDs of recently recommended foods
+        recent_food_ids = [food.get('id') for food in self.conversation_state.get('last_recommendations', [])]
+        
+        # Filter out recently recommended foods
+        diverse_foods = [food for food in retrieved_foods if food.get('id') not in recent_food_ids]
+        
+        # If we don't have enough diverse foods, add some from recent recommendations
+        if len(diverse_foods) < max_recommendations:
+            # Add some recent recommendations but with lower priority
+            recent_foods = [food for food in retrieved_foods if food.get('id') in recent_food_ids]
+            diverse_foods.extend(recent_foods[:max_recommendations - len(diverse_foods)])
+        
+        return diverse_foods[:max_recommendations]
+
     def generate_contextual_prompt(self, user_input: str, retrieved_foods: List[Dict[str, Any]]) -> str:
         """Generate a prompt that includes conversation history and context with improved follow-up handling"""
         # Format the retrieved foods
@@ -251,7 +267,14 @@ class ConversationManager:
         4. Make personalized recommendations based on user's preferences and constraints
         5. Keep the response concise but informative
         6. Do not use any HTML tags or special formatting
-        7. IMPORTANT: At the end of your response, add a line with the recommended food IDs in this format:
+        7. IMPORTANT: When discussing calories or nutritional information:
+           - Only mention calorie counts when:
+             * The user specifically asks about calories
+             * The user asks about low/high calorie options
+             * The user mentions health, diet, or weight-related concerns
+             * The calorie information is crucial for the recommendation
+           - When calories are not relevant to the query, focus on other aspects like taste, ingredients, and preparation
+        8. At the end of your response, add a line with the recommended food IDs in this format:
            [RECOMMENDED_FOODS:ID1,ID2,ID3]
            Only include IDs of foods you actually recommend in your response.
         
