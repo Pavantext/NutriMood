@@ -29,13 +29,7 @@ class ConversationManager:
             'last_price_range': None,
             'last_dietary': None
         }
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
-        self.safety_settings = {
-            "HARASSMENT": "block_none",
-            "HATE_SPEECH": "block_none",
-            "SEXUALLY_EXPLICIT": "block_none",
-            "DANGEROUS_CONTENT": "block_none"
-        }
+        self.model = genai.GenerativeModel('gemini-2.0-flash')
         self.generation_config = {
             "temperature": 0.7,
             "top_p": 0.8,
@@ -99,10 +93,16 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            return json.loads(response.text)
+            if not response.text or not response.text.strip():
+                print(f"Error extracting context: Model returned empty response. Raw output: '{response.text}'")
+                return {}
+            try:
+                return json.loads(response.text)
+            except Exception as je:
+                print(f"Error extracting context: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                return {}
         except Exception as e:
             print(f"Error extracting context: {str(e)}")
             return {}
@@ -133,11 +133,16 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            preferences = json.loads(response.text)
-            
+            if not response.text or not response.text.strip():
+                print(f"Error updating preferences: Model returned empty response. Raw output: '{response.text}'")
+                return
+            try:
+                preferences = json.loads(response.text)
+            except Exception as je:
+                print(f"Error updating preferences: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                return
             # Update only the fields that were determined
             for key, value in preferences.items():
                 if value is not None and value != []:
@@ -175,15 +180,19 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            intent_analysis = json.loads(response.text)
-            
+            if not response.text or not response.text.strip():
+                print(f"Error analyzing intent: Model returned empty response. Raw output: '{response.text}'")
+                raise ValueError("Empty response from model")
+            try:
+                intent_analysis = json.loads(response.text)
+            except Exception as je:
+                print(f"Error analyzing intent: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                raise ValueError("Model response not valid JSON")
             # Add user preferences and conversation state to the analysis
             intent_analysis['user_preferences'] = self.user_preferences
             intent_analysis['conversation_state'] = self.conversation_state
-            
             return intent_analysis
         except Exception as e:
             print(f"Error analyzing intent: {str(e)}")

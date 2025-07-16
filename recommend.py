@@ -129,7 +129,7 @@ Based on the user's mood, current time, weather conditions, and any upcoming hol
 Your recommendation:
 """
 
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.0-flash')
 response = model.generate_content(prompt)
 
 print("\n🍽️ Recommended Food:")
