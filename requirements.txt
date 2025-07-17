@@ -1,12 +1,18 @@
 Flask==3.1.0
 Flask-Migrate==4.1.0
 Flask-SQLAlchemy==3.1.1
-google-generativeai==0.3.2
-pinecone
+google-generativeai>=0.5.0
+# pinecone>=2.2.4
+protobuf>=6.0.0
+langchain>=0.1.16
+langchain-weaviate
+langchain-community>=0.0.34
+langchain-google-genai>=0.0.6
 python-dotenv==1.0.0
 psycopg2-binary==2.9.10
 SQLAlchemy==2.0.37
 Werkzeug==3.1.3
 gunicorn==21.2.0
-requests
-pytz
+requests==2.31.0
+pytz==2024.1
+weaviate-client

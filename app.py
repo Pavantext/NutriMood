@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import os
 from dotenv import load_dotenv
 from utils.embeddings import get_embedding
-from utils.pinecone_helper import get_new_index
 from utils.conversation_manager import ConversationManager
 import google.generativeai as genai
 import time
@@ -14,6 +13,8 @@ from models import db, User, Conversation, Message
 from flask_migrate import Migrate
 import requests
 import pytz
+from utils.langchain_manager import LangChainManager
+from langchain_core.messages import HumanMessage, AIMessage
 
 # Load environment variables
 load_dotenv()
@@ -40,6 +41,7 @@ migrate = Migrate(app, db)
 
 # Store conversation managers in memory
 conversation_managers = {}
+langchain_manager = LangChainManager()
 
 def get_conversation_manager(username):
     """Get or create a conversation manager for a user"""
@@ -226,6 +228,27 @@ def get_contextual_info():
     
     return context
 
+# Utility to convert chat history to LangChain message objects
+def convert_history(history):
+    # If history is not a list, treat as empty
+    if not isinstance(history, list):
+        return []
+    if history and isinstance(history[0], (HumanMessage, AIMessage)):
+        return history
+    messages = []
+    for msg in history:
+        if isinstance(msg, dict):
+            if msg.get("role") == "user":
+                messages.append(HumanMessage(content=msg.get("content", "")))
+            elif msg.get("role") == "assistant":
+                messages.append(AIMessage(content=msg.get("content", "")))
+        elif isinstance(msg, str):
+            if len(messages) % 2 == 0:
+                messages.append(HumanMessage(content=msg))
+            else:
+                messages.append(AIMessage(content=msg))
+    return messages
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
@@ -235,7 +258,6 @@ def chat():
 
         data = request.json
         user_input = data['message']
-        chat_history = data.get('history', [])
         use_weather_time = data.get('use_weather_time', False)
 
         # Get user
@@ -243,184 +265,15 @@ def chat():
         if not user:
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
-        # Get conversation manager for the user
-        conversation_manager = get_conversation_manager(username)
-
         # Get contextual information if toggle is on
         context = get_contextual_info() if use_weather_time else None
 
-        # Analyze intent before processing
+        # Use LangChain (now with LangGraph memory) for food recommendations
         try:
-            intent_analysis = conversation_manager.analyze_user_intent(user_input)
+            result = langchain_manager.ask(user_input, username)
+            response_text = result['answer']
         except Exception as e:
-            print(f"Error analyzing intent: {str(e)}")
-            # Provide a default intent analysis if there's an error
-            intent_analysis = {
-                'is_followup': False,
-                'followup_type': None,
-                'intent': 'general_query',
-                'context_references': [],
-                'referenced_items': []
-            }
-        
-        # Create a new conversation for each chat
-        conversation = Conversation(user_id=user.id)
-        db.session.add(conversation)
-        db.session.commit()
-
-        # Store user message
-        user_message = Message(
-            conversation_id=conversation.id,
-            sender='user',
-            content=user_input
-        )
-        db.session.add(user_message)
-        db.session.commit()
-
-        # Embed the user input
-        query_embedding = get_embedding(user_input)
-
-        # Query Pinecone with context-aware search
-        index = get_new_index()
-        
-        # If it's a follow-up, include context in the search
-        if intent_analysis['is_followup']:
-            try:
-                # Add context from conversation state to the search
-                context_terms = []
-                
-                # Add last recommendations to context if this is a follow-up about specific items
-                if intent_analysis['followup_type'] in ['clarification', 'modification', 'comparison']:
-                    last_foods = conversation_manager.conversation_state.get('last_recommendations', [])
-                    if last_foods:
-                        context_terms.extend([food['name'] for food in last_foods])
-                
-                # Add other context terms
-                if conversation_manager.conversation_state.get('last_meal_type'):
-                    context_terms.append(conversation_manager.conversation_state['last_meal_type'])
-                if conversation_manager.conversation_state.get('last_dietary'):
-                    context_terms.append(conversation_manager.conversation_state['last_dietary'])
-                if conversation_manager.conversation_state.get('last_price_range'):
-                    context_terms.append(conversation_manager.conversation_state['last_price_range'])
-                if conversation_manager.conversation_state.get('last_cuisine'):
-                    context_terms.append(conversation_manager.conversation_state['last_cuisine'])
-                
-                # Add referenced items from intent analysis
-                if intent_analysis.get('referenced_items'):
-                    context_terms.extend(intent_analysis['referenced_items'])
-                
-                # Combine user input with context
-                enhanced_query = f"{user_input} {' '.join(context_terms)}"
-                query_embedding = get_embedding(enhanced_query)
-            except Exception as e:
-                print(f"Error updating preferences: {str(e)}")
-                # Continue with original query if context update fails
-                pass
-        
-        try:
-            # Increase top_k to get more potential matches
-            results = index.query(vector=query_embedding, top_k=20, include_metadata=True)
-            matches = results['matches']
-            retrieved_foods = [match['metadata'] for match in matches]
-            
-            # Ensure diversity in recommendations
-            diverse_foods = conversation_manager._enforce_recommendation_diversity(retrieved_foods)
-        except Exception as e:
-            print(f"Error querying Pinecone: {str(e)}")
-            retrieved_foods = []
-            diverse_foods = []
-
-        # Generate contextual prompt using AI-driven conversation manager
-        try:
-            prompt = conversation_manager.generate_contextual_prompt(user_input, retrieved_foods)
-        except Exception as e:
-            print(f"Error generating prompt: {str(e)}")
-            prompt = f"User query: {user_input}\n\nAvailable foods:\n{format_foods_for_prompt(retrieved_foods)}\n\nPlease provide a helpful response about these food options."
-        
-        # Add contextual information to the prompt if toggle is on
-        if use_weather_time and context:
-            try:
-                context_text = f"""
-Current Time: {context['time']['hour']}:00 on {context['time']['day']}, {context['time']['date']}
-"""
-                if 'weather' in context:
-                    context_text += f"""
-Current Weather: {context['weather']['temperature']}°C, {context['weather']['description']}
-Humidity: {context['weather']['humidity']}%
-"""
-                if 'holidays' in context:
-                    context_text += "\nUpcoming Holidays:\n" + "\n".join([
-                        f"- {holiday['name']} ({holiday['date']})"
-                        for holiday in context['holidays']
-                    ])
-
-                prompt = f"""
-Current Context:
-{context_text}
-
-{prompt}
-
-Based on the user's mood, current time, weather conditions, and any upcoming holidays, suggest the best option(s) in a friendly and intelligent way. Consider:
-1. Time of day (breakfast, lunch, dinner, snack)
-2. Weather conditions (hot, cold, rainy)
-3. Any special occasions or holidays
-4. User's mood and preferences
-
-Your recommendation:
-"""
-            except Exception as e:
-                print(f"Error adding context: {str(e)}")
-                # Continue without context if there's an error
-                pass
-
-        # Generate with Gemini
-        try:
-            model = genai.GenerativeModel('gemini-2.0-flash')
-            response = model.generate_content(prompt)
-            
-            # Clean response and extract recommended food IDs
-            cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
-
-            # Filter retrieved foods based on recommendations
-            filtered_foods = [
-                food for food in retrieved_foods 
-                if str(food.get('id', '')) in recommended_food_ids
-            ] if recommended_food_ids else []
-
-            # Store bot message
-            bot_message = Message(
-                conversation_id=conversation.id,
-                sender='bot',
-                content=cleaned_response,
-                recommended_foods=filtered_foods
-            )
-            db.session.add(bot_message)
-            db.session.commit()
-
-            # Update conversation manager with the exchange
-            try:
-                conversation_manager.add_exchange(user_input, cleaned_response, filtered_foods)
-            except Exception as e:
-                print(f"Error updating conversation manager: {str(e)}")
-                # Continue even if conversation manager update fails
-                pass
-
-            # Return the successful response
-            return jsonify({
-                'response': cleaned_response,
-                'foods': filtered_foods,
-                'is_followup': intent_analysis['is_followup'],
-                'followup_type': intent_analysis['followup_type'],
-                'intent': intent_analysis['intent'],
-                'context_references': intent_analysis['context_references'],
-                'referenced_items': intent_analysis.get('referenced_items', []),
-                'conversation_state': conversation_manager.conversation_state,
-                'context': context if use_weather_time else None
-            })
-
-        except Exception as e:
-            print(f"Error generating response: {str(e)}")
-            # Return a single error response
+            print(f"Error generating response with LangChain: {str(e)}")
             return jsonify({
                 'response': "I apologize, but I'm having trouble processing your request right now. Could you please try again?",
                 'foods': [],
@@ -429,13 +282,23 @@ Your recommendation:
                 'intent': 'error',
                 'context_references': [],
                 'referenced_items': [],
-                'conversation_state': conversation_manager.conversation_state,
+                'conversation_state': {},
                 'context': None
             })
 
+        return jsonify({
+            'response': response_text,
+            'foods': [],
+            'is_followup': False,
+            'followup_type': None,
+            'intent': '',
+            'context_references': [],
+            'referenced_items': [],
+            'conversation_state': {},
+            'context': context if use_weather_time else None
+        })
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
-        # Return a single error response
         return jsonify({
             'response': "I apologize, but I'm having trouble processing your request right now. Could you please try again?",
             'foods': [],
