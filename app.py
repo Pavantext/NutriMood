@@ -510,19 +510,16 @@ def get_all_users():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 def format_foods_for_prompt(foods):
-    """Format food items for the prompt with dietary information"""
     formatted_foods = []
     for food in foods:
-        dietary_info = []
-        if food.get('is_veg', False):
-            dietary_info.append('vegetarian')
-        if food.get('is_vegan', False):
-            dietary_info.append('vegan')
-        
-        dietary_str = f" ({', '.join(dietary_info)})" if dietary_info else ""
-        # Store ID in a hidden format that the AI can still parse
+        # Use the correct keys from Pinecone data
+        food_id = food.get('Id', 'N/A')
+        name = food.get('ProductName', '')
+        image = food.get('Image', '')
+        description = food.get('Description', '')
+        price = food.get('Price', '')
         formatted_foods.append(
-            f"[ID:{food.get('id', 'N/A')}] {food.get('name', '')}{dietary_str} - {food.get('description', '')}"
+            f"[ID:{food_id}] {name} - {description} - {image} - {price}"
         )
     return "\n".join(formatted_foods)
 
@@ -630,11 +627,14 @@ def api_recommend():
 
         # Embed the prompt
         query_embedding = get_embedding(prompt)
-        index = get_new_index()
+
+        # Use the 'niloufer-prod-data' Pinecone index
+        from utils.pinecone_helper import get_new_index
+        index = get_new_index(index_name='niloufer-prod-data')
 
         # Query Pinecone for relevant foods
         try:
-            results = index.query(vector=query_embedding, top_k=20, include_metadata=True)
+            results = index.query(vector=query_embedding, top_k=50, include_metadata=True)
             matches = results['matches']
             retrieved_foods = [match['metadata'] for match in matches]
             diverse_foods = conversation_manager._enforce_recommendation_diversity(retrieved_foods)
@@ -643,31 +643,77 @@ def api_recommend():
             retrieved_foods = []
             diverse_foods = []
 
-        # Generate prompt for Gemini, with explicit instruction for [RECOMMENDED_FOODS:...] tag
+        # Fallback: if any product name matches the prompt, ensure it is included in the foods passed to Gemini
+        prompt_lower = prompt.lower()
+        matching_foods = [food for food in retrieved_foods if food.get('ProductName', '').lower() in prompt_lower or prompt_lower in food.get('ProductName', '').lower()]
+        # Combine matching foods with the top 10, ensuring no duplicates
+        foods_for_prompt = []
+        seen_ids = set()
+        for food in matching_foods + retrieved_foods[:10]:
+            food_id = food.get('Id')
+            if food_id and food_id not in seen_ids:
+                foods_for_prompt.append(food)
+                seen_ids.add(food_id)
+
+        # Debug print: show the foods being sent to Gemini
+        print("Foods for Gemini prompt:", [food.get('ProductName', '') for food in foods_for_prompt])
+
+        foods_section = f"Available foods:\n{format_foods_for_prompt(foods_for_prompt)}"
+
+        # Few-shot example to help Gemini recommend using [RECOMMENDED_FOODS:...]
+        example_block = (
+            "Example:\n"
+            "User query: I want something spicy.\n"
+            "Available foods:\n"
+            "[ID:12] Spicy Paneer Wrap - A wrap filled with spicy paneer and veggies.\n"
+            "[ID:15] Chilli Chicken - Chicken cooked in spicy sauce.\n"
+            "[ID:23] Veg Biryani - Aromatic rice with vegetables and spices.\n\n"
+            "Response:\n"
+            "Here are some spicy options you might like:\n"
+            "- Spicy Paneer Wrap\n"
+            "- Chilli Chicken\n\n"
+            "Would you like something vegetarian or non-vegetarian?\n\n"
+            "[RECOMMENDED_FOODS:12,15]\n"
+            "---\n"
+        )
+
+        # Generate prompt for Gemini, always including the food list
         try:
-            prompt_text = conversation_manager.generate_contextual_prompt(prompt, retrieved_foods)
+            base_prompt = conversation_manager.generate_contextual_prompt(prompt, foods_for_prompt)
         except Exception as e:
             print(f"Error generating prompt: {str(e)}")
-            prompt_text = f"User query: {prompt}\n\nAvailable foods:\n{format_foods_for_prompt(retrieved_foods)}\n\nPlease provide a helpful response about these food options."
+            base_prompt = f"User query: {prompt}"
 
-        # Add explicit instruction for the [RECOMMENDED_FOODS:...] tag
-        prompt_text += (
-    "\n\nIMPORTANT: You are a friendly, intelligent food suggestion bot. "
-    "Always recommend 1–3 food options from the list above that are most relevant to the user's prompt, "
-    "even if the query is unclear or you need more information. "
-    "After your suggestions, if you need clarification, ask a follow-up question. "
-    "At the end of your response, include a line in the format [RECOMMENDED_FOODS:id1,id2,...] "
-    "where id1, id2, etc. are the IDs of the foods you are recommending from the list above. "
-    "If you don't want to recommend any, still include the tag as [RECOMMENDED_FOODS:]."
-)
+        prompt_text = (
+            f"{example_block}"
+            f"{base_prompt}\n\n{foods_section}\n\n"
+            "IMPORTANT: You are a friendly, intelligent food suggestion bot. "
+            "Always recommend 1–3 food options from the list above that are most relevant to the user's prompt. "
+            "If the user's query is unclear, make your best guess and still recommend food options. "
+            "Only ask a follow-up question if absolutely necessary, and always after making recommendations. "
+            "At the end of your response, include a line in the format [RECOMMENDED_FOODS:id1,id2,...] "
+            "where id1, id2, etc. are the IDs of the foods you are recommending from the list above. "
+            "If you don't want to recommend any, still include the tag as [RECOMMENDED_FOODS:]."
+        )
+
+        # Debug print: show the prompt text sent to Gemini
+        print("Prompt sent to Gemini:\n", prompt_text)
 
         # Generate with Gemini
         try:
             model = genai.GenerativeModel('gemini-2.0-flash')
             response = model.generate_content(prompt_text)
             cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
-            # Only return the response, not the foods key
-            return jsonify({'response': cleaned_response})
+
+            # Post-process: if Gemini's response contains a food name, return its ID
+            recommended_ids = set(recommended_food_ids)
+            response_lower = cleaned_response.lower()
+            for food in foods_for_prompt:
+                name = food.get('ProductName', '').lower()
+                if name and name in response_lower:
+                    recommended_ids.add(food.get('Id'))
+
+            return jsonify({'response': cleaned_response, 'recommended_food_ids': list(recommended_ids)})
         except Exception as e:
             print(f"Error generating response: {str(e)}")
             return jsonify({'error': 'AI generation failed', 'details': str(e)}), 500

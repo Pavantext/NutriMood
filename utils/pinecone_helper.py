@@ -8,11 +8,13 @@ load_dotenv()
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 INDEX_NAME = "niloufer-menu"
 
-def get_new_index():
+def get_new_index(index_name=None):
+    if index_name is None:
+        index_name = INDEX_NAME
     # Create index if not exists with serverless spec
-    if INDEX_NAME not in pc.list_indexes().names():
+    if index_name not in pc.list_indexes().names():
         pc.create_index(
-            name=INDEX_NAME,
+            name=index_name,
             dimension=768,
             metric="cosine",
             spec=ServerlessSpec(
@@ -20,7 +22,7 @@ def get_new_index():
                 region='us-east-1'
             )
         )
-    return pc.Index(INDEX_NAME)
+    return pc.Index(index_name)
 
 def upsert_data(index, food_data, get_embedding):
     vectors = []
