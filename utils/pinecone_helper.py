@@ -6,7 +6,7 @@ load_dotenv()
 
 # Initialize Pinecone client once
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-INDEX_NAME = "niloufer-menu"
+INDEX_NAME=os.getenv("PINECONE_INDEX_NAME")
 
 def get_new_index():
     # Create index if not exists with serverless spec
