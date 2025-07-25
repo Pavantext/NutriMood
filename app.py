@@ -617,5 +617,64 @@ def reset_chat():
         print(f"Reset chat error: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/recommend', methods=['POST'])
+def api_recommend():
+    try:
+        data = request.get_json()
+        prompt = data.get('prompt')
+        if not prompt:
+            return jsonify({'error': 'No prompt provided'}), 400
+
+        # Use a stateless ConversationManager for API calls
+        conversation_manager = ConversationManager()
+
+        # Embed the prompt
+        query_embedding = get_embedding(prompt)
+        index = get_new_index()
+
+        # Query Pinecone for relevant foods
+        try:
+            results = index.query(vector=query_embedding, top_k=20, include_metadata=True)
+            matches = results['matches']
+            retrieved_foods = [match['metadata'] for match in matches]
+            diverse_foods = conversation_manager._enforce_recommendation_diversity(retrieved_foods)
+        except Exception as e:
+            print(f"Error querying Pinecone: {str(e)}")
+            retrieved_foods = []
+            diverse_foods = []
+
+        # Generate prompt for Gemini, with explicit instruction for [RECOMMENDED_FOODS:...] tag
+        try:
+            prompt_text = conversation_manager.generate_contextual_prompt(prompt, retrieved_foods)
+        except Exception as e:
+            print(f"Error generating prompt: {str(e)}")
+            prompt_text = f"User query: {prompt}\n\nAvailable foods:\n{format_foods_for_prompt(retrieved_foods)}\n\nPlease provide a helpful response about these food options."
+
+        # Add explicit instruction for the [RECOMMENDED_FOODS:...] tag
+        prompt_text += (
+    "\n\nIMPORTANT: You are a friendly, intelligent food suggestion bot. "
+    "Always recommend 1–3 food options from the list above that are most relevant to the user's prompt, "
+    "even if the query is unclear or you need more information. "
+    "After your suggestions, if you need clarification, ask a follow-up question. "
+    "At the end of your response, include a line in the format [RECOMMENDED_FOODS:id1,id2,...] "
+    "where id1, id2, etc. are the IDs of the foods you are recommending from the list above. "
+    "If you don't want to recommend any, still include the tag as [RECOMMENDED_FOODS:]."
+)
+
+        # Generate with Gemini
+        try:
+            model = genai.GenerativeModel('gemini-2.0-flash')
+            response = model.generate_content(prompt_text)
+            cleaned_response, recommended_food_ids = parse_response_and_recommendations(response.text)
+            # Only return the response, not the foods key
+            return jsonify({'response': cleaned_response})
+        except Exception as e:
+            print(f"Error generating response: {str(e)}")
+            return jsonify({'error': 'AI generation failed', 'details': str(e)}), 500
+
+    except Exception as e:
+        print(f"Error in /api/recommend: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True) 
