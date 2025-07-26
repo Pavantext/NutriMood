@@ -2,6 +2,7 @@ import google.generativeai as genai
 from typing import List, Dict, Any
 from datetime import datetime
 import json
+import re
 
 class ConversationManager:
     def __init__(self):
@@ -29,13 +30,7 @@ class ConversationManager:
             'last_price_range': None,
             'last_dietary': None
         }
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
-        self.safety_settings = {
-            "HARASSMENT": "block_none",
-            "HATE_SPEECH": "block_none",
-            "SEXUALLY_EXPLICIT": "block_none",
-            "DANGEROUS_CONTENT": "block_none"
-        }
+        self.model = genai.GenerativeModel('gemini-2.0-flash')
         self.generation_config = {
             "temperature": 0.7,
             "top_p": 0.8,
@@ -80,6 +75,17 @@ class ConversationManager:
         if retrieved_foods:
             self.conversation_state['last_recommendations'] = retrieved_foods
 
+    @staticmethod
+    def _extract_json_from_markdown(text: str) -> str:
+        """Extract JSON object from markdown code block if present."""
+        match = re.search(r"```json\s*(\{[\s\S]*?\})\s*```", text)
+        if match:
+            return match.group(1)
+        match = re.search(r"```\s*(\{[\s\S]*?\})\s*```", text)
+        if match:
+            return match.group(1)
+        return text
+
     def _extract_context_with_ai(self, text: str) -> Dict[str, Any]:
         """Use AI to extract context and preferences from text"""
         prompt = f"""Analyze the following text and extract relevant food-related context.
@@ -99,10 +105,17 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            return json.loads(response.text)
+            if not response.text or not response.text.strip():
+                print(f"Error extracting context: Model returned empty response. Raw output: '{response.text}'")
+                return {}
+            try:
+                json_str = self._extract_json_from_markdown(response.text)
+                return json.loads(json_str)
+            except Exception as je:
+                print(f"Error extracting context: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                return {}
         except Exception as e:
             print(f"Error extracting context: {str(e)}")
             return {}
@@ -133,11 +146,17 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            preferences = json.loads(response.text)
-            
+            if not response.text or not response.text.strip():
+                print(f"Error updating preferences: Model returned empty response. Raw output: '{response.text}'")
+                return
+            try:
+                json_str = self._extract_json_from_markdown(response.text)
+                preferences = json.loads(json_str)
+            except Exception as je:
+                print(f"Error updating preferences: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                return
             # Update only the fields that were determined
             for key, value in preferences.items():
                 if value is not None and value != []:
@@ -175,15 +194,20 @@ class ConversationManager:
         try:
             response = self.model.generate_content(
                 prompt,
-                safety_settings=self.safety_settings,
                 generation_config=self.generation_config
             )
-            intent_analysis = json.loads(response.text)
-            
+            if not response.text or not response.text.strip():
+                print(f"Error analyzing intent: Model returned empty response. Raw output: '{response.text}'")
+                raise ValueError("Empty response from model")
+            try:
+                json_str = self._extract_json_from_markdown(response.text)
+                intent_analysis = json.loads(json_str)
+            except Exception as je:
+                print(f"Error analyzing intent: Could not parse JSON. Raw output: '{response.text}'. Error: {je}")
+                raise ValueError("Model response not valid JSON")
             # Add user preferences and conversation state to the analysis
             intent_analysis['user_preferences'] = self.user_preferences
             intent_analysis['conversation_state'] = self.conversation_state
-            
             return intent_analysis
         except Exception as e:
             print(f"Error analyzing intent: {str(e)}")
